@@ -1,0 +1,179 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+/* 水平间距 */
+.content.data-v-64fe7d0a {
+  background-color: #b90d1d;
+}
+.content .banner.data-v-64fe7d0a {
+  position: relative;
+}
+.content .banner .img.data-v-64fe7d0a {
+  width: 100%;
+  display: block;
+}
+.content .banner .user-cont.data-v-64fe7d0a {
+  position: absolute;
+  top: 10%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+.content .banner .user-cont .avatar.data-v-64fe7d0a {
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 120rpx;
+}
+.content .banner .user-cont .avatar .img.data-v-64fe7d0a {
+  width: 100%;
+}
+.content .banner .user-cont .name.data-v-64fe7d0a {
+  font-size: 32rpx;
+  color: #ffffff;
+  font-weight: bold;
+}
+.content .banner .user-cont .slogan.data-v-64fe7d0a {
+  font-size: 28rpx;
+  color: #ffffff;
+  font-weight: bold;
+}
+.content .banner .user-cont .countdown.data-v-64fe7d0a {
+  background-color: #d13030;
+  border: 10rpx #b91300 solid;
+  border-radius: 50rpx;
+  margin: 40rpx auto;
+  padding: 20rpx 20rpx;
+  color: #FFFFFF;
+}
+.content .banner .user-cont .countdown ._span.data-v-64fe7d0a {
+  background-color: #ff8727;
+  border-radius: 6rpx;
+  padding: 5rpx 10rpx;
+  margin: 10rpx;
+  border: 2rpx #ebbb66 solid;
+}
+.content .main-box.data-v-64fe7d0a {
+  background: url(https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-bg.jpg) repeat-y;
+  background-position: center;
+  background-size: 100%;
+  padding: 20rpx 20rpx 50rpx 20rpx;
+  position: relative;
+}
+.content .main-box .coupon-list.data-v-64fe7d0a {
+  margin-top: -80px;
+}
+.content .main-box .coupon-list .coupon-item.data-v-64fe7d0a {
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  width: 85%;
+  margin: 30rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content .main-box .coupon-list .coupon-item .l-part.data-v-64fe7d0a {
+  width: 35%;
+  position: relative;
+}
+.content .main-box .coupon-list .coupon-item .l-part .img.data-v-64fe7d0a {
+  width: 100%;
+  display: block;
+}
+.content .main-box .coupon-list .coupon-item .l-part .cont.data-v-64fe7d0a {
+  position: absolute;
+  top: 15%;
+  left: 60rpx;
+  text-align: center;
+}
+.content .main-box .coupon-list .coupon-item .l-part .cont .t-txt.data-v-64fe7d0a {
+  font-size: 40rpx;
+  color: #ffffff;
+  font-weight: bold;
+}
+.content .main-box .coupon-list .coupon-item .l-part .cont .t-txt .txt.data-v-64fe7d0a {
+  font-size: 24rpx;
+  font-weight: 100;
+}
+.content .main-box .coupon-list .coupon-item .l-part .cont .b-txt.data-v-64fe7d0a {
+  background-color: #e93f41;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+  padding: 5rpx 10rpx;
+}
+.content .main-box .coupon-list .coupon-item .r-part.data-v-64fe7d0a {
+  width: 60%;
+}
+.content .main-box .coupon-list .coupon-item .r-part .title.data-v-64fe7d0a {
+  font-weight: bold;
+  color: #333333;
+  font-size: 28rpx;
+}
+.content .main-box .coupon-list .coupon-item .r-part .b-cont.data-v-64fe7d0a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content .main-box .coupon-list .coupon-item .r-part .b-cont .l-txt.data-v-64fe7d0a {
+  font-weight: bold;
+  color: #ed5454;
+  font-size: 28rpx;
+}
+.content .main-box .coupon-list .coupon-item .r-part .b-cont .l-txt .txt.data-v-64fe7d0a {
+  font-weight: 100;
+  color: #999999;
+  font-size: 24rpx;
+}
+.content .main-box .help-box.data-v-64fe7d0a {
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  width: 85%;
+  margin: 30rpx auto 0 auto;
+  text-align: center;
+}
+.content .main-box .help-box .title.data-v-64fe7d0a {
+  font-size: 28rpx;
+  color: #e13c3c;
+  font-weight: bold;
+}
+.content .main-box .help-box .help-mian.data-v-64fe7d0a {
+  margin: 30rpx 0;
+  height: 80rpx;
+}
+.content .main-box .help-box .help-btn.data-v-64fe7d0a {
+  margin: 0 auto -60rpx auto;
+}
+.content .main-box .help-box .help-btn .btn.data-v-64fe7d0a {
+  border-radius: 80rpx;
+  border: none;
+  background-color: #ed5454;
+  color: #fffff;
+  line-height: 80rpx;
+  font-size: 34rpx;
+  width: 80%;
+  font-weight: bold;
+}
+.content .bottom-zw .img.data-v-64fe7d0a {
+  width: 100%;
+}
+.content .help-rule.data-v-64fe7d0a {
+  padding: 30rpx;
+}
+.content .help-rule .title.data-v-64fe7d0a {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #ffe0cd;
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+.content .help-rule .cont.data-v-64fe7d0a {
+  font-size: 24rpx;
+  color: #ffe0cd;
+}
+

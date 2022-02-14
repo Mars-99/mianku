@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "订单详情",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-title": "/uni_modules/uni-title/components/uni-title/uni-title"
+  }
+}

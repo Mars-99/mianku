@@ -1,0 +1,50 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+/* 水平间距 */
+.data-v-9094279c .is-input-border {
+  border: none;
+}
+.listings-filter-area.data-v-9094279c {
+  margin-top: -120rpx;
+}
+.listings-filter-area .select-city.data-v-9094279c {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1rpx #f7f7f7 solid;
+  padding: 20rpx 0;
+}
+.listings-filter-area .select-city .location.data-v-9094279c {
+  border-left: 1rpx #f7f7f7 solid;
+  padding-left: 20rpx;
+}
+.listings-filter-area .select-date.data-v-9094279c {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1rpx #f7f7f7 solid;
+  padding: 20rpx 0;
+}
+.listings-filter-area .select-date .period.data-v-9094279c {
+  border: 1rpx #f7f7f7 solid;
+  border-radius: 30rpx;
+  padding: 0 20rpx;
+  font-weight: bold;
+  font-size: 24rpx;
+}
+.listings-filter-area .search-key.data-v-9094279c {
+  padding: 20rpx 0;
+}
+.listings-filter-area .search-btn.data-v-9094279c {
+  border-radius: 60rpx;
+  border: none;
+  background-color: #261817;
+  color: #fffff;
+}
+.listings-filter-area .official-desc.data-v-9094279c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20rpx 0;
+  font-size: 24rpx;
+}
+

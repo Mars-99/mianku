@@ -1,0 +1,85 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "民宿免费住",
+                    "pathName": "pages/free-trial/free-trial",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "民宿免费住",
+                    "pathName": "pages/free-trial/free-trial",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "试睡报告",
+                    "pathName": "pages/free-trial/free-trial-report",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "登录",
+                    "pathName": "pages/login/login",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "必睡榜单",
+                    "pathName": "pages/must-sleep/must-sleep",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "学生特权",
+                    "pathName": "pages/student-privilege/student-privilege",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "消息",
+                    "pathName": "pages/news/news",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "常用入住人",
+                    "pathName": "pages/order/lodger-list",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "0元领福利",
+                    "pathName": "pages/zero-yuan/zero-yuan",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "助力详情",
+                    "pathName": "pages/zero-yuan/zero-yuan-detail",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "助力详情",
+                    "pathName": "pages/zero-yuan/zero-yuan-detail",
+                    "query": "",
+                    "scene": null,
+                    "launchMode": "default"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,449 @@
+<template>
+	<view class="content">
+		<view class="JRMD-box" :style="{'min-height': swiperheight + 'px'}" v-if="isPage">
+			<view class="banner">
+				<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner.jpg">
+				</image>
+			</view>
+			<view class="mian-box">
+				<view class="coupon-list">
+					<view class="coupon-item">
+						<view class="l-part">
+							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+							</image>
+							<view class="cont">
+								<view class="t-txt"><text class="txt">￥</text>100</view>
+								<view class="b-txt">满200-100</view>
+							</view>
+						</view>
+						<view class="r-part">
+							<view class="title">【民宿券】满200返100 新老客均可使用</view>
+							<view class="b-cont">
+								<view class="l-txt">
+									<text class="txt">价值</text>
+									￥100
+								</view>
+								<view class="r-btn">
+									<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view class="coupon-item">
+						<view class="l-part">
+							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+							</image>
+							<view class="cont">
+								<view class="t-txt"><text class="txt">￥</text>100</view>
+								<view class="b-txt">满200-100</view>
+							</view>
+						</view>
+						<view class="r-part">
+							<view class="title">【民宿券】满200返100 新老客均可使用</view>
+							<view class="b-cont">
+								<view class="l-txt">
+									<text class="txt">价值</text>
+									￥100
+								</view>
+								<view class="r-btn">
+									<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view class="coupon-item">
+						<view class="l-part">
+							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+							</image>
+							<view class="cont">
+								<view class="t-txt"><text class="txt">￥</text>100</view>
+								<view class="b-txt">满200-100</view>
+							</view>
+						</view>
+						<view class="r-part">
+							<view class="title">【民宿券】满200返100 新老客均可使用</view>
+							<view class="b-cont">
+								<view class="l-txt">
+									<text class="txt">价值</text>
+									￥100
+								</view>
+								<view class="r-btn">
+									<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+								</view>
+							</view>
+						</view>
+					</view>
+
+				</view>
+			</view>
+			<view class="bottom-zw">
+				<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
+				</image>
+			</view>
+
+		</view>
+		<view class="WDMD-box" v-else>
+			<view class="coupon-list">
+				<view class="coupon-item">
+					<view class="l-part">
+						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						</image>
+						<view class="cont">
+							<view class="t-txt"><text class="txt">￥</text>100</view>
+							<view class="b-txt">满200-100</view>
+						</view>
+					</view>
+					<view class="r-part">
+						<view class="title">【民宿券】满200返100 新老客均可使用</view>
+						<view class="b-cont">
+							<view class="l-txt">
+								<text class="txt">价值</text>
+								￥100
+							</view>
+							<view class="r-btn">
+								<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="coupon-item">
+					<view class="l-part">
+						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						</image>
+						<view class="cont">
+							<view class="t-txt"><text class="txt">￥</text>100</view>
+							<view class="b-txt">满200-100</view>
+						</view>
+					</view>
+					<view class="r-part">
+						<view class="title">【民宿券】满200返100 新老客均可使用</view>
+						<view class="b-cont">
+							<view class="l-txt">
+								<text class="txt">价值</text>
+								￥100
+							</view>
+							<view class="r-btn">
+								<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="coupon-item">
+					<view class="l-part">
+						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						</image>
+						<view class="cont">
+							<view class="t-txt"><text class="txt">￥</text>100</view>
+							<view class="b-txt">满200-100</view>
+						</view>
+					</view>
+					<view class="r-part">
+						<view class="title">【民宿券】满200返100 新老客均可使用</view>
+						<view class="b-cont">
+							<view class="l-txt">
+								<text class="txt">价值</text>
+								￥100
+							</view>
+							<view class="r-btn">
+								<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+							</view>
+						</view>
+					</view>
+				</view>
+
+			</view>
+		</view>
+		<view class="botton-nav">
+			<view class="nav-item" @tap="openJRMD()">
+				<view class="icon">
+					<image class="img" v-if="isPage" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon-act.png">
+					</image>
+					<image class="img" v-else mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon.png">
+					</image>
+				</view>
+				今日免单
+			</view>
+			<view class="nav-item" @tap="openWDMD()">
+				<view class="icon">
+					<image class="img" v-if="isPage" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon.png">
+					</image>
+					<image class="img" v-else mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon-act.png">
+					</image>
+				</view>
+				我的免单
+			</view>
+		</view>
+
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				swiperheight: 0,
+				isPage: true,
+			}
+		},
+		mounted() {
+			// 注意，这里要用个变量存this，不然进到getSystemInfo后this指向会变化，找不到data变量
+			var _this = this
+			uni.getSystemInfo({
+				success: function(res) {
+					_this.swiperheight = res.windowHeight
+				}
+			})
+		},
+		methods: {
+			openJRMD() {
+				this.isPage = true;
+			},
+			openWDMD() {
+				this.isPage = false;
+			}
+		}
+	}
+</script>
+
+<style scoped lang="scss">
+	.content {
+		.JRMD-box {
+			background-color: #b90d1d;
+
+			.banner {
+				.img {
+					width: 100%;
+					display: block;
+				}
+			}
+
+			.mian-box {
+
+				background: url(https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-bg.jpg) repeat-y;
+				background-position: center;
+				background-size: 100%;
+				padding: 20rpx;
+
+				.coupon-list {
+					margin-top: -100px;
+
+					.coupon-item {
+						background-color: #ffffff;
+						border-radius: 8rpx;
+						padding: 20rpx;
+						width: 85%;
+						margin: 30rpx auto;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+
+						.l-part {
+							width: 35%;
+							position: relative;
+
+							.img {
+								width: 100%;
+								display: block;
+							}
+
+							.cont {
+								position: absolute;
+								top: 15%;
+								left: 60rpx;
+								text-align: center;
+
+								.t-txt {
+									font-size: 40rpx;
+									color: #ffffff;
+									font-weight: bold;
+
+									.txt {
+										font-size: 24rpx;
+										font-weight: 100;
+									}
+								}
+
+								.b-txt {
+									background-color: #e93f41;
+									border-radius: 8rpx;
+									font-size: 24rpx;
+									color: #ffffff;
+									padding: 5rpx 10rpx;
+								}
+							}
+						}
+
+						.r-part {
+							width: 60%;
+
+							.title {
+								font-weight: bold;
+								color: #333333;
+								font-size: 28rpx;
+							}
+
+							.b-cont {
+								display: flex;
+								align-items: center;
+								justify-content: space-between;
+
+								.l-txt {
+									font-weight: bold;
+									color: #ed5454;
+									font-size: 28rpx;
+
+									.txt {
+										font-weight: 100;
+										color: #999999;
+										font-size: 24rpx;
+									}
+								}
+
+								.btn {
+									border-radius: 40rpx;
+									border: none;
+									background-color: #ed5454;
+									color: #fffff;
+									line-height: 50rpx;
+									font-size: 24rpx;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.bottom-zw {
+				.img {
+					width: 100%;
+				}
+			}
+		}
+
+		.WDMD-box {
+			margin-top: 30rpx;
+			.coupon-list {
+				.coupon-item {
+					background-color: #ffffff;
+					border-radius: 8rpx;
+					padding: 20rpx;
+					width: 85%;
+					margin: 30rpx auto;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+
+					.l-part {
+						width: 35%;
+						position: relative;
+
+						.img {
+							width: 100%;
+							display: block;
+						}
+
+						.cont {
+							position: absolute;
+							top: 15%;
+							left: 60rpx;
+							text-align: center;
+
+							.t-txt {
+								font-size: 40rpx;
+								color: #ffffff;
+								font-weight: bold;
+
+								.txt {
+									font-size: 24rpx;
+									font-weight: 100;
+								}
+							}
+
+							.b-txt {
+								background-color: #e93f41;
+								border-radius: 8rpx;
+								font-size: 24rpx;
+								color: #ffffff;
+								padding: 5rpx 10rpx;
+							}
+						}
+					}
+
+					.r-part {
+						width: 60%;
+
+						.title {
+							font-weight: bold;
+							color: #333333;
+							font-size: 28rpx;
+						}
+
+						.b-cont {
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+
+							.l-txt {
+								font-weight: bold;
+								color: #ed5454;
+								font-size: 28rpx;
+
+								.txt {
+									font-weight: 100;
+									color: #999999;
+									font-size: 24rpx;
+								}
+							}
+
+							.btn {
+								border-radius: 40rpx;
+								border: none;
+								background-color: #ed5454;
+								color: #fffff;
+								line-height: 50rpx;
+								font-size: 24rpx;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.botton-nav {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			background-color: #ffffff;
+			padding: 30rpx 0;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			.nav-item {
+				width: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-right: 2rpx #e0e0e0 solid;
+
+				.icon {
+					width: 40rpx;
+					height: 40rpx;
+					margin-right: 10rpx;
+
+					.img {
+						width: 100%;
+					}
+				}
+			}
+
+			.nav-item:last-child {
+				border-right: 0;
+			}
+		}
+	}
+
+	/deep/ button::after {
+		border: none;
+	}
+</style>

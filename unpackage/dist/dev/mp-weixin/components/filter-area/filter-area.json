@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "uni-number-box": "/uni_modules/uni-number-box/components/uni-number-box/uni-number-box",
+    "cj-slider": "/components/cj-slider/cj-slider"
+  }
+}

@@ -1,0 +1,305 @@
+<template>
+	<view class="content">
+		<view class="banner">
+			<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner-detail.jpg">
+			</image>
+			<view class="user-cont">
+				<view class="avatar">
+					<image class="img" mode="aspectFill" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg">
+					</image>
+				</view>
+				<view class="name">Mars.</view>
+				<view class="slogan">“朋友们,求点击助力！”</view>
+				<view class="countdown">助力倒计时：<span>23</span>:<span>18</span>:<span>08</span></view>
+			</view>
+		</view>
+		<view class="main-box">
+			<view class="coupon-list">
+				<view class="coupon-item">
+					<view class="l-part">
+						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						</image>
+						<view class="cont">
+							<view class="t-txt"><text class="txt">￥</text>100</view>
+							<view class="b-txt">满200-100</view>
+						</view>
+					</view>
+					<view class="r-part">
+						<view class="title">【民宿券】满200返100 新老客均可使用</view>
+						<view class="b-cont">
+							<view class="l-txt">
+								<text class="txt">价值</text>
+								￥100
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="help-box">
+				<view class="title">
+					已有0个助力包,再邀请16人可得32个助力包
+				</view>
+				<view class="help-mian">
+					ddadadad
+				</view>
+				<view class="help-btn">
+					<button class="btn" type="primary" size="default" @tap="">分享领助力包</button>
+				</view>
+			</view>
+
+		</view>
+		<view class="bottom-zw">
+			<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
+			</image>
+		</view>
+		<view class="help-rule">
+			<view class="title">活动规则</view>
+			<view class="cont">
+				1.免单攻略：<br>
+				1） 选择心仪的民宿券，点击免费拿;<br>
+				2）分享微信好友；<br>
+				3）好友进入小程序，完成授权，并点击助力，助力成功；<br>
+				4）达到规则要求，即可免费拿；<br>
+				5）一位好友助力成功，可领取5个助力包；<br>
+				2. 活动期间，每个用户仅限成功领取3张礼券（礼券可重复）超过3次后，将无法发起活动，同一眠库城市民宿账号、手机号、移动设备、银行卡、支付账号、身份证以及其他信息相同均视为同一用户；
+				3. 每个用户可助力一次，同一手机号、移动设备、微信号视为同一用户；<br>
+				4. 民宿优惠券使用说明：活动期间，用户可以通过邀请好友为自己助力，邀请相应人数好友助力即可领取相对应的眠库城市民宿优惠券：【民宿券】满300领10 新老客均可使用/【民宿券】满700领30
+				新老客均可使用/【民宿券】满1000领50 新老客均可使用。优惠券仅限中奖用户账号可使用，用户中奖后，对应优惠券将自动发放到用户账户中，有效期7天，过期失效，平台不予补发。<br>
+				5.活动过程中，如果出现因网络攻击、黑客攻击、数据泄露等原因导致活动无法继续，眠库城市民宿有权利提前终止活动；<br>
+				6.活动过程中，用户不得使用任何外挂、插件以及其他破坏活动规则、违背活动公平原则的方式参加本次活动<br>
+				（如批量注册、恶意购买、虛假分享、倒买倒卖、虛假交易等）用户和商户不得进行有组织的作弊行为，否则眠库有权取消用户、商户参与活动资格，取消己经领取的商品，必要时取消后续参与眠库任意活动的权利，并追究法律责任7．对优惠券有疑问，可联系眠库城市民宿客服，
+				电话：15364037300/15580819506.
+
+
+
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+
+			}
+		},
+		methods: {
+
+		}
+	}
+</script>
+
+<style scoped lang="scss">
+	.content {
+		background-color: #b90d1d;
+
+		.banner {
+			position: relative;
+
+			.img {
+				width: 100%;
+				display: block;
+			}
+
+			.user-cont {
+				position: absolute;
+				top: 10%;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				width: 100%;
+
+				.avatar {
+					width: 120rpx;
+					height: 120rpx;
+					margin: 0 auto;
+					overflow: hidden;
+					border-radius: 120rpx;
+
+					.img {
+						width: 100%;
+					}
+				}
+
+				.name {
+					font-size: 32rpx;
+					color: #ffffff;
+					font-weight: bold;
+				}
+
+				.slogan {
+					font-size: 28rpx;
+					color: #ffffff;
+					font-weight: bold;
+				}
+
+				.countdown {
+					background-color: #d13030;
+					border: 10rpx #b91300 solid;
+
+					border-radius: 50rpx;
+					margin: 40rpx auto;
+					padding: 20rpx 20rpx;
+					color: #FFFFFF;
+
+					span {
+						background-color: #ff8727;
+						border-radius: 6rpx;
+						padding: 5rpx 10rpx;
+						margin: 10rpx;
+						border: 2rpx #ebbb66 solid;
+					}
+				}
+			}
+		}
+
+		.main-box {
+			background: url(https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-bg.jpg) repeat-y;
+			background-position: center;
+			background-size: 100%;
+			padding: 20rpx 20rpx 50rpx 20rpx;
+			position: relative;
+
+			.coupon-list {
+				margin-top: -80px;
+
+				.coupon-item {
+					background-color: #ffffff;
+					border-radius: 8rpx;
+					padding: 20rpx;
+					width: 85%;
+					margin: 30rpx auto;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+
+					.l-part {
+						width: 35%;
+						position: relative;
+
+						.img {
+							width: 100%;
+							display: block;
+						}
+
+						.cont {
+							position: absolute;
+							top: 15%;
+							left: 60rpx;
+							text-align: center;
+
+							.t-txt {
+								font-size: 40rpx;
+								color: #ffffff;
+								font-weight: bold;
+
+								.txt {
+									font-size: 24rpx;
+									font-weight: 100;
+								}
+							}
+
+							.b-txt {
+								background-color: #e93f41;
+								border-radius: 8rpx;
+								font-size: 24rpx;
+								color: #ffffff;
+								padding: 5rpx 10rpx;
+							}
+						}
+					}
+
+					.r-part {
+						width: 60%;
+
+						.title {
+							font-weight: bold;
+							color: #333333;
+							font-size: 28rpx;
+						}
+
+						.b-cont {
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+
+							.l-txt {
+								font-weight: bold;
+								color: #ed5454;
+								font-size: 28rpx;
+
+								.txt {
+									font-weight: 100;
+									color: #999999;
+									font-size: 24rpx;
+								}
+							}
+						}
+					}
+				}
+
+			}
+
+			.help-box {
+				background-color: #ffffff;
+				border-radius: 8rpx;
+				padding: 20rpx;
+				width: 85%;
+				margin: 30rpx auto 0 auto;
+				text-align: center;
+
+				.title {
+					font-size: 28rpx;
+					color: #e13c3c;
+					font-weight: bold;
+				}
+
+				.help-mian {
+					margin: 30rpx 0;
+					height: 80rpx;
+				}
+
+				.help-btn {
+					margin: 0 auto -60rpx auto;
+
+					.btn {
+						border-radius: 80rpx;
+						border: none;
+						background-color: #ed5454;
+						color: #fffff;
+						line-height: 80rpx;
+						font-size: 34rpx;
+						width: 80%;
+						font-weight: bold;
+					}
+				}
+			}
+
+		}
+
+		.bottom-zw {
+			.img {
+				width: 100%;
+			}
+		}
+
+		.help-rule {
+			padding: 30rpx;
+
+			.title {
+				font-size: 38rpx;
+				font-weight: bold;
+				color: #ffe0cd;
+				margin-bottom: 30rpx;
+				text-align: center;
+			}
+
+			.cont {
+				font-size: 24rpx;
+				color: #ffe0cd;
+			}
+		}
+	}
+</style>

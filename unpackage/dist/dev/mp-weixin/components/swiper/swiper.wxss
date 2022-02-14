@@ -1,0 +1,16 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+/* 水平间距 */
+.swiper-box.data-v-3c694d78 {
+  height: 500rpx;
+}
+.swiper-item.data-v-3c694d78 {
+  height: 500rpx;
+  overflow: hidden;
+  border-radius: 0 0 60rpx 60rpx;
+}
+.swiper-item > image.data-v-3c694d78 {
+  width: 100%;
+}
+

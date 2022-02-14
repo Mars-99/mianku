@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "free-trial-mao-scroll-default": "/pages/free-trial/free-trial-mao-scroll-default",
+    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "uni-title": "/uni_modules/uni-title/components/uni-title/uni-title",
+    "mao-scroll": "/components/mao-scroll/mao-scroll"
+  }
+}
