@@ -128,7 +128,8 @@
 				}
 			},
 			async initData(type,page,limit){
-				if (!this.getIsLogin) {
+				let current_user = uni.getStorageSync('userinfo')
+				if (!current_user) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return

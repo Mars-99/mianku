@@ -159,7 +159,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 13));
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 13));
 
 
 
@@ -288,13 +288,14 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                 _this.districtData = _this.districtData.concat(district_data.data.data);case 11:i++;_context.next = 6;break;case 14:case "end":return _context.stop();}}}, _callee);}))();
 
     },
-    initData: function initData(type, page, limit) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$getCollectionL, res, list;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (
-                _this2.getIsLogin) {_context2.next = 4;break;}
+    initData: function initData(type, page, limit) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var current_user, _yield$getCollectionL, res, list;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                current_user = uni.getStorageSync('userinfo');if (
+                current_user) {_context2.next = 5;break;}
                 _this2.$api.msg('请先登录');
-                _this2.$api.href('../login/login');return _context2.abrupt("return");case 4:_context2.next = 6;return (
+                _this2.$api.href('../login/login');return _context2.abrupt("return");case 5:_context2.next = 7;return (
 
 
-                  (0, _manage.getCollectionList)(type, page, limit));case 6:_yield$getCollectionL = _context2.sent;res = _yield$getCollectionL.data;
+                  (0, _manage.getCollectionList)(type, page, limit));case 7:_yield$getCollectionL = _context2.sent;res = _yield$getCollectionL.data;
 
                 _this2.pages[_this2.current].totalPage = res.data.pages;
                 list = [];
@@ -317,8 +318,9 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                   _this2.collection_list[_this2.current] = _this2.collection_list[_this2.current].concat(list);
                 }
                 console.log('收藏列表：', _this2.collection_list);
-                _this2.isLoading = true;case 14:case "end":return _context2.stop();}}}, _callee2);}))();
+                _this2.isLoading = true;case 15:case "end":return _context2.stop();}}}, _callee2);}))();
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

@@ -2235,6 +2235,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
 
 
+
 _vue.default.use(_vuex.default);
 var store = new _vuex.default.Store({
   state: {
@@ -2270,11 +2271,10 @@ var store = new _vuex.default.Store({
         var _self = _this;
         uni.login({
           provider: 'weixin',
-          success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(wxloginRes) {var _yield$wxLogin, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+          success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(wxloginRes) {var _yield$wxLogin, res, _yield$userDetail, user_data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
 
 
                         (0, _manage.wxLogin)(wxloginRes.code));case 2:_yield$wxLogin = _context.sent;res = _yield$wxLogin.data;if (!(
-
 
                       res.code == 1)) {_context.next = 8;break;}return _context.abrupt("return",
                       _self.$api.msg('登录失败!' + res.msg));case 8:
@@ -2282,9 +2282,12 @@ var store = new _vuex.default.Store({
 
 
                       uni.setStorageSync('token', res.data.token);
-                      uni.setStorageSync('userinfo', res.data);
-                      context.commit('setUserinfo', res.data);
-                      context.commit('setIsLogin', true);case 12:case "end":return _context.stop();}}}, _callee);}));function success(_x) {return _success.apply(this, arguments);}return success;}(),
+                      //当前登录的用户信息存在storage里
+                      _context.next = 11;return (0, _manage.userDetail)();case 11:_yield$userDetail = _context.sent;user_data = _yield$userDetail.data;
+                      uni.setStorageSync('userinfo', user_data.data);
+
+                      context.commit('setUserinfo', user_data.data);
+                      context.commit('setIsLogin', true);case 16:case "end":return _context.stop();}}}, _callee);}));function success(_x) {return _success.apply(this, arguments);}return success;}(),
 
           fail: function fail(wxloginRes) {
             console.log("获取code失败");

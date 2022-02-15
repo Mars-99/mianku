@@ -747,19 +747,20 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
       // console.log("price", this.totalPice)
     },
     // 收藏点击事件 刘慧
-    getUserCollection: function getUserCollection() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_getUserCollec, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (
-                _this4.getIsLogin) {_context2.next = 4;break;}
+    getUserCollection: function getUserCollection() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var current_user, _yield$_getUserCollec, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                current_user = uni.getStorageSync('userinfo');if (
+                current_user) {_context2.next = 5;break;}
                 _this4.$api.msg('请先登录');
-                _this4.$api.href('../login/login');return _context2.abrupt("return");case 4:
+                _this4.$api.href('../login/login');return _context2.abrupt("return");case 5:
 
 
-                console.log('aaaaaa', _this4.listingsDetail.hotel.id);_context2.next = 7;return (
+                console.log('aaaaaa', _this4.listingsDetail.hotel.id);_context2.next = 8;return (
 
 
-                  (0, _manage.getUserCollection)(_this4.listingsDetail.hotel.id, 0));case 7:_yield$_getUserCollec = _context2.sent;data = _yield$_getUserCollec.data;
+                  (0, _manage.getUserCollection)(_this4.listingsDetail.hotel.id, 0));case 8:_yield$_getUserCollec = _context2.sent;data = _yield$_getUserCollec.data;
                 console.log(data);
                 //根据data的返回值来判断收藏样式变更
-              case 10:case "end":return _context2.stop();}}}, _callee2);}))();} } };exports.default = _default;
+              case 11:case "end":return _context2.stop();}}}, _callee2);}))();} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

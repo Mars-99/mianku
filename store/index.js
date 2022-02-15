@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import {
 	wxLogin,
 	wxInfo,
-	wxPhone
+	wxPhone,
+	userDetail
 } from '@/utils/request/manage.js'
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -45,15 +46,17 @@ const store = new Vuex.Store({
 							data: res
 						} = await wxLogin(wxloginRes.code)
 						
-						// console.log('res', res)
 						if (res.code == 1) {
 							return _self.$api.msg('登录失败!' + res.msg)
 							context.commit('setIsLogin',false)
 							context.commit('setNeedAuth',true)
 						}
-						uni.setStorageSync('token', res.data.token)
-						uni.setStorageSync('userinfo', res.data)
-						context.commit('setUserinfo',res.data)
+						uni.setStorageSync('token', res.data.token)	
+						//当前登录的用户信息存在storage里
+						const{data:user_data} = await userDetail()
+						uni.setStorageSync('userinfo', user_data.data)
+						
+						context.commit('setUserinfo',user_data.data)
 						context.commit('setIsLogin',true)
 					},
 					fail: (wxloginRes) => {
