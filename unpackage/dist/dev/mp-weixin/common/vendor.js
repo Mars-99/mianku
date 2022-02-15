@@ -805,15 +805,9 @@ var customize = cached(function (str) {
 
 function initTriggerEvent(mpInstance) {
   var oldTriggerEvent = mpInstance.triggerEvent;
-  var newTriggerEvent = function newTriggerEvent(event) {for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {args[_key3 - 1] = arguments[_key3];}
+  mpInstance.triggerEvent = function (event) {for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {args[_key3 - 1] = arguments[_key3];}
     return oldTriggerEvent.apply(mpInstance, [customize(event)].concat(args));
   };
-  try {
-    // 京东小程序 triggerEvent 为只读
-    mpInstance.triggerEvent = newTriggerEvent;
-  } catch (error) {
-    mpInstance._triggerEvent = newTriggerEvent;
-  }
 }
 
 function initHook(name, options, isComponent) {
@@ -947,7 +941,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1987,17 +1981,17 @@ function createPlugin(vm) {
   var appOptions = parseApp(vm);
   if (isFn(appOptions.onShow) && wx.onAppShow) {
     wx.onAppShow(function () {for (var _len7 = arguments.length, args = new Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {args[_key7] = arguments[_key7];}
-      vm.__call_hook('onShow', args);
+      appOptions.onShow.apply(vm, args);
     });
   }
   if (isFn(appOptions.onHide) && wx.onAppHide) {
     wx.onAppHide(function () {for (var _len8 = arguments.length, args = new Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {args[_key8] = arguments[_key8];}
-      vm.__call_hook('onHide', args);
+      appOptions.onHide.apply(vm, args);
     });
   }
   if (isFn(appOptions.onLaunch)) {
     var args = wx.getLaunchOptionsSync && wx.getLaunchOptionsSync();
-    vm.__call_hook('onLaunch', args);
+    appOptions.onLaunch.call(vm, args);
   }
   return vm;
 }
@@ -2221,9 +2215,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 12:
-/*!**********************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/store/index.js ***!
-  \**********************************************************************/
+/*!******************************************!*\
+  !*** E:/work_code/mianku/store/index.js ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2231,6 +2225,7 @@ function normalizeComponent (
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 13));var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
 var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 16));
 var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
 
 
 
@@ -2270,11 +2265,10 @@ var store = new _vuex.default.Store({
         var _self = _this;
         uni.login({
           provider: 'weixin',
-          success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(wxloginRes) {var _yield$wxLogin, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+          success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(wxloginRes) {var _yield$wxLogin, res, _yield$userDetail, user_data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
 
 
                         (0, _manage.wxLogin)(wxloginRes.code));case 2:_yield$wxLogin = _context.sent;res = _yield$wxLogin.data;if (!(
-
 
                       res.code == 1)) {_context.next = 8;break;}return _context.abrupt("return",
                       _self.$api.msg('登录失败!' + res.msg));case 8:
@@ -2282,9 +2276,12 @@ var store = new _vuex.default.Store({
 
 
                       uni.setStorageSync('token', res.data.token);
-                      uni.setStorageSync('userinfo', res.data);
-                      context.commit('setUserinfo', res.data);
-                      context.commit('setIsLogin', true);case 12:case "end":return _context.stop();}}}, _callee);}));function success(_x) {return _success.apply(this, arguments);}return success;}(),
+                      //当前登录的用户信息存在storage里
+                      _context.next = 11;return (0, _manage.userDetail)();case 11:_yield$userDetail = _context.sent;user_data = _yield$userDetail.data;
+                      uni.setStorageSync('userinfo', user_data.data);
+
+                      context.commit('setUserinfo', user_data.data);
+                      context.commit('setIsLogin', true);case 16:case "end":return _context.stop();}}}, _callee);}));function success(_x) {return _success.apply(this, arguments);}return success;}(),
 
           fail: function fail(wxloginRes) {
             console.log("获取code失败");
@@ -2348,9 +2345,9 @@ store;exports.default = _default;
 /***/ }),
 
 /***/ 123:
-/*!************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/common/gcoord.js ***!
-  \************************************************************************/
+/*!********************************************!*\
+  !*** E:/work_code/mianku/common/gcoord.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4720,14 +4717,14 @@ module.exports = index_cjs;
 /***/ }),
 
 /***/ 17:
-/*!*******************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/request/manage.js ***!
-  \*******************************************************************************/
+/*!***************************************************!*\
+  !*** E:/work_code/mianku/utils/request/manage.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
 var _requestConfig = _interopRequireDefault(__webpack_require__(/*! ./requestConfig.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 接口管理
 var urlManage = {
   wxLoginUrl: 'wx/login', // 微信登录(1-1)
@@ -4774,10 +4771,10 @@ var urlManage = {
   orderListUrl: 'api/user/order_list', // 订单列表
   orderDetailUrl: 'api/user/order_detail', // 订单详情
   delOrderUrl: 'api/user/del_order', // 订单删除
-  cancelOrderUrl: 'api/user/cancel_order' // 订单取消
+  cancelOrderUrl: 'api/user/cancel_order', // 订单取消	
+
+  getCollectionList: 'api/user/collection_list' //收藏文章、酒店列表 --刘慧
 };
-
-
 
 
 
@@ -4936,7 +4933,7 @@ exports.reportDetail = reportDetail;var getUserCollection = function getUserColl
 };
 
 // 消息列表(33)
-var getUserMsgList = function getUserMsgList(page, limit) {
+exports.getUserCollection = getUserCollection;var getUserMsgList = function getUserMsgList(page, limit) {
   return _requestConfig.default.post(urlManage.userMsgList, {
     page: page,
     limit: limit });
@@ -4975,7 +4972,6 @@ exports.getUserImList = getUserImList;var getUserImAdd = function getUserImAdd(m
 // 常用入住人
 exports.getUserImAdd = getUserImAdd;var getLodgerList = function getLodgerList() {
   return _requestConfig.default.post(urlManage.lodgerListUrl, {});
-
 };
 // 常用入住人添加
 exports.getLodgerList = getLodgerList;var addLodger = function addLodger(contacts, phone, cardType, idCard) {
@@ -5050,14 +5046,23 @@ exports.delOrder = delOrder;var cancelOrder = function cancelOrder(id) {
   return _requestConfig.default.post(urlManage.cancelOrderUrl, {
     id: id });
 
-};exports.cancelOrder = cancelOrder;
+};
+
+// 收藏文章、酒店列表 刘慧
+exports.cancelOrder = cancelOrder;var getCollectionList = function getCollectionList(type, page, limit) {
+  return _requestConfig.default.post(urlManage.getCollectionList, {
+    type: type, //收藏类型 0、酒店; 1、文章
+    page: page,
+    limit: limit });
+
+};exports.getCollectionList = getCollectionList;
 
 /***/ }),
 
 /***/ 18:
-/*!**************************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/request/requestConfig.js ***!
-  \**************************************************************************************/
+/*!**********************************************************!*\
+  !*** E:/work_code/mianku/utils/request/requestConfig.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5124,9 +5129,9 @@ $http;exports.default = _default;
 /***/ }),
 
 /***/ 19:
-/*!********************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/request/request.js ***!
-  \********************************************************************************/
+/*!****************************************************!*\
+  !*** E:/work_code/mianku/utils/request/request.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5348,9 +5353,9 @@ module.exports = g;
 /***/ }),
 
 /***/ 20:
-/*!*******************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/functionHandle.js ***!
-  \*******************************************************************************/
+/*!***************************************************!*\
+  !*** E:/work_code/mianku/utils/functionHandle.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -5630,9 +5635,9 @@ module.exports = {
 /***/ }),
 
 /***/ 21:
-/*!*********************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/mixins/getMsgNum.js ***!
-  \*********************************************************************************/
+/*!*****************************************************!*\
+  !*** E:/work_code/mianku/utils/mixins/getMsgNum.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11207,7 +11212,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -11228,14 +11233,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -11321,7 +11326,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"mianku","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -11507,10 +11512,9 @@ function internalMixin(Vue) {
 
   Vue.prototype.$emit = function(event) {
     if (this.$scope && event) {
-      (this.$scope['_triggerEvent'] || this.$scope['triggerEvent'])
-        .call(this.$scope, event, {
-          __args__: toArray(arguments, 1)
-        })
+      this.$scope['triggerEvent'](event, {
+        __args__: toArray(arguments, 1)
+      });
     }
     return oldEmit.apply(this, arguments)
   };
@@ -11733,9 +11737,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 301:
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/uni_modules/uni-icons/components/uni-icons/icons.js ***!
-  \***********************************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** E:/work_code/mianku/uni_modules/uni-icons/components/uni-icons/icons.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12856,9 +12860,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 35:
-/*!*****************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/common/getdateTime.js ***!
-  \*****************************************************************************/
+/*!*************************************************!*\
+  !*** E:/work_code/mianku/common/getdateTime.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -12905,9 +12909,9 @@ module.exports = {
 /***/ }),
 
 /***/ 379:
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/uni_modules/uni-forms/components/uni-forms/validate.js ***!
-  \**************************************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** E:/work_code/mianku/uni_modules/uni-forms/components/uni-forms/validate.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13402,9 +13406,9 @@ SchemaValidator;exports.default = _default;
 /***/ }),
 
 /***/ 394:
-/*!*******************************************************************************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
-  \*******************************************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** E:/work_code/mianku/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14006,9 +14010,9 @@ function resolveLocaleChain(locale) {
 /***/ }),
 
 /***/ 5:
-/*!******************************************************************!*\
-  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/pages.json ***!
-  \******************************************************************/
+/*!**************************************!*\
+  !*** E:/work_code/mianku/pages.json ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

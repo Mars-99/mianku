@@ -1,85 +1,85 @@
 {
-    "pages": [
-        "pages/index/index",
-        "pages/collect/collect",
-        "pages/order/order",
-        "pages/news/news",
-        "pages/user/user",
-        "components/swiper/swiper",
-        "components/listings-filter/listings-filter",
-        "pages/ctiy/ctiy",
-        "pages/select-date/select-date",
-        "pages/listings/listings-list",
-        "pages/listings/listings-detail",
-        "components/filter-area/filter-area",
-        "components/listings-item/listings-item",
-        "pages/find/find-list",
-        "pages/find/find-detail",
-        "pages/listings/detail-map",
-        "pages/order/order-confirm",
-        "pages/order/order-detail",
-        "pages/free-trial/free-trial",
-        "pages/free-trial/free-trial-report",
-        "pages/login/login",
-        "pages/must-sleep/must-sleep",
-        "pages/student-privilege/student-privilege",
-        "pages/news/news-system",
-        "pages/news/customer-service",
-        "pages/order/lodger-list",
-        "pages/order/lodger-add",
-        "pages/zero-yuan/zero-yuan",
-        "pages/zero-yuan/zero-yuan-detail"
-    ],
-    "subPackages": [],
-    "window": {
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "眠库民宿",
-        "navigationBarBackgroundColor": "#ffffff",
-        "backgroundColor": "#F8F8F8"
-    },
-    "tabBar": {
-        "color": "#261817",
-        "selectedColor": "#ff941d",
-        "borderStyle": "black",
-        "backgroundColor": "#ffffff",
-        "list": [
-            {
-                "pagePath": "pages/index/index",
-                "iconPath": "static/image/home_icon.png",
-                "selectedIconPath": "static/image/home_icon_HL.png",
-                "text": "首页"
-            },
-            {
-                "pagePath": "pages/collect/collect",
-                "iconPath": "static/image/collect_icon.png",
-                "selectedIconPath": "static/image/collect_icon_HL.png",
-                "text": "收藏"
-            },
-            {
-                "pagePath": "pages/order/order",
-                "iconPath": "static/image/order_icon.png",
-                "selectedIconPath": "static/image/order_icon_HL.png",
-                "text": "订单"
-            },
-            {
-                "pagePath": "pages/news/news",
-                "iconPath": "static/image/news_icon.png",
-                "selectedIconPath": "static/image/news_icon_HL.png",
-                "text": "消息"
-            },
-            {
-                "pagePath": "pages/user/user",
-                "iconPath": "static/image/user_icon.png",
-                "selectedIconPath": "static/image/user_icon_HL.png",
-                "text": "我的"
-            }
-        ]
-    },
-    "permission": {
-        "scope.userLocation": {
-            "desc": "你的位置信息将用于小程序位置接口的效果展示"
-        }
-    },
-    "usingComponents": {},
-    "sitemapLocation": "sitemap.json"
+  "pages": [
+    "pages/index/index",
+    "pages/collect/collect",
+    "pages/order/order",
+    "pages/news/news",
+    "pages/user/user",
+    "components/swiper/swiper",
+    "components/listings-filter/listings-filter",
+    "pages/ctiy/ctiy",
+    "pages/select-date/select-date",
+    "pages/listings/listings-list",
+    "pages/listings/listings-detail",
+    "components/filter-area/filter-area",
+    "components/listings-item/listings-item",
+    "pages/find/find-list",
+    "pages/find/find-detail",
+    "pages/listings/detail-map",
+    "pages/order/order-confirm",
+    "pages/order/order-detail",
+    "pages/free-trial/free-trial",
+    "pages/free-trial/free-trial-report",
+    "pages/login/login",
+    "pages/must-sleep/must-sleep",
+    "pages/student-privilege/student-privilege",
+    "pages/news/news-system",
+    "pages/news/customer-service",
+    "pages/order/lodger-list",
+    "pages/order/lodger-add",
+    "pages/zero-yuan/zero-yuan",
+    "pages/zero-yuan/zero-yuan-detail"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "眠库民宿",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#261817",
+    "selectedColor": "#ff941d",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/image/home_icon.png",
+        "selectedIconPath": "static/image/home_icon_HL.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/collect/collect",
+        "iconPath": "static/image/collect_icon.png",
+        "selectedIconPath": "static/image/collect_icon_HL.png",
+        "text": "收藏"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "iconPath": "static/image/order_icon.png",
+        "selectedIconPath": "static/image/order_icon_HL.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "iconPath": "static/image/news_icon.png",
+        "selectedIconPath": "static/image/news_icon_HL.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/image/user_icon.png",
+        "selectedIconPath": "static/image/user_icon_HL.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }

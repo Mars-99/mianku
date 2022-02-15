@@ -544,7 +544,8 @@
 			},
 			// 收藏点击事件 刘慧
 			async getUserCollection() {
-				if (!this.getIsLogin) {
+				let current_user = uni.getStorageSync('userinfo')
+				if (!current_user) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
