@@ -30,7 +30,8 @@
 <script>
 	import listingsItem from '@/components/listings-item/listings-item.vue'
 	import {
-		bsHotelList
+		bsHotelList,
+		getCollectionList
 	} from '@/utils/request/manage.js'
 	export default {
 		components: {
@@ -43,7 +44,10 @@
 				listingsList: [],
 				bsOrigin:true,
 				cityID:0,
-				swiperheight:0
+				swiperheight:0,
+				
+				isCollect: -1,
+				collectionList: []
 			}
 		},
 		onLoad() {
@@ -102,6 +106,36 @@
 				}
 				this.current = this.cityID
 				this.getBsHotelList()
+				this.getCollectionList(0)
+			},
+			async getCollectionList(type) {
+				const {
+					data: res
+				} = await getCollectionList(type)
+				if (res.code == 1) {
+					this.$api.msg(data.code.msg)
+				} else {
+					this.collectionList = res.data.rs
+					this.collec()
+					// console.log("收藏列表", this.collectionList)
+				}
+				
+				
+			},
+			collec(){
+				let that = this
+				this.listingsList.forEach(item=>{
+					let isCollect = this.collectionList.find(_item => _item.cid === item.id)
+					if (isCollect) {
+						if (isCollect.cid == item.id) {
+							item.isCollect = 0
+						} else {
+							item.isCollect = -1
+						}
+					} else {
+						return
+					}
+				})
 			}
 		}
 	}

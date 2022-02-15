@@ -20,7 +20,7 @@
 							</view>
 							<view class="order-state">{{ item.state | payStatus }}</view>
 						</view>
-						<view class="body" @tap="openOrderDetail()">
+						<view class="body" @tap="openOrderDetail(item.id)">
 							<view class="listings">
 								<view class="picture">
 									<image class="img" :v-if="item.thum" mode="widthFix" :src="item.thum">
@@ -46,15 +46,15 @@
 							<button class="btn-solid" type="default" size="mini" @tap="payWX(item.id)">立即支付</button>
 						</view>
 						<view class="footer" v-if="item.state===1">
-							<button class="btn-solid" type="default" size="mini" @tap="">联系客服</button>
+							<button class="btn-solid" type="default" size="mini" @tap="customerService()">联系客服</button>
 						</view>
 						<view class="footer" v-if="item.state===3">
 							<button class="btn-hollow" type="default" size="mini" @tap="delOrder(item.id)">删除订单</button>
-							<button class="btn-solid" type="default" size="mini" @tap="">再次预定</button>
+							<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(item)">再次预定</button>
 						</view>
 						<view class="footer" v-if="item.state===9">
 							<button class="btn-hollow" type="default" size="mini" @tap="delOrder(item.id)">删除订单</button>
-							<button class="btn-solid" type="default" size="mini" @tap="">再次预定</button>
+							<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(item)">再次预定</button>
 						</view>
 					</view>
 				</view>
@@ -96,7 +96,7 @@
 		mounted() {
 			// this.show_lists = this.orderListData
 		},
-		onLoad() {
+		onShow() {
 			this.getOrderList()
 		},
 		filters: {
@@ -135,6 +135,7 @@
 			},
 		},
 		methods: {
+			
 			onClickItem(e) {
 				this.btnnum = e
 				if (this.activeIndex !== e.currentIndex) {
@@ -158,7 +159,7 @@
 				if (res.code == 1) {
 					return this.$api.msg(res.msg)
 				} else {
-					this.orderListData = res.data.rs
+					this.orderListData = res.data.rs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 					console.log("res", res)
 					console.log("orderListData", this.orderListData)
 				}
@@ -194,6 +195,19 @@
 				this.getOrderList()
 				this.pageshow = false
 			},
+			// async payWX(id) {
+			// 	const {
+			// 		data: res
+			// 	} = await payWX(id)
+			// 	if (res.code == 1) {
+			// 		return this.$api.msg(res.msg)
+			// 	} else {
+			// 		// this.orderNumber= res
+
+			// 		console.log("res", "支付成功", res)
+			// 	}
+
+			// },
 			async payWX(id) {
 				const {
 					data: res
@@ -202,14 +216,43 @@
 					return this.$api.msg(res.msg)
 				} else {
 					// this.orderNumber= res
-
-					console.log("res", "支付成功", res)
+					uni.requestPayment({
+						provider: 'wxpay', //微信支付就是'wxpay'
+						timeStamp: res.data.timeStamp, //时间戳
+						nonceStr: res.data.nonceStr, //就是你生成签名的时候那个随机字符串
+						package: res.data.packageValue, //支付id号，我是后端拼接号了，如果没拼接需要加"prepay_id="
+						signType: res.data.signType, //v3不是MD5而是RSA
+						paySign: res.data.paySign,
+						success(res) {
+							uni.navigateTo({
+								url: '../order/order-result?state=success'
+							})
+							console.log('success:' + JSON.stringify(res));
+							
+						},
+						fail(err) {
+							uni.navigateTo({
+								url: '../order/order-result?state=fail'
+							})
+							console.log('fail:' + JSON.stringify(err));
+						}
+					});
 				}
-
+			
 			},
-			openOrderDetail() {
+			openOrderDetail(id) {
 				uni.navigateTo({
-					url: '../order/order-detail'
+					url: '../order/order-detail?id='+id
+				})
+			},
+			customerService() {
+				uni.navigateTo({
+					url: '../news/customer-service'
+				})
+			},
+			openListingsDetail(item){
+				uni.navigateTo({
+					url: '../listings/listings-detail?id=' + item.hid
 				})
 			},
 		}

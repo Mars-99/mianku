@@ -8,15 +8,14 @@
 			<view class="content">
 				<view v-show="current === 0">
 					<view class="collect-list">
-						<uni-title type="h4" title="3个房源 "></uni-title>
-						<view v-for="item in collection_list[current]" :key="item.cid" class="collect-item">
+						<uni-title type="h4" :title="collectionLength+'个房源' "></uni-title>
+						<view v-for="item in collectionList" :key="item.cid" class="collect-item" @tap="openListingsDetail(item)">
 							<view class="img-left">
-								<image mode="aspectFill" :src="item.thum"></image>
+								<image mode="widthFix" :src="item.thum"></image>
 							</view>
 							<view class="cont-right">
 								<view class="info">
 									<text class="txt">{{item.cityName}}-{{item.districtName}}</text>·
-									<text class="txt">整套</text>·
 									<text class="txt">{{item.houseType}}{{item.bedType}}</text>·
 									<text class="txt">可住{{item.occupancy}}人</text>
 								</view>
@@ -36,44 +35,12 @@
 								</view>
 							</view>
 						</view>
-						<!-- <view class="collect-item">
-							<view class="img-left">
-								<image mode="aspectFill" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-01.jpg">
-								</image>
-							</view>
-
-							<view class="cont-right">
-								<view class="info">
-									<text>长沙</text>·
-									<text>整套房源</text>·
-									<text>1室1卫1床</text>·
-									<text>可住2人</text>
-								</view>
-								<view class="title">
-									邂逅摩洛哥 五一广场巨幕投影房·舒适乳胶床垫
-								</view>
-								<view class="bottom-info">
-									<view class="price">
-										<view class="CP">￥180</view>
-										<view class="OP">￥210</view>
-										<view class="wan">/晚</view>
-									</view>
-									<view class="collect">
-										<uni-icons type="star" size="24" color="#cccccc" v-if="false"></uni-icons>
-										<uni-icons type="star-filled" size="24" color="#ff951d" v-else></uni-icons>
-									</view>
-								</view>
-							</view>
-
-						</view>-->
 					</view>
 				</view>
 				<view v-show="current === 1">
 					<view class="history-litt">
 						<view class="listings-area">
-							<view class="listings-list">
-								<listingsItem></listingsItem>
-							</view>
+							<listingsItem></listingsItem>
 						</view>
 					</view>
 				</view>
@@ -97,7 +64,8 @@
 			return {
 				items: ['收藏', '历史浏览'],
 				current: 0,
-				collection_list:[[],[]],
+				collectionList:[],
+				collectionLength:0,
 				cityData:[],
 				districtData:[],
 				pages: [{currentPage: 1,totalPage: 1,loadingType: 0}],
@@ -106,7 +74,7 @@
 		},
 		onLoad(){
 			this.getCity()
-			this.initData(0,1,10)
+			this.initData(0)
 		},
 		computed:{
 			...mapGetters(['getUserinfo','getNeedAuth','getIsLogin'])
@@ -127,16 +95,16 @@
 					this.districtData = this.districtData.concat(district_data.data.data)
 				}
 			},
-			async initData(type,page,limit){
+			async initData(type){
 				let current_user = uni.getStorageSync('userinfo')
 				if (!current_user) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
 				}
-				const {data:res} = await getCollectionList(type,page,limit)				
+				const {data:res} = await getCollectionList(type)				
 							
-				this.pages[this.current].totalPage = res.data.pages
+				// this.pages[this.current].totalPage = res.data.pages
 				let list = [];
 				res.data.rs.forEach(item=>{
 					let selectobj = this.cityData.find(obj=>{
@@ -145,19 +113,26 @@
 					if(selectobj){
 						item.cityName=selectobj.cityName						
 					}	
-					let district_obj = this.districtData.find(obj1=>{return obj1.id === item.districtId})
-					if(district_obj){
-						item.districtName = district_obj.cityName
-					}										
+													
 					list.push(item)
 				})				
-				if (page == 1) {
-					this.collection_list[this.current] = list
-				} else {
-					this.collection_list[this.current] = this.collection_list[this.current].concat(list)
-				}				
-				console.log('收藏列表：',this.collection_list)
+				// if (page == 1) {
+				// 	this.collection_list[this.current] = list
+				// } else {
+				// 	this.collection_list[this.current] = this.collection_list[this.current].concat(list)
+				// }		
+		
+				this.collectionList = list
+			
+				this.collectionLength = this.collectionList.length
+			
+				// this.collection_list.length
 				this.isLoading = true
+			},
+			openListingsDetail(item){
+				uni.navigateTo({
+					url: '../listings/listings-detail?id=' + item.cid
+				})
 			},
 		}
 	}

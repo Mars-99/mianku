@@ -538,20 +538,26 @@
 
 			},
 			getTotalPice() {
-				for (var i = 0; i < this.choiceDateArr.length; i++) {
-					if (this.choiceDateArr[i].week == '五' || this.choiceDateArr[i].week == '六') {
-						this.choiceDateArr[i].price = this.listingsDetail.hotel.weekendActivity
-					} else {
-						this.choiceDateArr[i].price = this.listingsDetail.hotel.weekdaysActivity
+				if (this.choiceDateArr.length>0) {
+					for (var i = 0; i < this.choiceDateArr.length; i++) {
+						if (this.choiceDateArr[i].week == '五' || this.choiceDateArr[i].week == '六') {
+							this.choiceDateArr[i].price = this.listingsDetail.hotel.weekendActivity
+						} else {
+							this.choiceDateArr[i].price = this.listingsDetail.hotel.weekdaysActivity
+						}
 					}
-					// console.log("choiceDateArrssssss", this.choiceDateArr)
-
+					this.totalPice = null
+					for (var i = 0; i < this.choiceDateArr.length - 1; i++) {
+						this.totalPice += this.choiceDateArr[i].price
+					}
+					this.totalPice = this.totalPice.toFixed(2)
+				} else {
+					if (this.week === 6 || this.week === 5) {
+						this.totalPice = this.listingsDetail.hotel.weekendActivity
+					} else {
+						this.totalPice = this.listingsDetail.hotel.weekdaysActivity
+					}
 				}
-				this.totalPice = null
-				for (var i = 0; i < this.choiceDateArr.length - 1; i++) {
-					this.totalPice += this.choiceDateArr[i].price
-				}
-				this.totalPice = this.totalPice.toFixed(2)
 				// console.log("price", this.totalPice)
 			},
 			// 收藏点击事件 刘慧
@@ -571,9 +577,9 @@
 				if (data.code == 1) {
 					this.$api.msg(data.code.msg)
 				} {
-					if(this.isCollect == 0){
+					if (this.isCollect == 0) {
 						this.isCollect = -1
-					}else{
+					} else {
 						this.isCollect = 0
 					}
 				}

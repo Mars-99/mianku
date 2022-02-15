@@ -54,7 +54,7 @@
 			</view>
 			<view class="try-listings" v-if="listingsList.length">
 				<view class="try-listings-item" v-for="(listingsItem ,list) in listingsList" :key="list">
-					<view class="img-left">
+					<view class="img-left" @tap="openListingsDetail(listingsItem)">
 						<image mode="widthFix" :src="listingsItem.thum">
 						</image>
 					</view>
@@ -197,43 +197,7 @@
 				],
 				current: 0,
 				btnnum: 0,
-				feedbackList: [{
-						img: ['https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-01.jpg',
-							'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-02.jpg',
-							'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-03.jpg'
-						],
-						title: '长沙·五一广场高空网红之家',
-						user: {
-							name: '小小眠',
-							avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-							date: '2021年12月'
-						}
-					},
-					{
-						img: ['https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-04.jpg',
-							'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-05.jpg',
-							'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-06.jpg'
-						],
-						title: '朴愫·四季予你｜五一广场/双床可住4位',
-						user: {
-							name: '小小库',
-							avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-							date: '2022年01月'
-						}
-					},
-					{
-						img: ['https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-02.jpg',
-							'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-04.jpg',
-							'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-06.jpg'
-						],
-						title: '【直木微居·拾级】顶楼江景，自然系的风格，高端投影，地铁口',
-						user: {
-							name: '小小民',
-							avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-							date: '2022年02月'
-						}
-					},
-				],
+				
 				cityId: 1, //当前城市id
 				pageIndex: 1, //当前页码
 				pageSize: 5, //每页条数
@@ -362,6 +326,11 @@
 			openFreeTrial(id){
 				uni.navigateTo({
 					url: '../free-trial/free-trial-report?id='+id
+				})
+			},
+			openListingsDetail(item){
+				uni.navigateTo({
+					url: '../listings/listings-detail?id=' + item.id
 				})
 			},
 		}
