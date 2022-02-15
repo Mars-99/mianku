@@ -76,6 +76,13 @@
                     "name": "助力详情",
                     "pathName": "pages/zero-yuan/zero-yuan-detail",
                     "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "支付结果",
+                    "pathName": "pages/order/order-result",
+                    "query": "",
                     "scene": null,
                     "launchMode": "default"
                 }

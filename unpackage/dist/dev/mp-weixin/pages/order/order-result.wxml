@@ -1,0 +1,1 @@
+<view class="content"><text>支付成功</text><button class="btn" type="primary" size="default" data-event-opts="{{[['tap',[['openOrderPage']]]]}}" bindtap="__e">查看订单</button><button class="btn" type="primary" size="default" data-event-opts="{{[['tap',[['openIndexPage']]]]}}" bindtap="__e">返回首页</button></view>

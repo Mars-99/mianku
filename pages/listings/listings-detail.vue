@@ -238,7 +238,7 @@
 							首单立减{{listingsDetail.hotel.firstReduce}}
 						</view> -->
 					</view>
-					<view class="sc">
+					<view class="sc" @tap="getUserCollection()">
 						<uni-icons type="star" size="30" color="#333333"></uni-icons>
 						<view class="txt">
 							收藏房源
@@ -272,7 +272,7 @@
 		},
 		data() {
 			return {
-
+				curID: 0,
 				current: 0,
 				mode: 'round',
 				choicCurrentIndex: 0,
@@ -345,7 +345,6 @@
 					_this.swiperheight = res.windowHeight
 				}
 			})
-			this.getTotalPice()
 		},
 		computed: {
 			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
@@ -354,7 +353,7 @@
 			this.getWeeK()
 			this.getTimeandWeek()
 			this.getHotelDetail()
-			this.getTotalPice()
+		
 			// console.log(this.markers)
 
 		},
@@ -371,7 +370,8 @@
 					this.checkOutYH = this.checkOut.slice(5)
 					this.choiceDateArr = this.brand.choiceDateArr
 					this.getTotalPice()
-
+				}else{
+					return
 				}
 			} else {
 				return
@@ -418,6 +418,12 @@
 				this.$refs.popup.open('bottom')
 			},
 			async getHotelDetail() {
+				
+				// if(!this.$mp.query.id){
+				// 	this.curID=this.listingsDetail.hotel.id
+				// }else{
+				// 	this.curID = Number(this.$mp.query.id)
+				// }
 				const {
 					data
 				} = await hotelDetail(Number(this.$mp.query.id))
@@ -540,6 +546,7 @@
 				for (var i = 0; i < this.choiceDateArr.length - 1; i++) {
 					this.totalPice += this.choiceDateArr[i].price
 				}
+				this.totalPice = this.totalPice.toFixed(2)
 				// console.log("price", this.totalPice)
 			},
 			// 收藏点击事件 刘慧

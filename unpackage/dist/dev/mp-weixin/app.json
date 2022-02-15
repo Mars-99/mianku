@@ -28,7 +28,8 @@
         "pages/order/lodger-list",
         "pages/order/lodger-add",
         "pages/zero-yuan/zero-yuan",
-        "pages/zero-yuan/zero-yuan-detail"
+        "pages/zero-yuan/zero-yuan-detail",
+        "pages/order/order-result"
     ],
     "subPackages": [],
     "window": {

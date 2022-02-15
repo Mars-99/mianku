@@ -4,7 +4,6 @@
   "usingComponents": {
     "uni-segmented-control": "/uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control",
     "uni-title": "/uni_modules/uni-title/components/uni-title/uni-title",
-    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
-    "listings-item": "/components/listings-item/listings-item"
+    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons"
   }
 }

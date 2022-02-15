@@ -96,16 +96,16 @@ var components
 try {
   components = {
     uniSwiperDot: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot */ "uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot.vue */ 254))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot */ "uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot.vue */ 260))
     },
     uniIcons: function() {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 296))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 302))
     },
     uniTitle: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-title/components/uni-title/uni-title */ "uni_modules/uni-title/components/uni-title/uni-title").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-title/components/uni-title/uni-title.vue */ 261))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-title/components/uni-title/uni-title */ "uni_modules/uni-title/components/uni-title/uni-title").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-title/components/uni-title/uni-title.vue */ 267))
     },
     uniPopup: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 346))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 352))
     }
   }
 } catch (e) {
@@ -453,10 +453,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var _vuex = __webpack_require__(/*! vuex */ 16);
+
+
+
 var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);
 
 
-var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js */ 123));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var pageLoad = function pageLoad() {__webpack_require__.e(/*! require.ensure | components/pageLoad/pageLoad */ "components/pageLoad/pageLoad").then((function () {return resolve(__webpack_require__(/*! @/components/pageLoad/pageLoad */ 311));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js */ 123));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var pageLoad = function pageLoad() {__webpack_require__.e(/*! require.ensure | components/pageLoad/pageLoad */ "components/pageLoad/pageLoad").then((function () {return resolve(__webpack_require__(/*! @/components/pageLoad/pageLoad */ 317));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 {
   components: {
@@ -464,7 +469,7 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
 
   data: function data() {
     return {
-
+      curID: 0,
       current: 0,
       mode: 'round',
       choicCurrentIndex: 0,
@@ -537,13 +542,15 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
         _this.swiperheight = res.windowHeight;
       } });
 
-    this.getTotalPice();
   },
+  computed: _objectSpread({},
+  (0, _vuex.mapGetters)(['getUserinfo', 'getNeedAuth', 'getIsLogin'])),
+
   onLoad: function onLoad() {
     this.getWeeK();
     this.getTimeandWeek();
     this.getHotelDetail();
-    this.getTotalPice();
+
     // console.log(this.markers)
 
   },
@@ -560,7 +567,8 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
         this.checkOutYH = this.checkOut.slice(5);
         this.choiceDateArr = this.brand.choiceDateArr;
         this.getTotalPice();
-
+      } else {
+        return;
       }
     } else {
       return;
@@ -596,7 +604,8 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
       this.checkIn = this.checkIn;
       this.checkOut = this.checkOut;
       uni.navigateTo({
-        url: '../order/order-confirm?id=' + this.listingsDetail.hotel.id + '&checkIn=' + this.checkIn + '&checkOut=' +
+        url: '../order/order-confirm?id=' + this.listingsDetail.hotel.id + '&checkIn=' + this.checkIn +
+        '&checkOut=' +
         this.checkOut + '&dayCount=' + this.dayCount + '&totalPice=' + this.totalPice });
 
 
@@ -605,7 +614,13 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
       // 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
       this.$refs.popup.open('bottom');
     },
-    getHotelDetail: function getHotelDetail() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$hotelDetail, data, result;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    getHotelDetail: function getHotelDetail() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$hotelDetail, data, result, history_data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+
+
+
+
+
+
 
 
                   (0, _manage.hotelDetail)(Number(_this2.$mp.query.id)));case 2:_yield$hotelDetail = _context.sent;data = _yield$hotelDetail.data;
@@ -645,7 +660,17 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
                 _this2.markers[0].longitude = result[0];
                 _this2.markers[0].callout.content = data.data.hotel.address;
 
-                _this2.pageshow = false;case 22:case "end":return _context.stop();}}}, _callee);}))();
+                _this2.pageshow = false;
+
+                //历史浏览记录
+                console.log('bbbb:', _this2.listingsDetail);
+                uni.setStorageSync('history_data', {
+                  id: _this2.listingsDetail.hotel.id,
+                  pic: _this2.listingsDetail.hotel.thum,
+                  hotelName: _this2.listingsDetail.hotel.hotelName });
+
+                history_data = uni.getStorageInfoSync('history_data');
+                console.log('aaaa:', history_data);case 26:case "end":return _context.stop();}}}, _callee);}))();
 
     },
     call_phone: function call_phone() {var _this3 = this;
@@ -718,8 +743,23 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
       for (var i = 0; i < this.choiceDateArr.length - 1; i++) {
         this.totalPice += this.choiceDateArr[i].price;
       }
+      this.totalPice = this.totalPice.toFixed(2);
       // console.log("price", this.totalPice)
-    } } };exports.default = _default;
+    },
+    // 收藏点击事件 刘慧
+    getUserCollection: function getUserCollection() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_getUserCollec, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (
+                _this4.getIsLogin) {_context2.next = 4;break;}
+                _this4.$api.msg('请先登录');
+                _this4.$api.href('../login/login');return _context2.abrupt("return");case 4:
+
+
+                console.log('aaaaaa', _this4.listingsDetail.hotel.id);_context2.next = 7;return (
+
+
+                  (0, _manage.getUserCollection)(_this4.listingsDetail.hotel.id, 0));case 7:_yield$_getUserCollec = _context2.sent;data = _yield$_getUserCollec.data;
+                console.log(data);
+                //根据data的返回值来判断收藏样式变更
+              case 10:case "end":return _context2.stop();}}}, _callee2);}))();} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

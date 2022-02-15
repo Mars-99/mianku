@@ -213,24 +213,6 @@
 					return this.$api.msg(res.msg)
 				} else {
 					// this.orderNumber= res
-
-					console.log("res", "支付成功", res)
-					// uni.requestPayment({
-					// 	provider: 'wxpay',
-					// 	timeStamp: String(Date.now()),
-					// 	nonceStr: res.data.nonceStr,
-					// 	package: res.data.packageValue,
-					// 	signType: 'MD5',
-					// 	paySign: res.data.paySign,
-					// 	"appId": res.data.appId,
-					// 	success: function(res) {
-					// 		console.log('success:' + JSON.stringify(res));
-					// 	},
-					// 	fail: function(err) {
-					// 		console.log('fail:' + JSON.stringify(err));
-					// 	}
-					// });
-
 					uni.requestPayment({
 						provider: 'wxpay', //微信支付就是'wxpay'
 						timeStamp: res.data.timeStamp, //时间戳
@@ -238,10 +220,14 @@
 						package: res.data.packageValue, //支付id号，我是后端拼接号了，如果没拼接需要加"prepay_id="
 						signType: res.data.signType, //v3不是MD5而是RSA
 						paySign: res.data.paySign,
-						success: function(res) {
+						success(res) {
+							uni.navigateTo({
+								url: '../order/order-result'
+							})
 							console.log('success:' + JSON.stringify(res));
+							
 						},
-						fail: function(err) {
+						fail(err) {
 							console.log('fail:' + JSON.stringify(err));
 						}
 					});
