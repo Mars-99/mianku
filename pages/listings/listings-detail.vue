@@ -239,7 +239,8 @@
 						</view> -->
 					</view>
 					<view class="sc" @tap="getUserCollection()">
-						<uni-icons type="star" size="30" color="#333333"></uni-icons>
+						<uni-icons :type="isCollect==0?'star-filled':'star'" size="30"
+							:color="isCollect==0?'#ff941d':'#333333'"></uni-icons>
 						<view class="txt">
 							收藏房源
 						</view>
@@ -262,7 +263,8 @@
 	} from 'vuex'
 	import {
 		hotelDetail,
-		getUserCollection
+		getUserCollection,
+		getCollectionList,
 	} from '@/utils/request/manage.js'
 	import gcoord from '@/common/gcoord.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
@@ -316,6 +318,9 @@
 				choiceDateArr: [],
 				totalPice: 0,
 
+				isCollect: -1,
+				collectionList: []
+
 
 			}
 		},
@@ -353,7 +358,7 @@
 			this.getWeeK()
 			this.getTimeandWeek()
 			this.getHotelDetail()
-		
+
 			// console.log(this.markers)
 
 		},
@@ -370,7 +375,7 @@
 					this.checkOutYH = this.checkOut.slice(5)
 					this.choiceDateArr = this.brand.choiceDateArr
 					this.getTotalPice()
-				}else{
+				} else {
 					return
 				}
 			} else {
@@ -418,7 +423,7 @@
 				this.$refs.popup.open('bottom')
 			},
 			async getHotelDetail() {
-				
+
 				// if(!this.$mp.query.id){
 				// 	this.curID=this.listingsDetail.hotel.id
 				// }else{
@@ -436,6 +441,7 @@
 				}
 				// console.log("choiceDateArr",this.choiceDateArr)
 				this.listingsDetail = data.data
+				this.getCollectionList(0)
 				if (this.dayCount == 1) {
 					if (this.week === 6 || this.week === 5) {
 						this.totalPice = this.listingsDetail.hotel.weekendActivity
@@ -464,7 +470,6 @@
 				this.markers[0].callout.content = data.data.hotel.address
 
 				this.pageshow = false
-
 				//历史浏览记录
 				console.log('bbbb:', this.listingsDetail)
 				uni.setStorageSync('history_data', {
@@ -551,6 +556,7 @@
 			},
 			// 收藏点击事件 刘慧
 			async getUserCollection() {
+				this.isCollect
 				let current_user = uni.getStorageSync('userinfo')
 				if (!current_user) {
 					this.$api.msg('请先登录')
@@ -562,8 +568,40 @@
 					data
 				} = await getUserCollection(this.listingsDetail.hotel.id, 0)
 				console.log(data)
+				if (data.code == 1) {
+					this.$api.msg(data.code.msg)
+				} {
+					if(this.isCollect == 0){
+						this.isCollect = -1
+					}else{
+						this.isCollect = 0
+					}
+				}
+
 				//根据data的返回值来判断收藏样式变更
-			}
+			},
+			async getCollectionList(type) {
+				const {
+					data: res
+				} = await getCollectionList(type)
+				if (res.code == 1) {
+					this.$api.msg(data.code.msg)
+				} else {
+					this.collectionList = res.data.rs
+					console.log("收藏列表", this.collectionList)
+					let isCollect = this.collectionList.find(item => item.cid == this.listingsDetail.hotel.id)
+					if (isCollect) {
+						console.log("isCollect", isCollect)
+						if (isCollect.cid == this.listingsDetail.hotel.id) {
+							this.isCollect = 0
+						} else {
+							this.isCollect = -1
+						}
+					} else {
+						return
+					}
+				}
+			},
 		}
 	}
 </script>

@@ -42,7 +42,7 @@
 				</view>
 			</view>
 			<view class="collect">
-				<uni-icons type="star" size="30" color="#ffffff" v-if="true"></uni-icons>
+				<uni-icons :type="star" size="30" color="#ffffff" v-if="true"></uni-icons>
 				<uni-icons type="star-filled" size="30" color="#ff951d" v-else></uni-icons>
 			</view>
 		</view>
@@ -50,6 +50,9 @@
 </template>
 
 <script>
+	import {
+		getCollectionList
+	} from '@/utils/request/manage.js'
 	export default {
 		props: {
 			listingsList: {
@@ -78,22 +81,35 @@
 		},
 		data() {
 			return {
-			
+			isCollect: -1,
+			collectionList: []
 			}
 		},
-		
-		onLoad() {
-			
+		beforeMount() {
+			this.getCollectionList(0)
 		},
 		methods: {
 			openListingsDetail(item) {
-				
 				let choiceDateArr = encodeURIComponent(JSON.stringify(this.choiceDateArr))
 				uni.navigateTo({
 					url: '../listings/listings-detail?id=' + item.id + '&checkIn=' + this.checkIn + '&checkOut=' +
 						this.checkOut + '&dayCount=' + this.dayCount+'&choiceDateArr='+choiceDateArr
 				})
 			},
+			async getCollectionList(type) {
+				const {
+					data: res
+				} = await getCollectionList(type)
+				if (res.code == 1) {
+					this.$api.msg(data.code.msg)
+				} else {
+					this.collectionList = res.data.rs
+					console.log("收藏列表", this.collectionList)
+				}
+				
+			},
+			
+			
 		}
 	}
 </script>

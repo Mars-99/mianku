@@ -453,11 +453,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
 
 var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);
+
 
 
 
@@ -511,7 +513,10 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
 
       brand: 0,
       choiceDateArr: [],
-      totalPice: 0 };
+      totalPice: 0,
+
+      isCollect: -1,
+      collectionList: [] };
 
 
 
@@ -633,6 +638,7 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
                 }
                 // console.log("choiceDateArr",this.choiceDateArr)
                 _this2.listingsDetail = data.data;
+                _this2.getCollectionList(0);
                 if (_this2.dayCount == 1) {
                   if (_this2.week === 6 || _this2.week === 5) {
                     _this2.totalPice = _this2.listingsDetail.hotel.weekendActivity;
@@ -661,7 +667,6 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
                 _this2.markers[0].callout.content = data.data.hotel.address;
 
                 _this2.pageshow = false;
-
                 //历史浏览记录
                 console.log('bbbb:', _this2.listingsDetail);
                 uni.setStorageSync('history_data', {
@@ -670,7 +675,7 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
                   hotelName: _this2.listingsDetail.hotel.hotelName });
 
                 history_data = uni.getStorageInfoSync('history_data');
-                console.log('aaaa:', history_data);case 26:case "end":return _context.stop();}}}, _callee);}))();
+                console.log('aaaa:', history_data);case 27:case "end":return _context.stop();}}}, _callee);}))();
 
     },
     call_phone: function call_phone() {var _this3 = this;
@@ -748,19 +753,52 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
     },
     // 收藏点击事件 刘慧
     getUserCollection: function getUserCollection() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var current_user, _yield$_getUserCollec, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                _this4.isCollect;
                 current_user = uni.getStorageSync('userinfo');if (
-                current_user) {_context2.next = 5;break;}
+                current_user) {_context2.next = 6;break;}
                 _this4.$api.msg('请先登录');
-                _this4.$api.href('../login/login');return _context2.abrupt("return");case 5:
+                _this4.$api.href('../login/login');return _context2.abrupt("return");case 6:
 
 
-                console.log('aaaaaa', _this4.listingsDetail.hotel.id);_context2.next = 8;return (
+                console.log('aaaaaa', _this4.listingsDetail.hotel.id);_context2.next = 9;return (
 
 
-                  (0, _manage.getUserCollection)(_this4.listingsDetail.hotel.id, 0));case 8:_yield$_getUserCollec = _context2.sent;data = _yield$_getUserCollec.data;
+                  (0, _manage.getUserCollection)(_this4.listingsDetail.hotel.id, 0));case 9:_yield$_getUserCollec = _context2.sent;data = _yield$_getUserCollec.data;
                 console.log(data);
-                //根据data的返回值来判断收藏样式变更
-              case 11:case "end":return _context2.stop();}}}, _callee2);}))();} } };exports.default = _default;
+                if (data.code == 1) {
+                  _this4.$api.msg(data.code.msg);
+                }
+                if (_this4.isCollect == 0) {
+                  _this4.isCollect = -1;
+                } else {
+                  _this4.isCollect = 0;
+                }case 14:case "end":return _context2.stop();}}}, _callee2);}))();
+
+
+
+    },
+    getCollectionList: function getCollectionList(type) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_getCollection, res, isCollect;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+
+
+                  (0, _manage.getCollectionList)(type));case 2:_yield$_getCollection = _context3.sent;res = _yield$_getCollection.data;if (!(
+                res.code == 1)) {_context3.next = 8;break;}
+                _this5.$api.msg(data.code.msg);_context3.next = 17;break;case 8:
+
+                _this5.collectionList = res.data.rs;
+                console.log("收藏列表", _this5.collectionList);
+                isCollect = _this5.collectionList.find(function (item) {return item.cid == _this5.listingsDetail.hotel.id;});if (!
+                isCollect) {_context3.next = 16;break;}
+                console.log("isCollect", isCollect);
+                if (isCollect.cid == _this5.listingsDetail.hotel.id) {
+                  _this5.isCollect = 0;
+                } else {
+                  _this5.isCollect = -1;
+                }_context3.next = 17;break;case 16:return _context3.abrupt("return");case 17:case "end":return _context3.stop();}}}, _callee3);}))();
+
+
+
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
