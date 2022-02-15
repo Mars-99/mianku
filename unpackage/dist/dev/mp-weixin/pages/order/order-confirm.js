@@ -383,12 +383,15 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                   paySign: res.data.paySign,
                   success: function success(res) {
                     uni.navigateTo({
-                      url: '../order/order-result' });
+                      url: '../order/order-result?state=success' });
 
                     console.log('success:' + JSON.stringify(res));
 
                   },
                   fail: function fail(err) {
+                    uni.navigateTo({
+                      url: '../order/order-result?state=fail' });
+
                     console.log('fail:' + JSON.stringify(err));
                   } });case 9:case "end":return _context3.stop();}}}, _callee3);}))();
 

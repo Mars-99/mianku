@@ -222,12 +222,15 @@
 						paySign: res.data.paySign,
 						success(res) {
 							uni.navigateTo({
-								url: '../order/order-result'
+								url: '../order/order-result?state=success'
 							})
 							console.log('success:' + JSON.stringify(res));
 							
 						},
 						fail(err) {
+							uni.navigateTo({
+								url: '../order/order-result?state=fail'
+							})
 							console.log('fail:' + JSON.stringify(err));
 						}
 					});
