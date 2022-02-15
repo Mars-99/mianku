@@ -33,7 +33,8 @@
 	import pageLoad from '@/components/pageLoad/pageLoad'
 	import {
 		hotelList,
-		city
+		city,
+		getCollectionList
 	} from '@/utils/request/manage.js'
 	export default {
 		components: {
@@ -76,6 +77,9 @@
 				
 				week:0,
 				pageshow:true,
+				
+				isCollect: -1,
+				collectionList: []
 
 
 			}
@@ -155,6 +159,7 @@
 				this.checkInYH = this.checkIn.slice(5)
 				this.checkOutYH = this.checkOut.slice(5)
 				this.gethotelList()
+				this.getCollectionList(0)
 			},
 			openCtiy(id) {
 				uni.navigateTo({
@@ -228,6 +233,35 @@
 				var now = new Date();
 				var num = now.getDay(now)
 				this.week=num
+			},
+			async getCollectionList(type) {
+				const {
+					data: res
+				} = await getCollectionList(type)
+				if (res.code == 1) {
+					this.$api.msg(data.code.msg)
+				} else {
+					this.collectionList = res.data.rs
+					this.collec()
+					// console.log("收藏列表", this.collectionList)
+				}
+				
+				
+			},
+			collec(){
+				let that = this
+				this.listingsList.forEach(item=>{
+					let isCollect = this.collectionList.find(_item => _item.cid === item.id)
+					if (isCollect) {
+						if (isCollect.cid == item.id) {
+							item.isCollect = 0
+						} else {
+							item.isCollect = -1
+						}
+					} else {
+						return
+					}
+				})
 			}
 		},
 		onReachBottom() {
@@ -238,7 +272,8 @@
 				this.page += 1
 				this.gethotelList()
 			}
-		}
+		},
+	
 	}
 </script>
 <style scoped lang="scss">

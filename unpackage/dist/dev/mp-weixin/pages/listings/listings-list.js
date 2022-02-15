@@ -45,6 +45,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
 
 
+
 {
   components: {
     filterArea: _filterArea.default,
@@ -85,7 +86,10 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
     0), _defineProperty(_ref, "week",
 
     0), _defineProperty(_ref, "pageshow",
-    true), _ref;
+    true), _defineProperty(_ref, "isCollect",
+
+    -1), _defineProperty(_ref, "collectionList",
+    []), _ref;
 
 
 
@@ -165,6 +169,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
       this.checkInYH = this.checkIn.slice(5);
       this.checkOutYH = this.checkOut.slice(5);
       this.gethotelList();
+      this.getCollectionList(0);
     },
     openCtiy: function openCtiy(id) {
       uni.navigateTo({
@@ -238,6 +243,35 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
       var now = new Date();
       var num = now.getDay(now);
       this.week = num;
+    },
+    getCollectionList: function getCollectionList(type) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_getCollection, res;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+
+
+                  (0, _manage.getCollectionList)(type));case 2:_yield$_getCollection = _context3.sent;res = _yield$_getCollection.data;
+                if (res.code == 1) {
+                  _this3.$api.msg(data.code.msg);
+                } else {
+                  _this3.collectionList = res.data.rs;
+                  _this3.collec();
+                  // console.log("收藏列表", this.collectionList)
+                }case 5:case "end":return _context3.stop();}}}, _callee3);}))();
+
+
+    },
+    collec: function collec() {var _this4 = this;
+      var that = this;
+      this.listingsList.forEach(function (item) {
+        var isCollect = _this4.collectionList.find(function (_item) {return _item.cid === item.id;});
+        if (isCollect) {
+          if (isCollect.cid == item.id) {
+            item.isCollect = 0;
+          } else {
+            item.isCollect = -1;
+          }
+        } else {
+          return;
+        }
+      });
     } },
 
   onReachBottom: function onReachBottom() {
@@ -1047,61 +1081,60 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 13));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default =
 {
   props: {
     listingsList: {
@@ -1129,32 +1162,17 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
 
   data: function data() {
-    return {
-      isCollect: -1,
-      collectionList: [] };
+    return {};
+
 
   },
-  beforeMount: function beforeMount() {
-    this.getCollectionList(0);
-  },
+
   methods: {
     openListingsDetail: function openListingsDetail(item) {
       var choiceDateArr = encodeURIComponent(JSON.stringify(this.choiceDateArr));
       uni.navigateTo({
         url: '../listings/listings-detail?id=' + item.id + '&checkIn=' + this.checkIn + '&checkOut=' +
         this.checkOut + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr });
-
-    },
-    getCollectionList: function getCollectionList(type) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_getCollection, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-
-
-                  (0, _manage.getCollectionList)(type));case 2:_yield$_getCollection = _context.sent;res = _yield$_getCollection.data;
-                if (res.code == 1) {
-                  _this.$api.msg(data.code.msg);
-                } else {
-                  _this.collectionList = res.data.rs;
-                  console.log("收藏列表", _this.collectionList);
-                }case 5:case "end":return _context.stop();}}}, _callee);}))();
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
