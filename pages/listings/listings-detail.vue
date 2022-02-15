@@ -257,7 +257,12 @@
 
 <script>
 	import {
-		hotelDetail
+		mapActions,
+		mapGetters
+	} from 'vuex'
+	import {
+		hotelDetail,
+		getUserCollection
 	} from '@/utils/request/manage.js'
 	import gcoord from '@/common/gcoord.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
@@ -303,8 +308,8 @@
 
 				checkIn: 0,
 				checkOut: 0,
-				checkInYH:0,
-				checkOutYH:0,
+				checkInYH: 0,
+				checkOutYH: 0,
 				dayCount: 1,
 
 				brand: 0,
@@ -342,13 +347,16 @@
 			})
 			this.getTotalPice()
 		},
+		computed: {
+			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
+		},
 		onLoad() {
 			this.getWeeK()
 			this.getTimeandWeek()
 			this.getHotelDetail()
 			this.getTotalPice()
 			// console.log(this.markers)
-		
+
 		},
 		onShow() {
 			var pages = getCurrentPages();
@@ -363,7 +371,7 @@
 					this.checkOutYH = this.checkOut.slice(5)
 					this.choiceDateArr = this.brand.choiceDateArr
 					this.getTotalPice()
-				
+
 				}
 			} else {
 				return
@@ -377,17 +385,17 @@
 				this.show = e.show
 			},
 			openListingsDetail(item) {
-				this.checkIn=this.checkIn
-				this.checkOut=this.checkOut
-				
-				console.log("b",this.checkIn,this.checkOut)
+				this.checkIn = this.checkIn
+				this.checkOut = this.checkOut
+
+				console.log("b", this.checkIn, this.checkOut)
 				let choiceDateArr = encodeURIComponent(JSON.stringify(this.choiceDateArr))
-				
+
 				uni.navigateTo({
-					url: '../listings/listings-detail?id=' + item.id+ '&checkIn=' + this.checkIn + '&checkOut=' +
-						this.checkOut + '&dayCount=' + this.dayCount+'&choiceDateArr='+choiceDateArr
+					url: '../listings/listings-detail?id=' + item.id + '&checkIn=' + this.checkIn + '&checkOut=' +
+						this.checkOut + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr
 				})
-			
+
 			},
 			openDetailMap() {
 				uni.navigateTo({
@@ -395,14 +403,15 @@
 				})
 			},
 			openOrderConfirm() {
-				console.log("b",this.checkIn,this.checkOut)
-				this.checkIn=this.checkIn
-				this.checkOut=this.checkOut
+				console.log("b", this.checkIn, this.checkOut)
+				this.checkIn = this.checkIn
+				this.checkOut = this.checkOut
 				uni.navigateTo({
-					url: '../order/order-confirm?id=' + this.listingsDetail.hotel.id+ '&checkIn=' + this.checkIn + '&checkOut=' +
-						this.checkOut + '&dayCount=' + this.dayCount+'&totalPice='+this.totalPice
+					url: '../order/order-confirm?id=' + this.listingsDetail.hotel.id + '&checkIn=' + this.checkIn +
+						'&checkOut=' +
+						this.checkOut + '&dayCount=' + this.dayCount + '&totalPice=' + this.totalPice
 				})
-			
+
 			},
 			open(e) {
 				// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
@@ -415,22 +424,22 @@
 				this.checkIn = this.$mp.query.checkIn
 				this.checkOut = this.$mp.query.checkOut
 				this.dayCount = this.$mp.query.dayCount
-		
-				if(this.$mp.query.choiceDateArr){
-					this.choiceDateArr=JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
+
+				if (this.$mp.query.choiceDateArr) {
+					this.choiceDateArr = JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
 				}
 				// console.log("choiceDateArr",this.choiceDateArr)
 				this.listingsDetail = data.data
-				if(this.dayCount == 1){
-					if(this.week===6|| this.week===5){
-						this.totalPice=this.listingsDetail.hotel.weekendActivity
-					}else{
-						this.totalPice=this.listingsDetail.hotel.weekdaysActivity
+				if (this.dayCount == 1) {
+					if (this.week === 6 || this.week === 5) {
+						this.totalPice = this.listingsDetail.hotel.weekendActivity
+					} else {
+						this.totalPice = this.listingsDetail.hotel.weekdaysActivity
 					}
-				}else{
+				} else {
 					this.getTotalPice()
 				}
-				
+
 				this.flag = data.data.hotel.flag.split(',')
 				this.security = data.data.hotel.security.split(',')
 				this.service = data.data.hotel.service.split(',')
@@ -449,6 +458,16 @@
 				this.markers[0].callout.content = data.data.hotel.address
 
 				this.pageshow = false
+
+				//历史浏览记录
+				console.log('bbbb:', this.listingsDetail)
+				uni.setStorageSync('history_data', {
+					id: this.listingsDetail.hotel.id,
+					pic: this.listingsDetail.hotel.thum,
+					hotelName: this.listingsDetail.hotel.hotelName
+				})
+				let history_data = uni.getStorageInfoSync('history_data')
+				console.log('aaaa:', history_data)
 
 			},
 			call_phone() {
@@ -498,30 +517,44 @@
 						date: year + '-' + month + '-' + day,
 						week: weekDay[dt2.getDay()],
 						checked: false
-			
+
 					});
 				}
 				this.checkIn = this.check[0].date
 				this.checkOut = this.check[1].date
 				this.checkInYH = this.check[0].date.slice(5)
 				this.checkOutYH = this.check[1].date.slice(5)
-				
+
 			},
-			getTotalPice(){
+			getTotalPice() {
 				for (var i = 0; i < this.choiceDateArr.length; i++) {
-					if(this.choiceDateArr[i].week=='五'||this.choiceDateArr[i].week=='六'){
-						this.choiceDateArr[i].price=this.listingsDetail.hotel.weekendActivity
-					}else{
-						this.choiceDateArr[i].price=this.listingsDetail.hotel.weekdaysActivity
+					if (this.choiceDateArr[i].week == '五' || this.choiceDateArr[i].week == '六') {
+						this.choiceDateArr[i].price = this.listingsDetail.hotel.weekendActivity
+					} else {
+						this.choiceDateArr[i].price = this.listingsDetail.hotel.weekdaysActivity
 					}
 					// console.log("choiceDateArrssssss", this.choiceDateArr)
-					
+
 				}
 				this.totalPice = null
-				for (var i = 0; i < this.choiceDateArr.length-1; i++) {
+				for (var i = 0; i < this.choiceDateArr.length - 1; i++) {
 					this.totalPice += this.choiceDateArr[i].price
 				}
 				// console.log("price", this.totalPice)
+			},
+			// 收藏点击事件 刘慧
+			async getUserCollection() {
+				if (!this.getIsLogin) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+				console.log('aaaaaa', this.listingsDetail.hotel.id)
+				const {
+					data
+				} = await getUserCollection(this.listingsDetail.hotel.id, 0)
+				console.log(data)
+				//根据data的返回值来判断收藏样式变更
 			}
 		}
 	}

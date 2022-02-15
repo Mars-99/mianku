@@ -9,26 +9,24 @@
 				<view v-show="current === 0">
 					<view class="collect-list">
 						<uni-title type="h4" title="3个房源 "></uni-title>
-						<view class="collect-item">
+						<view v-for="item in collection_list[current]" :key="item.cid" class="collect-item">
 							<view class="img-left">
-								<image mode="aspectFill" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-01.jpg">
-								</image>
+								<image mode="aspectFill" :src="item.thum"></image>
 							</view>
-
 							<view class="cont-right">
 								<view class="info">
-									<text class="txt">长沙</text>·
-									<text class="txt">整套房源</text>·
-									<text class="txt">1室1卫1床</text>·
-									<text class="txt">可住2人</text>
+									<text class="txt">{{item.cityName}}-{{item.districtName}}</text>·
+									<text class="txt">整套</text>·
+									<text class="txt">{{item.houseType}}{{item.bedType}}</text>·
+									<text class="txt">可住{{item.occupancy}}人</text>
 								</view>
 								<view class="title">
-									邂逅摩洛哥 五一广场巨幕投影房·舒适乳胶床垫
+									{{item.hotelName}}
 								</view>
 								<view class="bottom-info">
 									<view class="price">
-										<view class="CP">￥180</view>
-										<view class="OP">￥210</view>
+										<view class="CP">￥{{item.weekdaysActivity}}</view>
+										<view class="OP">￥{{item.weekdaysOriginal}}</view>
 										<view class="wan">/晚</view>
 									</view>
 									<view class="collect">
@@ -37,39 +35,8 @@
 									</view>
 								</view>
 							</view>
-
 						</view>
-						<view class="collect-item">
-							<view class="img-left">
-								<image mode="aspectFill" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-01.jpg">
-								</image>
-							</view>
-
-							<view class="cont-right">
-								<view class="info">
-									<text>长沙</text>·
-									<text>整套房源</text>·
-									<text>1室1卫1床</text>·
-									<text>可住2人</text>
-								</view>
-								<view class="title">
-									邂逅摩洛哥 五一广场巨幕投影房·舒适乳胶床垫
-								</view>
-								<view class="bottom-info">
-									<view class="price">
-										<view class="CP">￥180</view>
-										<view class="OP">￥210</view>
-										<view class="wan">/晚</view>
-									</view>
-									<view class="collect">
-										<uni-icons type="star" size="24" color="#cccccc" v-if="false"></uni-icons>
-										<uni-icons type="star-filled" size="24" color="#ff951d" v-else></uni-icons>
-									</view>
-								</view>
-							</view>
-
-						</view>
-						<view class="collect-item">
+						<!-- <view class="collect-item">
 							<view class="img-left">
 								<image mode="aspectFill" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-01.jpg">
 								</image>
@@ -98,7 +65,7 @@
 								</view>
 							</view>
 
-						</view>
+						</view>-->
 					</view>
 				</view>
 				<view v-show="current === 1">
@@ -110,7 +77,6 @@
 						</view>
 					</view>
 				</view>
-
 			</view>
 		</view>
 
@@ -118,23 +84,80 @@
 </template>
 
 <script>
-	import listingsItem from '@/components/listings-item/listings-item.vue'
+	// import listingsItem from '@/components/listings-item/listings-item.vue'
+	import {mapActions,mapGetters } from 'vuex'
+	import {
+		getCollectionList,city
+	} from '@/utils/request/manage.js'
 	export default {
 		components: {
-			listingsItem
+			// listingsItem
 		},
 		data() {
 			return {
 				items: ['收藏', '历史浏览'],
 				current: 0,
+				collection_list:[[],[]],
+				cityData:[],
+				districtData:[],
+				pages: [{currentPage: 1,totalPage: 1,loadingType: 0}],
+				isLoading:false
 			}
+		},
+		onLoad(){
+			this.getCity()
+			this.initData(0,1,10)
+		},
+		computed:{
+			...mapGetters(['getUserinfo','getNeedAuth','getIsLogin'])
 		},
 		methods: {
 			onClickItem(e) {
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex
 				}
-			}
+			},
+			async getCity(){
+				const {
+					data
+				} = await city(0)
+				this.cityData=data.data				
+				for(let i=0;i<this.cityData.length;i++){
+					let district_data = await city(this.cityData[i].id)
+					this.districtData = this.districtData.concat(district_data.data.data)
+				}
+			},
+			async initData(type,page,limit){
+				if (!this.getIsLogin) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+				const {data:res} = await getCollectionList(type,page,limit)				
+							
+				this.pages[this.current].totalPage = res.data.pages
+				let list = [];
+				res.data.rs.forEach(item=>{
+					let selectobj = this.cityData.find(obj=>{
+						return obj.id===item.cityId
+					})
+					if(selectobj){
+						item.cityName=selectobj.cityName						
+					}	
+					let district_obj = this.districtData.find(obj1=>{return obj1.id === item.districtId})
+					if(district_obj){
+						item.districtName = district_obj.cityName
+					}										
+					list.push(item)
+				})				
+				if (page == 1) {
+					this.collection_list[this.current] = list
+				} else {
+					this.collection_list[this.current] = this.collection_list[this.current].concat(list)
+				}				
+				console.log('收藏列表：',this.collection_list)
+				this.isLoading = true
+			},
 		}
 	}
 </script>
