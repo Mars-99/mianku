@@ -279,7 +279,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
 
 
 
-        credNumber: {
+        idCardNumber: {
           rules: [{
             required: true,
             errorMessage: '请输入身份证号' },

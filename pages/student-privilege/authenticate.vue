@@ -109,7 +109,7 @@
 							}
 						]
 					},
-					credNumber: {
+					idCardNumber: {
 						rules: [{
 								required: true,
 								errorMessage: '请输入身份证号',
