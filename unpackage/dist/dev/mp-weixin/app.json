@@ -31,7 +31,8 @@
     "pages/zero-yuan/zero-yuan-detail",
     "pages/order/order-result",
     "components/djs/djs",
-    "pages/free-trial/free-trial-result"
+    "pages/free-trial/free-trial-result",
+    "pages/student-privilege/authenticate"
   ],
   "subPackages": [],
   "window": {

@@ -1,7 +1,8 @@
 <template>
 	<view class="content">
 		<view class="banner">
-			<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/privilege-banner.png">
+			<image class="img" mode="widthFix"
+				src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/privilege-banner.png">
 			</image>
 			<view class="rule-link">
 				<text class="txt">规则说明</text>
@@ -14,7 +15,8 @@
 			<view class="youhui-box">
 				<view class="youhui-item">
 					<view class="icon">
-						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/image/tq-xszk-icon.png">
+						<image class="img" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/tq-xszk-icon.png">
 						</image>
 					</view>
 					<view class="youhui-name">学生折上折</view>
@@ -22,7 +24,8 @@
 				</view>
 				<view class="youhui-item">
 					<view class="icon">
-						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/tq-xkyh-icon.png">
+						<image class="img" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/tq-xkyh-icon.png">
 						</image>
 					</view>
 					<view class="youhui-name">新客优惠</view>
@@ -30,7 +33,8 @@
 				</view>
 				<view class="youhui-item">
 					<view class="icon">
-						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/tq-srzk-icon.png">
+						<image class="img" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/tq-srzk-icon.png">
 						</image>
 					</view>
 					<view class="youhui-name">生日85折</view>
@@ -42,7 +46,7 @@
 					text="用户小小眠 认证了学生特权卡 下单了【眠库·克莱因蓝bearbrick】五一广场·国金中心IFS·超级文和友·茶颜悦色·免费寄存·一居两床 房源"></uni-notice-bar>
 			</view>
 			<view class="approve">
-				<button class="btn" type="primary" size="default" @tap="">立即认证</button>
+				<button class="btn" type="primary" size="default" @tap="openAuthenticate()">立即认证</button>
 			</view>
 		</view>
 		<view class="discount-list">
@@ -61,10 +65,10 @@
 					<view class="txt">全场通用,首单最高立减60</view>
 				</view>
 				<view class="rzbtn">
-					<button class="btn" type="primary" size="default" @tap="">认证领取</button>
+					<button class="btn" type="primary" size="default" @tap="openAuthenticate()">认证领取</button>
 				</view>
 			</view>
-			
+
 			<view class="aui-flex">
 				<view class="aui-price-nub">
 					<view class="aui-digit">
@@ -92,8 +96,12 @@
 			}
 		},
 		methods: {
-
-		}
+			openAuthenticate() {
+				uni.navigateTo({
+					url: "../student-privilege/authenticate"
+				})
+			},
+		},
 	}
 </script>
 
@@ -211,8 +219,8 @@
 				width: 100%;
 				height: 140rpx;
 				position: relative;
-				background: radial-gradient(circle at right top, transparent 8px,  #fb8e39 0) top left / 30% 51% no-repeat,
-					radial-gradient(circle at right bottom, transparent 8px,  #fb8e39 0) bottom left /30% 51% no-repeat,
+				background: radial-gradient(circle at right top, transparent 8px, #fb8e39 0) top left / 30% 51% no-repeat,
+					radial-gradient(circle at right bottom, transparent 8px, #fb8e39 0) bottom left /30% 51% no-repeat,
 					radial-gradient(circle at left top, transparent 8px, #fcf3e6 0) top right /70% 51% no-repeat,
 					radial-gradient(circle at left bottom, transparent 8px, #fcf3e6 0) bottom right /70% 51% no-repeat;
 				display: flex;
@@ -228,23 +236,25 @@
 					height: 140rpx;
 					position: relative;
 					display: flex;
-					    align-items: center;
-					    justify-content: center;
-					.aui-digit{
-						
-						.h2{
+					align-items: center;
+					justify-content: center;
+
+					.aui-digit {
+
+						.h2 {
 							font-size: 60rpx;
 							font-weight: bold;
 							color: #ffffff;
 							display: inline-block;
-							
+
 						}
-						.txt{
+
+						.txt {
 							font-size: 28rpx;
 							font-weight: bold;
 							color: #ffffff;
 							display: inline-block;
-							
+
 						}
 					}
 				}
@@ -255,73 +265,61 @@
 					height: 100rpx;
 					padding: 20rpx 20rpx 20rpx 40rpx;
 					display: flex;
-					    align-items: center;
-						flex-direction: column;
-						text-align: left;
-						justify-content: flex-start;
-					.h2{
+					align-items: center;
+					flex-direction: column;
+					text-align: left;
+					justify-content: flex-start;
+
+					.h2 {
 						font-size: 28rpx;
 						font-weight: bold;
 						color: #333333;
 						padding-bottom: 10rpx;
 						width: 100%;
-						
+
 					}
-					.txt{
+
+					.txt {
 						font-size: 22rpx;
 						color: #666666;
 						width: 100%;
-						
-						
+
+
 					}
 
 				}
-				.rzbtn{
+
+				.rzbtn {
 					width: 30%;
 					display: flex;
-					    align-items: center;
-						.btn{
-							border-radius: 30rpx;
-							border: none;
-							background-color: #fcf3e6;
-							color: #fb8e39;
-							margin-right: 20rpx;
-							border: 2rpx #fb8e39 solid;
-							padding: 10rpx 20rpx;
-							line-height: 30rpx;
-							font-size: 24rpx;
-							
-						}
+					align-items: center;
+
+					.btn {
+						border-radius: 30rpx;
+						border: none;
+						background-color: #fcf3e6;
+						color: #fb8e39;
+						margin-right: 20rpx;
+						border: 2rpx #fb8e39 solid;
+						padding: 10rpx 20rpx;
+						line-height: 30rpx;
+						font-size: 24rpx;
+
+					}
 				}
 
 
 			}
 
-			.aui-flex:before {
-				// content: '';
-				// height: 80px;
-				// border: 1px dashed #fff;
-				// position: absolute;
-				// left: 30%;
-				// top: 0;
-				// bottom: 0;
-				// margin: auto;
-				// background-image: linear-gradient(to bottom, #eeeeee 5px, transparent 5px, transparent),
-				// 	radial-gradient(10px circle at 5px 10px, transparent 5px, #eeeeee 5px);
-				// background-size: 5px 15px;
-			}
 
-			// .aui-flex:after {
-			//      content: '';
-			//         position: absolute;
-			//         height: 100%;
-			//         width:5px;
-			//         top: 0;
-			//         right: -5px;
-			//         background-image: linear-gradient(to bottom, #eeeeee 5px, transparent 5px, transparent),
-			//         radial-gradient(10px circle at 5px 10px, transparent 5px, #eeeeee 5px);
-			//         background-size: 5px 15px;
-			// }
 		}
+	}
+
+	.popup-cont {
+		border-radius: 50rpx 50rpx 0 0;
+		background-color: #ffffff;
+		padding: 30rpx;
+		overflow-y: scroll;
+		background-color: #ffffff;
 	}
 </style>

@@ -51,7 +51,7 @@ let urlManage = {
 
 	getCollectionList: 'api/user/collection_list', //收藏文章、酒店列表 --刘慧
 
-
+    getUniversityUrl: 'api/home/university', //获取学校
 
 
 
@@ -342,7 +342,12 @@ const getCollectionList = function(type, page, limit) {
 	})
 }
 
-
+// 获取学校
+const getUniversit = function() {
+	return $http.get(urlManage.getUniversityUrl, {
+		
+	})
+}
 export {
 	wxLogin,
 	wxInfo,
@@ -384,4 +389,5 @@ export {
 	cancelOrder,
 	getCollectionList,
 	getUserCollection,
+	getUniversit,
 }

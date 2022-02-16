@@ -165,4 +165,11 @@
   line-height: 30rpx;
   font-size: 24rpx;
 }
+.popup-cont.data-v-15b5ce74 {
+  border-radius: 50rpx 50rpx 0 0;
+  background-color: #ffffff;
+  padding: 30rpx;
+  overflow-y: scroll;
+  background-color: #ffffff;
+}
 

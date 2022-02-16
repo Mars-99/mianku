@@ -282,6 +282,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/student-privilege/authenticate",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "学生认证",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
