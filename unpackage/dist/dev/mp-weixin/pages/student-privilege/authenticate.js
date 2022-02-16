@@ -313,12 +313,6 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
         name: '博士' }],
 
       educationIndex: 1,
-      // multiArray: [
-      // 	['亚洲', '欧洲'],
-      // 	['中国', '日本'],
-      // 	['北京', '上海', '广州']
-      // ],
-      // multiIndex: [0, 0, 0]
       classes: '0-0',
       dataTree: [{
         text: "上海",
