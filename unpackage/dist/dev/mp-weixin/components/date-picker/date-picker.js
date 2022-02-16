@@ -217,6 +217,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   props: {
@@ -251,7 +252,11 @@ var _default =
       type: Number },
 
     weekdaysActivity: {
-      type: Number } },
+      type: Number },
+
+    orderDate: {
+      type: Array } },
+
 
 
   components: {},
@@ -373,8 +378,10 @@ var _default =
       bak_dayCount: 1,
       isShow_H5: '', //用于表示H5平台显示隐藏状态
       isShow_NoH5: false, //用于表示非H5平台显示隐藏状态
-      tmpWeekArr: {} //临时数组
-    };
+      tmpWeekArr: {}, //临时数组
+
+      newArrDate: [] };
+
   },
   created: function created() {
     this.init();
@@ -403,7 +410,6 @@ var _default =
     init: function init() {
       // console.log(this.startDate, this.endDate);
 
-
       // 弹出层动画创建
       this.animation = uni.createAnimation({
         duration: 400, // 整个动画过程花费的时间，单位为毫秒
@@ -413,7 +419,6 @@ var _default =
 
 
       this.dateData();
-
       if (this.modal) {
         //如果是弹窗模式，那么初始时就派发change事件
         this.$emit('change', {
@@ -425,6 +430,7 @@ var _default =
     getDayType: function getDayType(data) {
       return data.re != this.today && data.re != this.tomorrow && data.re != this.afterTomorrow ? data.act.
       subject : '';
+
     },
     getDayName: function getDayName(year, data) {
       var name = data.day;
@@ -813,6 +819,7 @@ var _default =
 
       // console.log(dataAll2, weeks, this.today, this.tomorrow, this.afterTomorrow, this.choiceDate);
       this.date = dataAll2;
+      console.log("dateData", this.date);
       this.weeks = weeks;
       this.choiceDate = this.choiceDate;
       this.choiceDateArr = this.choiceDate;
@@ -863,7 +870,7 @@ var _default =
       // console.log('selectday ', indexs, index);
       this.selectday(index, indexs, true);
     },
-    selectday: function selectday(index, indexs, isUserClick) {
+    selectday: function selectday(index, indexs, isUserClick) {var _this2 = this;
       // console.log("001", this.dateFlag, isUserClick)
       //单个日期
       if (this.singleDate) {
@@ -880,6 +887,16 @@ var _default =
       if (curDate.re < this.today) {
         //如果是用户点击今天之前的日期的话，就返回
         if (isUserClick) return;
+      }
+      if (curDate.act.dingdan == true) {
+        //如果是用户点击今天之前的日期的话，就返回
+        uni.showToast({
+          icon: "none",
+          title: '当前日期无房不可选',
+          duration: 2000,
+          position: 'top' });
+
+        return;
       }
       // console.log("003", indexs)
 
@@ -917,6 +934,32 @@ var _default =
         var nonFlag = false;
         var nonArr = [];
         var count = 0;
+        //详情页过来 判断是否有房
+        if (this.pageSource) {
+
+          var orderDate = this.orderDate;
+          var dateArr = [];
+          var dateArr2 = [];
+          orderDate.forEach(function (date) {
+            dateArr.push({ checkIn: date.checkIn, checkOut: date.checkOut });
+          });
+          dateArr.forEach(function (date2) {
+            dateArr2 += _this2.getdiffdate(date2.checkIn, date2.checkOut) + ",";
+          });
+
+          this.newArrDate = dateArr2.split(",");
+          var _that = this;
+          this.date.forEach(function (dataItems) {
+            dataItems.forEach(function (dataItem) {
+              _that.newArrDate.forEach(function (item) {
+                if (item == dataItem.re) {
+                  dataItem.act.dingdan = true;
+                } else {}
+              });
+            });
+          });
+        }
+
         this.date.forEach(function (dataItems) {
           dataItems.forEach(function (dataItem) {
             if (dataItem.dateTime > dateFlagDateTime && dataItem.dateTime <
@@ -932,6 +975,17 @@ var _default =
           });
         });
         that.choiceDateArr.push(that.date[index][indexs]);
+        that.choiceDateArr.forEach(function (item) {
+          if (item.act.dingdan == true) {
+            uni.showToast({
+              icon: "none",
+              title: '日期无房不可选',
+              duration: 2000,
+              position: 'top' });
+
+            return;
+          }
+        });
         //设置开始和结果两个日期
         this.choiceDate[0] = that.choiceDateArr[0];
 
@@ -947,6 +1001,8 @@ var _default =
               } else {
                 dataItem.act.tip = '入住';
               }
+
+              console.log("dataItems", dataItem);
             });
           });
           this.dateFlag = {
@@ -979,6 +1035,7 @@ var _default =
         // console.log("006")
         var that = this;
         this.date.forEach(function (dataItems) {
+
           dataItems.forEach(function (dataItem) {
             dataItem.act.defaultStr = 0;
             if (dataItem.dateTime != that.date[index][indexs].dateTime) {
@@ -1024,6 +1081,35 @@ var _default =
 
 
       uni.navigateBack();
+    },
+    getdiffdate: function getdiffdate(stime, etime) {
+      //初始化日期列表，数组
+      var diffdate = new Array();
+      var i = 0;
+      //开始日期小于等于结束日期,并循环
+      while (stime <= etime) {
+        diffdate[i] = stime;
+
+        //获取开始日期时间戳
+        var stime_ts = new Date(stime).getTime();
+        // console.log('当前日期：'+stime   +'当前时间戳：'+stime_ts);
+
+        //增加一天时间戳后的日期
+        var next_date = stime_ts + 24 * 60 * 60 * 1000;
+
+        //拼接年月日，这里的月份会返回（0-11），所以要+1
+        var next_dates_y = new Date(next_date).getFullYear() + '-';
+        var next_dates_m = new Date(next_date).getMonth() + 1 < 10 ? '0' + (new Date(next_date).getMonth() + 1) + '-' : new Date(next_date).getMonth() + 1 + '-';
+        var next_dates_d = new Date(next_date).getDate() < 10 ? '0' + new Date(next_date).getDate() : new Date(next_date).getDate();
+
+        stime = next_dates_y + next_dates_m + next_dates_d;
+
+        //增加数组key
+        i++;
+      }
+      diffdate.pop();
+      // console.log(diffdate);
+      return diffdate;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

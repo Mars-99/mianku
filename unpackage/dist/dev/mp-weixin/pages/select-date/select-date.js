@@ -139,6 +139,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
 {
   components: {
     calendar: calendar },
@@ -149,7 +150,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       dateStr: '',
       pageSource: '',
       weekendActivity: 0,
-      weekdaysActivity: 0 };
+      weekdaysActivity: 0,
+      orderDate: [] };
+
+
+  },
+  onLoad: function onLoad() {
 
 
   },
@@ -157,7 +163,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     this.pageSource = this.$mp.query.pageSource;
     this.weekendActivity = this.$mp.query.weekendActivity;
     this.weekdaysActivity = this.$mp.query.weekdaysActivity;
-    console.log("this.pageSource", this.pageSource);
+    if (this.$mp.query.orderDate) {
+      this.orderDate = JSON.parse(this.$mp.query.orderDate);
+      console.log("this.orderDate", this.orderDate);
+    }
+
   },
   methods: {
 

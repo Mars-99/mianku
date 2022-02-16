@@ -342,6 +342,8 @@
 				
 				freeTrialPage:"",
 				freeTrialShow:false,
+				
+				orderDate:[]
 
 
 			}
@@ -467,6 +469,8 @@
 				}
 				// console.log("choiceDateArr",this.choiceDateArr)
 				this.listingsDetail = data.data
+				this.orderDate = data.data.onOrder
+				console.log("orderDate",this.orderDate)
 				this.getCollectionList(0)
 				if (this.dayCount == 1) {
 					if (this.week === 6 || this.week === 5) {
@@ -531,10 +535,13 @@
 				this.week = num
 			},
 			selectDate() {
+				
+				let orderDate = JSON.stringify(this.orderDate)
+				// let orderDate = JSON.stringify(this.orderDate)
 				uni.navigateTo({
 					url: '../select-date/select-date?pageSource=listingsDetail' + '&weekendActivity=' + this
 						.listingsDetail.hotel.weekendActivity + '&weekdaysActivity=' + this.listingsDetail.hotel
-						.weekdaysActivity
+						.weekdaysActivity+'&orderDate='+ orderDate
 				})
 			},
 			getTimeandWeek() {

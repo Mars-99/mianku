@@ -1,6 +1,7 @@
 <template>
 	<view class="content">
-		<calendar ref="calendar" :pageSource="pageSource" :weekendActivity="weekendActivity" :weekdaysActivity="weekdaysActivity" @change="change"></calendar>
+		<calendar ref="calendar" :pageSource="pageSource" :weekendActivity="weekendActivity"
+			:weekdaysActivity="weekdaysActivity" :orderDate="orderDate" @change="change"></calendar>
 	</view>
 </template>
 
@@ -15,17 +16,26 @@
 			return {
 				showCaledar: false,
 				dateStr: '',
-				pageSource:'',
-				weekendActivity:0,
-				weekdaysActivity:0,
+				pageSource: '',
+				weekendActivity: 0,
+				weekdaysActivity: 0,
+				orderDate: [],
 			};
 
 		},
+		onLoad() {
+
+
+		},
 		onShow() {
-			this.pageSource=this.$mp.query.pageSource
-			this.weekendActivity=this.$mp.query.weekendActivity
-			this.weekdaysActivity=this.$mp.query.weekdaysActivity
-			console.log("this.pageSource",this.pageSource)
+			this.pageSource = this.$mp.query.pageSource
+			this.weekendActivity = this.$mp.query.weekendActivity
+			this.weekdaysActivity = this.$mp.query.weekdaysActivity
+			if(this.$mp.query.orderDate){
+				this.orderDate = JSON.parse(this.$mp.query.orderDate)
+				console.log("this.orderDate", this.orderDate)
+			}
+			
 		},
 		methods: {
 

@@ -538,7 +538,9 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
       collectionList: [],
 
       freeTrialPage: "",
-      freeTrialShow: false };
+      freeTrialShow: false,
+
+      orderDate: [] };
 
 
 
@@ -664,6 +666,8 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
                 }
                 // console.log("choiceDateArr",this.choiceDateArr)
                 _this2.listingsDetail = data.data;
+                _this2.orderDate = data.data.onOrder;
+                console.log("orderDate", _this2.orderDate);
                 _this2.getCollectionList(0);
                 if (_this2.dayCount == 1) {
                   if (_this2.week === 6 || _this2.week === 5) {
@@ -701,7 +705,7 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
                   hotelName: _this2.listingsDetail.hotel.hotelName });
 
                 history_data = uni.getStorageInfoSync('history_data');
-                console.log('aaaa:', history_data);case 30:case "end":return _context.stop();}}}, _callee);}))();
+                console.log('aaaa:', history_data);case 32:case "end":return _context.stop();}}}, _callee);}))();
 
     },
     call_phone: function call_phone() {var _this3 = this;
@@ -728,10 +732,13 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
       this.week = num;
     },
     selectDate: function selectDate() {
+
+      var orderDate = JSON.stringify(this.orderDate);
+      // let orderDate = JSON.stringify(this.orderDate)
       uni.navigateTo({
         url: '../select-date/select-date?pageSource=listingsDetail' + '&weekendActivity=' + this.
         listingsDetail.hotel.weekendActivity + '&weekdaysActivity=' + this.listingsDetail.hotel.
-        weekdaysActivity });
+        weekdaysActivity + '&orderDate=' + orderDate });
 
     },
     getTimeandWeek: function getTimeandWeek() {

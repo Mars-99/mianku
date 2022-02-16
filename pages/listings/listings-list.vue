@@ -107,9 +107,9 @@
 					this.checkIn = checkIn
 					this.checkOut = checkOut
 					this.choiceDateArr=this.brand.choiceDateArr
-					console.log("this.brand",this.brand.choiceDateArr)
 					this.checkInYH = this.checkIn.slice(5)
 					this.checkOutYH = this.checkOut.slice(5)
+					this.gethotelList()
 				}
 			} else {
 				return
@@ -122,7 +122,7 @@
 				} = await hotelList(Number(this.cityId), this.checkIn, this.checkOut, this.keywords, this.label, this
 					.districtId, this.flag, this.occupancy, this.bedNum, this.priceValue[0], this.priceValue[1],
 					this.infrastructure, this.houseNum, this.tag, this.rules,this.page,this.limit)
-				// this.listingsList = data.data.hotels
+				this.listingsList = data.data.hotels
 				console.log(data.data.hotels)
 				this.totalPage = data.data.pages
 				if (this.page == 1) {
