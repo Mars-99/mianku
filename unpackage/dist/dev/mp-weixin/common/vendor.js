@@ -2222,7 +2222,7 @@ function normalizeComponent (
 
 /***/ 12:
 /*!**********************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/store/index.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/store/index.js ***!
   \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2352,7 +2352,7 @@ store;exports.default = _default;
 
 /***/ 123:
 /*!************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/common/gcoord.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/common/gcoord.js ***!
   \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -4724,13 +4724,13 @@ module.exports = index_cjs;
 
 /***/ 17:
 /*!*******************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/utils/request/manage.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/request/manage.js ***!
   \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
 var _requestConfig = _interopRequireDefault(__webpack_require__(/*! ./requestConfig.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 接口管理
 var urlManage = {
   wxLoginUrl: 'wx/login', // 微信登录(1-1)
@@ -4756,6 +4756,8 @@ var urlManage = {
   activityPrizeListUrl: 'api/activity/prize', // 获取试睡活动中奖列表
   reportListUrl: 'api/news/report_list', // 获取试睡报告列表
   reportDetailUrl: 'api/news/report', // 获取试睡报告详情
+  activityEnrollUrl: 'api/user/activity_enroll', // 试睡活动报名
+
 
   userMsgList: 'api/user/msg_list', // 消息列表(33)
   userNewMsg: 'api/user/new_msg', // 新消息数(34)
@@ -4930,8 +4932,17 @@ exports.reportList = reportList;var reportDetail = function reportDetail(id) {
     id: id });
 
 };
+// 试睡活动报名
+exports.reportDetail = reportDetail;var activityEnroll = function activityEnroll(hid, contacts, phone) {
+  return _requestConfig.default.post(urlManage.activityEnrollUrl, {
+    hid: hid,
+    contacts: contacts,
+    phone: phone });
+
+};
+
 // 收藏/取消收藏接口(30)
-exports.reportDetail = reportDetail;var getUserCollection = function getUserCollection(id, type) {
+exports.activityEnroll = activityEnroll;var getUserCollection = function getUserCollection(id, type) {
   return _requestConfig.default.post(urlManage.userCollection, {
     id: id, // 收藏的ID
     type: type // 收藏类型 0，商品  1,活动 2，新闻 3,帖子
@@ -5067,7 +5078,7 @@ exports.cancelOrder = cancelOrder;var getCollectionList = function getCollection
 
 /***/ 18:
 /*!**************************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/utils/request/requestConfig.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/request/requestConfig.js ***!
   \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -5136,7 +5147,7 @@ $http;exports.default = _default;
 
 /***/ 19:
 /*!********************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/utils/request/request.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/request/request.js ***!
   \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -5360,7 +5371,7 @@ module.exports = g;
 
 /***/ 20:
 /*!*******************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/utils/functionHandle.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/functionHandle.js ***!
   \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -5642,7 +5653,7 @@ module.exports = {
 
 /***/ 21:
 /*!*********************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/utils/mixins/getMsgNum.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/utils/mixins/getMsgNum.js ***!
   \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -11743,9 +11754,9 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 309:
+/***/ 315:
 /*!***********************************************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-icons/components/uni-icons/icons.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/uni_modules/uni-icons/components/uni-icons/icons.js ***!
   \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -12868,7 +12879,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ 35:
 /*!*****************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/common/getdateTime.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/common/getdateTime.js ***!
   \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -12915,9 +12926,9 @@ module.exports = {
 
 /***/ }),
 
-/***/ 387:
+/***/ 393:
 /*!**************************************************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-forms/components/uni-forms/validate.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/uni_modules/uni-forms/components/uni-forms/validate.js ***!
   \**************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -13876,9 +13887,9 @@ function resolveLocaleChain(locale) {
 
 /***/ }),
 
-/***/ 402:
+/***/ 408:
 /*!*******************************************************************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
   \*******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -14018,7 +14029,7 @@ function createAnimation(option, _this) {
 
 /***/ 5:
 /*!******************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/pages.json ***!
+  !*** C:/Users/yori/Documents/HBuilderProjects/mianku/pages.json ***!
   \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {

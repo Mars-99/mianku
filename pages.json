@@ -273,6 +273,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/free-trial/free-trial-result",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "报名结果",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

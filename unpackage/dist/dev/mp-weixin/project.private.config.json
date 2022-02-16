@@ -83,6 +83,20 @@
                     "name": "支付结果",
                     "pathName": "pages/order/order-result",
                     "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "试睡报名结果",
+                    "pathName": "pages/free-trial/free-trial-result",
+                    "query": "id=7",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/zero-yuan/zero-yuan-detail",
+                    "query": "",
                     "scene": null,
                     "launchMode": "default"
                 }

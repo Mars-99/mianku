@@ -359,4 +359,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.data-v-136f1426 button::after {
+  border: none;
+}
 

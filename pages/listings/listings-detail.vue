@@ -250,6 +250,24 @@
 					<button class="btn" type="primary" size="default" @tap="openOrderConfirm()">立即预定</button>
 				</view>
 			</view>
+			
+			<view class="shishui" v-if="freeTrialShow">
+				<view class='l-part'>
+					<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/shishui.jpg">
+					</image>
+				</view>
+				<view class='c-part'>
+					<view class='t-txt'>试睡活动正在进行中，2月28日截止。</view>
+					<view class='b-txt'>品质民宿免费住</view>
+				</view>
+				<view class="r-part">
+					<button class="btn" type="primary" size="default" @tap="freeTrialApply(listingsDetail.hotel.id)">去报名</button>
+					<view class="icon" @tap="freeTrialClose()">
+						<uni-icons type="closeempty" size="14" color="#cccccc"></uni-icons>
+					</view>
+				</view>
+				
+			</view>
 
 		</view>
 	</view>
@@ -265,6 +283,7 @@
 		hotelDetail,
 		getUserCollection,
 		getCollectionList,
+		activityEnroll,
 	} from '@/utils/request/manage.js'
 	import gcoord from '@/common/gcoord.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
@@ -319,7 +338,10 @@
 				totalPice: 0,
 
 				isCollect: -1,
-				collectionList: []
+				collectionList: [],
+				
+				freeTrialPage:"",
+				freeTrialShow:false,
 
 
 			}
@@ -435,6 +457,10 @@
 				this.checkIn = this.$mp.query.checkIn
 				this.checkOut = this.$mp.query.checkOut
 				this.dayCount = this.$mp.query.dayCount
+				
+				this.freeTrialPage = this.$mp.query.pageRoot
+				this.freeTrial()
+				console.log('freeTrialPage',this.freeTrialPage)
 
 				if (this.$mp.query.choiceDateArr) {
 					this.choiceDateArr = JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
@@ -608,6 +634,38 @@
 					}
 				}
 			},
+			freeTrial(){
+				if(this.freeTrialPage == "试睡"){
+					this.freeTrialShow = true
+				}else{
+					this.freeTrialShow = false
+				}
+			},
+			freeTrialClose(){
+				this.freeTrialShow = false
+			},
+			async freeTrialApply(hid){
+				let current_user = uni.getStorageSync('userinfo')
+				const {
+					data: res
+				} = await activityEnroll(hid,current_user.userName,current_user.phone)
+				if (res.code == 1) {
+					// // this.$api.msg(res.code.msg)
+					// let msg = this.$api.msg(res.code.msg)
+					// console.log("res.code.msg",res.msg)
+					uni.showToast({
+						icon: "none",
+						title: res.msg,
+						duration: 2000,
+						position: 'top'
+					})
+					
+				} else {
+					uni.navigateTo({
+						url: "../free-trial/free-trial-result?id="+this.listingsDetail.hotel.id
+					})
+				}
+			}
 		}
 	}
 </script>
@@ -1036,7 +1094,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		z-index: 2;
+		z-index: 10;
 
 		.left {
 			padding: 0 30rpx;
@@ -1110,5 +1168,65 @@
 		padding: 30rpx;
 		overflow-y: scroll;
 		background-color: #ffffff;
+	}
+	.shishui{
+		position: fixed;
+		bottom: 120rpx;
+		background-color: #ffffff;
+		border-radius: 8rpx;
+		padding: 20rpx 2%;
+		width: 90%;
+		margin: 0 3%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		z-index: 11;
+		height: 100rpx;
+		box-shadow: 0 2px 15px 0 rgba(0,0,0,.1);
+		.l-part{
+			width: 25%;
+			height: 100rpx;
+			overflow: hidden;
+			border-radius: 8rpx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-right: 20rpx;
+			.img{
+				width: 100%;
+			}
+		}
+		.c-part{
+			width: 50%;
+			.t-txt{
+				font-size: 24rpx;
+				color: #666666;
+			}
+			.b-txt{
+				font-size: 22rpx;
+				color: #999999;
+				font-weight: bold;
+			}
+		}
+		.r-part{
+			width: 20%;
+			position: relative;
+			.btn{
+				border-radius: 50rpx;
+				border: none;
+				background-color: #ff941d;
+				color: #ffffff;
+				line-height: 50rpx;
+				font-size: 22rpx;
+			}
+			.icon{
+				position: absolute;
+				top: -40rpx;
+				right: 0;
+			}
+		}
+	}
+	/deep/ button::after {
+		border: none;
 	}
 </style>

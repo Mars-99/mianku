@@ -13,7 +13,7 @@
 		</view>
 		<view class="winning-info">
 			<view class="winner-box">
-				<maoScroll :data="data" :showNum="showNum" :lineHeight="lineHeight" :animationScroll="animationScroll"
+				<maoScroll v-if="prizeList.length>0" :data="data" :showNum="showNum" :lineHeight="lineHeight" :animationScroll="animationScroll"
 					:animation="animation">
 					<template v-slot="{line}">
 						<view class="line">
@@ -33,9 +33,10 @@
 						</view>
 					</template>
 				</maoScroll>
+				<view class="" v-else>还没有人中奖</view>
 			</view>
 			<view class="winner-number">
-				<text class="number">84310</text>
+				<text class="number">{{prizeTotal}}</text>
 				<text class="txt">中奖人数</text>
 			</view>
 		</view>
@@ -65,21 +66,21 @@
 						</view>
 						<view class="info">
 							<uni-icons type="home" size="16" color="#999999"></uni-icons>
-							<text class="txt">整套房源</text>·
+							<text class="txt">整套</text>·
 							<text class="txt">{{listingsItem.houseType}}</text>·
 							<text class="txt">可住{{listingsItem.occupancy}}人</text>
 						</view>
-						<view class="info">
+						<!-- <view class="info">
 							<uni-icons type="location" size="16" color="#999999"></uni-icons>
 							<text class="txt">长沙</text>·
 							<text class="txt">五一广场</text>
-						</view>
+						</view> -->
 						<view class="bottom-info">
 							<view class="price">
 								<view class="CP">￥{{listingsItem.weekdaysOriginal}}</view>
 								<view class="wan">/晚</view>
 							</view>
-							<button class="btn-solid" type="default" size="mini" @tap="">免费住</button>
+							<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(listingsItem)">免费住</button>
 						</view>
 					</view>
 				</view>
@@ -131,7 +132,7 @@
 						</view>
 						<view class="right-info">
 							<view class="name">{{reportItem.writer}}</view>
-							<view class="date">2022年01月幸运试睡官</view>
+							<view class="date">幸运试睡官</view>
 						</view>
 					</view>
 				</view>
@@ -210,6 +211,7 @@
 				ranklist: [],
 
 				prizeList: [],
+				prizeTotal:0,
 				count: 1,
 				limit: 5,
 
@@ -235,13 +237,13 @@
 				this.getReportList()
 			},
 			createData() {
-				for (let i = 0; i <= this.winningList.length + 1; i++) {
-					if (this.winningList[i]) {
+				for (let i = 0; i <= this.prizeList.length + 1; i++) {
+					if (this.prizeList[i]) {
 						this.data.push({
-							avatar: this.winningList[i].avatar,
-							name: this.winningList[i].name,
-							tel: this.winningList[i].tel,
-							prize: '获得' + this.winningList[i].prize + '试住资格',
+							avatar: this.prizeList[i].face,
+							name: this.prizeList[i].userName,
+							tel: this.prizeList[i].phone,
+							prize: '获得' + this.prizeList[i].hotelName + '试住资格',
 						})
 					}
 				}
@@ -284,7 +286,8 @@
 					data
 				} = await activityPrizeList(this.count, this.limit)
 				this.prizeList = data.data.rs;
-				console.log(data.data)
+				this.prizeTotal =  data.data.count
+				console.log("prizeList",this.prizeList)
 
 			},
 			async getReportList() {
@@ -330,7 +333,7 @@
 			},
 			openListingsDetail(item){
 				uni.navigateTo({
-					url: '../listings/listings-detail?id=' + item.id
+					url: '../listings/listings-detail?id=' + item.id+'&pageRoot=试睡'
 				})
 			},
 		}
@@ -760,5 +763,8 @@
 
 		}
 
+	}
+	/deep/ button::after {
+		border: none;
 	}
 </style>

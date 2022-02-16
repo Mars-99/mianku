@@ -24,6 +24,8 @@ let urlManage = {
 	activityPrizeListUrl: 'api/activity/prize', // 获取试睡活动中奖列表
 	reportListUrl: 'api/news/report_list', // 获取试睡报告列表
 	reportDetailUrl: 'api/news/report', // 获取试睡报告详情
+	activityEnrollUrl: 'api/user/activity_enroll', // 试睡活动报名
+	
 
 	userMsgList: 'api/user/msg_list', // 消息列表(33)
 	userNewMsg: 'api/user/new_msg', // 新消息数(34)
@@ -198,6 +200,15 @@ const reportDetail = function(id) {
 		id: id
 	})
 }
+// 试睡活动报名
+const activityEnroll = function(hid,contacts,phone) {
+	return $http.post(urlManage.activityEnrollUrl, {
+		hid:hid,
+		contacts:contacts,
+		phone:phone,
+	})
+}
+
 // 收藏/取消收藏接口(30)
 const getUserCollection = function(id, type) {
 	return $http.post(urlManage.userCollection, {
@@ -349,6 +360,7 @@ export {
 	activityPrizeList,
 	reportList,
 	reportDetail,
+	activityEnroll,
 
 	getUserMsgList,
 	getUserNewMsg,

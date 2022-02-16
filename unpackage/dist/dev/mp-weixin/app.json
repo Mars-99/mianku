@@ -30,7 +30,8 @@
     "pages/zero-yuan/zero-yuan",
     "pages/zero-yuan/zero-yuan-detail",
     "pages/order/order-result",
-    "components/djs/djs"
+    "components/djs/djs",
+    "pages/free-trial/free-trial-result"
   ],
   "subPackages": [],
   "window": {
