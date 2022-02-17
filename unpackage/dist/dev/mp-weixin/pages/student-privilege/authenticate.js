@@ -111,7 +111,7 @@ try {
       return Promise.all(/*! import() | uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker.vue */ 419))
     },
     uploadImg: function() {
-      return Promise.all(/*! import() | components/upload-img/upload-img */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/upload-img/upload-img")]).then(__webpack_require__.bind(null, /*! @/components/upload-img/upload-img.vue */ 533))
+      return Promise.all(/*! import() | components/upload-img/upload-img */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/upload-img/upload-img")]).then(__webpack_require__.bind(null, /*! @/components/upload-img/upload-img.vue */ 429))
     }
   }
 } catch (e) {

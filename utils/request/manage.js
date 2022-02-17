@@ -55,6 +55,8 @@ let urlManage = {
 
     getUniversityUrl: 'api/home/university', //获取学校
 	getAuthenticationUpdateUrl: 'api/user/authentication_update', //学生认证
+	getPrivilegeCouponUrl: 'api/user/getPrivilegeCoupon', //学生特权优惠券
+	
 
 
 
@@ -368,6 +370,12 @@ const authenticationUpdateUrl = function(idCard,frontView,realName,school,educat
 		
 	})
 }
+
+// 学生认证
+const privilegeCoupon = function() {
+	return $http.get(urlManage.getPrivilegeCouponUrl, {
+	})
+}
 export {
 	wxLogin,
 	wxInfo,
@@ -412,4 +420,5 @@ export {
 	getUserCollection,
 	getUniversit,
 	authenticationUpdateUrl,
+	privilegeCoupon
 }

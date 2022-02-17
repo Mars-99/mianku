@@ -16,11 +16,13 @@
 					</uni-easyinput>
 				</view>
 				<filterArea :CBDlist="CBDlist" :hotCBD="hotCBD" :week="week" @districtId="getDistrictId" @flag="getFlag"
-					@occupancy="getOccupancy" @bedNum="getBedNum" @priceValue="getPrice" @infrastructure="getInfrastructure"
-					@houseNum="getHouseNum" @tag="getTag" @rules="getRules"></filterArea>
+					@occupancy="getOccupancy" @bedNum="getBedNum" @priceValue="getPrice"
+					@infrastructure="getInfrastructure" @houseNum="getHouseNum" @tag="getTag" @rules="getRules">
+				</filterArea>
 			</view>
 			<view class="listings-area" v-if="listingsList.length">
-				<listingsItem :listingsList="listingsList" :checkIn="checkIn" :checkOut="checkOut" :choiceDateArr="choiceDateArr" :dayCount="dayCount"></listingsItem>
+				<listingsItem :listingsList="listingsList" :checkIn="checkIn" :checkOut="checkOut"
+					:choiceDateArr="choiceDateArr" :dayCount="dayCount"></listingsItem>
 			</view>
 			<view v-else>暂无房源</view>
 		</view>
@@ -47,8 +49,8 @@
 				listingsList: [],
 				cityId: 1,
 				checkIn: 0,
-				choiceDateArr:[],
-				dayCount:0,
+				choiceDateArr: [],
+				dayCount: 0,
 				checkOut: 0,
 				checkInYH: 0,
 				checkOutYH: 0,
@@ -71,13 +73,13 @@
 				totalPage: 1,
 				currentPage: 1,
 				loadingType: 0,
-				page:1,
-				limit:5,
-				totalPage:0,
-				
-				week:0,
-				pageshow:true,
-				
+				page: 1,
+				limit: 5,
+				totalPage: 0,
+
+				week: 0,
+				pageshow: true,
+
 				isCollect: -1,
 				collectionList: []
 
@@ -90,14 +92,16 @@
 			this.getWeeK()
 		},
 		onShow() {
+			// this.getCollectionList(0)
 			var pages = getCurrentPages();
 			var prevPage = pages[pages.length - 1]
 			this.brand = prevPage.brand
 			if (this.brand) {
-				
+
 				if (this.brand.name) {
 					this.curCityName = this.brand.name
 					this.cityId = this.brand.id;
+					this.page = 1
 					this.gethotelList()
 				}
 				if (this.brand.choiceDate) {
@@ -106,9 +110,10 @@
 					this.dayCount = this.brand.dayCount
 					this.checkIn = checkIn
 					this.checkOut = checkOut
-					this.choiceDateArr=this.brand.choiceDateArr
+					this.choiceDateArr = this.brand.choiceDateArr
 					this.checkInYH = this.checkIn.slice(5)
 					this.checkOutYH = this.checkOut.slice(5)
+					this.page = 1
 					this.gethotelList()
 				}
 			} else {
@@ -121,17 +126,17 @@
 					data
 				} = await hotelList(Number(this.cityId), this.checkIn, this.checkOut, this.keywords, this.label, this
 					.districtId, this.flag, this.occupancy, this.bedNum, this.priceValue[0], this.priceValue[1],
-					this.infrastructure, this.houseNum, this.tag, this.rules,this.page,this.limit)
+					this.infrastructure, this.houseNum, this.tag, this.rules, this.page, this.limit)
 				this.totalPage = data.data.pages
 				if (this.page == 1) {
 					this.listingsList = data.data.hotels
-					this.pageshow=false
-					
+					this.pageshow = false
+
 				} else {
 					this.listingsList = this.listingsList.concat(data.data.hotels)
-				
-					this.pageshow=false
+					this.pageshow = false
 				}
+				this.getCollectionList(0)
 
 			},
 			async getCity() {
@@ -149,17 +154,17 @@
 				this.curCityName = this.$mp.query.curCityName
 				this.checkIn = this.$mp.query.checkIn
 				this.checkOut = this.$mp.query.checkOut
-				this.dayCount=this.$mp.query.dayCount
+				this.dayCount = this.$mp.query.dayCount
 				this.keywords = this.$mp.query.keywords
 				this.label = this.$mp.query.label
-				this.flag=this.$mp.query.flag
-				this.choiceDateArr=JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
+				this.flag = this.$mp.query.flag
+				this.choiceDateArr = JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
 				// console.log("this.choiceDateArraaaaa",this.choiceDateArr)
-				
+
 				this.checkInYH = this.checkIn.slice(5)
 				this.checkOutYH = this.checkOut.slice(5)
+				this.page = 1
 				this.gethotelList()
-				this.getCollectionList(0)
 			},
 			openCtiy(id) {
 				uni.navigateTo({
@@ -176,63 +181,78 @@
 				// console.log(e)
 			},
 			getDistrictId(data) {
+				this.page = 1
 				this.districtId = data
 				this.gethotelList()
 			},
 			getFlag(data) {
 				if (data == "首单立减") {
+					this.page = 1
 					this.flag = "h"
 					// console.log("this.flag", this.flag)
 					this.gethotelList()
+					return
 				}
 				if (data == "今日特价") {
+					this.page = 1
 					this.flag = "c"
 					// console.log("this.flag", this.flag)
 					this.gethotelList()
+					return
 				}
 				if (data == "新房优惠") {
+					this.page = 1
 					this.flag = "j"
 					this.gethotelList()
-				} else {
-					this.flag = ''
-					this.gethotelList()
+					return
 				}
+				this.page = 1
+				this.flag = ''
+				this.gethotelList()
 
 			},
 			getOccupancy(data) {
+				this.page = 1
 				this.occupancy = data
 				this.gethotelList()
 			},
 			getBedNum(data) {
+				this.page = 1
 				this.bedNum = data
+				this.listingsList = []
 				this.gethotelList()
 			},
 			getPrice(data) {
+				this.page = 1
 				this.priceValue = data
 				// console.log("this.priceValue", this.priceValue)
 				this.gethotelList()
 			},
 			getInfrastructure(data) {
+				this.page = 1
 				this.infrastructure = data.toString()
 				// console.log("this.infrastructure", this.infrastructure)
 				this.gethotelList()
 			},
 			getHouseNum(data) {
+				this.page = 1
 				this.houseNum = data
 				this.gethotelList()
 			},
 			getTag(data) {
+				this.page = 1
 				this.tag = data.toString()
 				this.gethotelList()
 			},
 			getRules(data) {
+				this.page = 1
 				this.rules = data.toString()
 				this.gethotelList()
 			},
-			getWeeK(){
+			getWeeK() {
 				var now = new Date();
 				var num = now.getDay(now)
-				this.week=num
+				this.week = num
 			},
 			async getCollectionList(type) {
 				const {
@@ -245,12 +265,12 @@
 					this.collec()
 					// console.log("收藏列表", this.collectionList)
 				}
-				
-				
+
+
 			},
-			collec(){
+			collec() {
 				let that = this
-				this.listingsList.forEach(item=>{
+				this.listingsList.forEach(item => {
 					let isCollect = this.collectionList.find(_item => _item.cid === item.id)
 					if (isCollect) {
 						if (isCollect.cid == item.id) {
@@ -265,15 +285,15 @@
 			}
 		},
 		onReachBottom() {
-			
-			if(this.page>=this.totalPage){
+
+			if (this.page >= this.totalPage) {
 				return
-			}else{
+			} else {
 				this.page += 1
 				this.gethotelList()
 			}
 		},
-	
+
 	}
 </script>
 <style scoped lang="scss">

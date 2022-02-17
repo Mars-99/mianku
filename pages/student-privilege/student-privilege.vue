@@ -46,7 +46,8 @@
 					text="用户小小眠 认证了学生特权卡 下单了【眠库·克莱因蓝bearbrick】五一广场·国金中心IFS·超级文和友·茶颜悦色·免费寄存·一居两床 房源"></uni-notice-bar>
 			</view>
 			<view class="approve">
-				<button class="btn" type="primary" size="default" @tap="openAuthenticate()">立即认证</button>
+				<button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">认证已通过</button>
+				<button class="btn" type="primary" size="default" @tap="openAuthenticate()" v-else>立即认证</button>
 			</view>
 		</view>
 		<view class="discount-list">
@@ -81,7 +82,7 @@
 					<view class="txt">生日当月使用,最高立减60</view>
 				</view>
 				<view class="rzbtn">
-					<button class="btn" type="primary" size="default" @tap="">认证领取</button>
+					<button class="btn" type="primary" size="default" @tap="openAuthenticate">认证领取</button>
 				</view>
 			</view>
 		</view>
@@ -90,7 +91,8 @@
 
 <script>
 	import {
-		userDetail
+		userDetail,
+		privilegeCoupon
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
@@ -100,6 +102,7 @@
 		},
 		onLoad() {
 			this.getUserDetail()
+			this.getPrivilegeCoupon()
 		},
 		methods: {
 			openAuthenticate() {
@@ -125,6 +128,18 @@
 				} else {
 					this.userDetail = res.data
 					console.log(this.userDetail)
+				}
+			
+			},
+			async getPrivilegeCoupon() {
+				const {
+					data: res
+				} = await privilegeCoupon()
+				if (res.code == 1) {
+					return this.$api.msg(res.msg)
+				} else {
+					
+					console.log("getPrivilegeCoupon",res)
 				}
 			
 			},

@@ -183,6 +183,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _filterArea = _interopRequireDefault(__webpack_require__(/*! @/components/filter-area/filter-area.vue */ 108));
 var _listingsItem = _interopRequireDefault(__webpack_require__(/*! @/components/listings-item/listings-item.vue */ 44));
 
@@ -245,6 +247,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
     this.getWeeK();
   },
   onShow: function onShow() {
+    // this.getCollectionList(0)
     var pages = getCurrentPages();
     var prevPage = pages[pages.length - 1];
     this.brand = prevPage.brand;
@@ -253,6 +256,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
       if (this.brand.name) {
         this.curCityName = this.brand.name;
         this.cityId = this.brand.id;
+        this.page = 1;
         this.gethotelList();
       }
       if (this.brand.choiceDate) {
@@ -264,6 +268,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
         this.choiceDateArr = this.brand.choiceDateArr;
         this.checkInYH = this.checkIn.slice(5);
         this.checkOutYH = this.checkOut.slice(5);
+        this.page = 1;
         this.gethotelList();
       }
     } else {
@@ -284,9 +289,9 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
                 } else {
                   _this.listingsList = _this.listingsList.concat(data.data.hotels);
-
                   _this.pageshow = false;
-                }case 6:case "end":return _context.stop();}}}, _callee);}))();
+                }
+                _this.getCollectionList(0);case 7:case "end":return _context.stop();}}}, _callee);}))();
 
     },
     getCity: function getCity() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$city, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
@@ -313,8 +318,8 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
       this.checkInYH = this.checkIn.slice(5);
       this.checkOutYH = this.checkOut.slice(5);
+      this.page = 1;
       this.gethotelList();
-      this.getCollectionList(0);
     },
     openCtiy: function openCtiy(id) {
       uni.navigateTo({
@@ -331,56 +336,71 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
       // console.log(e)
     },
     getDistrictId: function getDistrictId(data) {
+      this.page = 1;
       this.districtId = data;
       this.gethotelList();
     },
     getFlag: function getFlag(data) {
       if (data == "首单立减") {
+        this.page = 1;
         this.flag = "h";
         // console.log("this.flag", this.flag)
         this.gethotelList();
+        return;
       }
       if (data == "今日特价") {
+        this.page = 1;
         this.flag = "c";
         // console.log("this.flag", this.flag)
         this.gethotelList();
+        return;
       }
       if (data == "新房优惠") {
+        this.page = 1;
         this.flag = "j";
         this.gethotelList();
-      } else {
-        this.flag = '';
-        this.gethotelList();
+        return;
       }
+      this.page = 1;
+      this.flag = '';
+      this.gethotelList();
 
     },
     getOccupancy: function getOccupancy(data) {
+      this.page = 1;
       this.occupancy = data;
       this.gethotelList();
     },
     getBedNum: function getBedNum(data) {
+      this.page = 1;
       this.bedNum = data;
+      this.listingsList = [];
       this.gethotelList();
     },
     getPrice: function getPrice(data) {
+      this.page = 1;
       this.priceValue = data;
       // console.log("this.priceValue", this.priceValue)
       this.gethotelList();
     },
     getInfrastructure: function getInfrastructure(data) {
+      this.page = 1;
       this.infrastructure = data.toString();
       // console.log("this.infrastructure", this.infrastructure)
       this.gethotelList();
     },
     getHouseNum: function getHouseNum(data) {
+      this.page = 1;
       this.houseNum = data;
       this.gethotelList();
     },
     getTag: function getTag(data) {
+      this.page = 1;
       this.tag = data.toString();
       this.gethotelList();
     },
     getRules: function getRules(data) {
+      this.page = 1;
       this.rules = data.toString();
       this.gethotelList();
     },

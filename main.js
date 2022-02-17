@@ -5,6 +5,8 @@ import App from './App'
 import store from './store'
 import { timeHandle,tranNumber,registrationTimeHandle } from "@/utils/functionHandle.js"
 import getMsgNum from '@/utils/mixins/getMsgNum.js'
+import share from '@/utils/share.js'
+Vue.mixin(share)
 Vue.prototype.$store = store
 const msg = (title, duration=1500, mask=false, icon='none')=>{
 	//统一提示方便全局修改

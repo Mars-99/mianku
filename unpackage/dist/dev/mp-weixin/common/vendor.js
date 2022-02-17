@@ -4730,7 +4730,7 @@ module.exports = index_cjs;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.authenticationUpdateUrl = exports.getUniversit = exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUpload = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.privilegeCoupon = exports.authenticationUpdateUrl = exports.getUniversit = exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUpload = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
 var _requestConfig = _interopRequireDefault(__webpack_require__(/*! ./requestConfig.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 接口管理
 var urlManage = {
   wxLoginUrl: 'wx/login', // 微信登录(1-1)
@@ -4786,8 +4786,10 @@ var urlManage = {
   getCollectionList: 'api/user/collection_list', //收藏文章、酒店列表 --刘慧
 
   getUniversityUrl: 'api/home/university', //获取学校
-  getAuthenticationUpdateUrl: 'api/user/authentication_update' //学生认证
+  getAuthenticationUpdateUrl: 'api/user/authentication_update', //学生认证
+  getPrivilegeCouponUrl: 'api/user/getPrivilegeCoupon' //学生特权优惠券
 };
+
 
 
 
@@ -5099,7 +5101,13 @@ exports.getUniversit = getUniversit;var authenticationUpdateUrl = function authe
     enrollmentYear: enrollmentYear });
 
 
-};exports.authenticationUpdateUrl = authenticationUpdateUrl;
+};
+
+// 学生认证
+exports.authenticationUpdateUrl = authenticationUpdateUrl;var privilegeCoupon = function privilegeCoupon() {
+  return _requestConfig.default.get(urlManage.getPrivilegeCouponUrl, {});
+
+};exports.privilegeCoupon = privilegeCoupon;
 
 /***/ }),
 
@@ -14512,7 +14520,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 443:
+/***/ 441:
 /*!*******************************************************************************************************************************!*\
   !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
   \*******************************************************************************************************************************/
@@ -14652,7 +14660,7 @@ function createAnimation(option, _this) {
 
 /***/ }),
 
-/***/ 449:
+/***/ 447:
 /*!************************************************************************************************************************!*\
   !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-load-more/components/uni-load-more/i18n/index.js ***!
   \************************************************************************************************************************/
@@ -14660,9 +14668,9 @@ function createAnimation(option, _this) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 450));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 451));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 452));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 448));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 449));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 450));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -14670,7 +14678,7 @@ var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 4
 
 /***/ }),
 
-/***/ 450:
+/***/ 448:
 /*!***********************************************************************************************************************!*\
   !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-load-more/components/uni-load-more/i18n/en.json ***!
   \***********************************************************************************************************************/
@@ -14681,7 +14689,7 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show mo
 
 /***/ }),
 
-/***/ 451:
+/***/ 449:
 /*!****************************************************************************************************************************!*\
   !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hans.json ***!
   \****************************************************************************************************************************/
@@ -14692,7 +14700,7 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多
 
 /***/ }),
 
-/***/ 452:
+/***/ 450:
 /*!****************************************************************************************************************************!*\
   !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hant.json ***!
   \****************************************************************************************************************************/
@@ -14711,6 +14719,71 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉顯示更多
 /***/ (function(module, exports) {
 
 
+
+/***/ }),
+
+/***/ 515:
+/*!**********************************************************************!*\
+  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/utils/share.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  data: function data() {
+    return {
+      //设置默认的分享参数
+      share: {
+        title: 'ALAPI',
+        path: '/pages/index/index',
+        imageUrl: '',
+        desc: '',
+        content: '' } };
+
+
+  },
+  onShareAppMessage: function onShareAppMessage(res) {
+    return {
+      title: this.share.title,
+      path: this.share.path,
+      imageUrl: this.share.imageUrl,
+      desc: this.share.desc,
+      content: this.share.content,
+      success: function success(res) {
+        uni.showToast({
+          title: '分享成功' });
+
+      },
+      fail: function fail(res) {
+        uni.showToast({
+          title: '分享失败',
+          icon: 'none' });
+
+      } };
+
+  },
+  onShareTimeline: function onShareTimeline(res) {
+    return {
+      title: this.share.title,
+      path: this.share.path,
+      imageUrl: this.share.imageUrl,
+      desc: this.share.desc,
+      content: this.share.content,
+      success: function success(res) {
+        uni.showToast({
+          title: '分享成功' });
+
+      },
+      fail: function fail(res) {
+        uni.showToast({
+          title: '分享失败',
+          icon: 'none' });
+
+      } };
+
+  } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
 

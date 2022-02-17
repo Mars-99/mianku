@@ -13,51 +13,57 @@
 				</swiper>
 			</uni-swiper-dot>
 		</view>
-		
+
 		<!-- 首页筛选区域 -->
 		<listingsFilter :curCityName="curCityName" :curCityId="curCityId" :checkIn="checkIn" :checkOut="checkOut"
-			:dayCount="dayCount" :choiceDateArr="choiceDateArr" @keywords="getChild" @changeData="getHomeList"></listingsFilter>
+			:dayCount="dayCount" :choiceDateArr="choiceDateArr" @keywords="getChild" @changeData="getHomeList">
+		</listingsFilter>
 
-        <!-- 首页金刚区 -->
+		<!-- 首页金刚区 -->
 		<view class="king-kong">
 			<view class="kk-item" @tap="openStudentPrivilege()">
 				<view class="kk-title">学生特权</view>
 				<view class="kk-img">
-					<image mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kingkong-icon-student.png">
+					<image mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kingkong-icon-student.png">
 					</image>
 				</view>
 			</view>
 			<view class="kk-item" @tap="openFreeTrialPage()">
 				<view class="kk-title">民宿免费住</view>
 				<view class="kk-img">
-					<image mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kingkong-icon-mfz.png">
+					<image mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kingkong-icon-mfz.png">
 					</image>
 				</view>
 			</view>
 			<view class="kk-item" @tap="openZeroYuanPage()">
 				<view class="kk-title">0元领福利</view>
 				<view class="kk-img">
-					<image mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kingkong-icon-fuli.png">
+					<image mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kingkong-icon-fuli.png">
 					</image>
 				</view>
 			</view>
 			<view class="kk-item" @tap="openListingsTopPage()">
 				<view class="kk-title">TOP美宿</view>
 				<view class="kk-img">
-					<image mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kingkong-icon-top.png">
+					<image mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kingkong-icon-top.png">
 					</image>
 				</view>
 			</view>
 		</view>
 
-         <!-- 首页精选民宿 -->
+		<!-- 首页精选民宿 -->
 		<view class="choice">
 			<view>
 				<uni-title type="h1" title="精选民宿 "></uni-title>
 			</view>
 			<view class="main-picture" @tap="openFindPage()">
 				<view>
-					<image mode="widthFix" :v-if="choicData[choicCurrentIndex].image" :src="choicData[choicCurrentIndex].image">
+					<image mode="widthFix" :v-if="choicData[choicCurrentIndex].image"
+						:src="choicData[choicCurrentIndex].image">
 					</image>
 				</view>
 				<view class="main-text">
@@ -78,7 +84,7 @@
 				</uni-col>
 			</uni-row>
 		</view>
-		
+
 		<!-- 首页新品特惠 -->
 		<view class="special-column">
 			<view>
@@ -88,7 +94,8 @@
 				<uni-col :span="14">
 					<view class="demo-uni-col">
 						<view class="special-item" @tap="openListingsDiscountPage('h')">
-							<image mode="heightFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/sdlj-bg.png">
+							<image mode="heightFix"
+								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/sdlj-bg.png">
 							</image>
 							<view class="main-text">
 								<h3>首单立减</h3>
@@ -99,9 +106,10 @@
 				</uni-col>
 				<uni-col :span="10">
 					<view class="demo-uni-col">
-						<view class="special-item" >
+						<view class="special-item">
 							<view class="item" @tap="openListingsDiscountPage('c')">
-								<image mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrtj-bg.png">
+								<image mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrtj-bg.png">
 								</image>
 								<view class="main-text">
 									<h3>今日特价</h3>
@@ -109,7 +117,8 @@
 								</view>
 							</view>
 							<view class="item" @tap="openListingsDiscountPage('j')">
-								<image mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/xfth-bg.png">
+								<image mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/xfth-bg.png">
 								</image>
 								<view class="main-text">
 									<h3>新房特惠</h3>
@@ -121,7 +130,7 @@
 				</uni-col>
 			</uni-row>
 		</view>
-		
+
 		<!-- 热门城市 -->
 		<view class="hot-city">
 			<view>
@@ -154,11 +163,11 @@
 		},
 		data() {
 			return {
-				listingsBanner: [],//轮播图
+				listingsBanner: [], //轮播图
 				current: 0,
 				mode: 'round',
-				
-				
+
+
 				checkIn: '选择入住日期',
 				checkOut: '选择离店日期',
 				dayCount: 1,
@@ -189,39 +198,45 @@
 				choicURL: "bbb",
 				hotCityData: [],
 				check: [],
-				brand:[],
-				choiceDateArr:[]
+				brand: [],
+				choiceDateArr: [],
+				share: {
+					title: '眠库小程序',
+					path: '/pages/index/index',
+					imageUrl: '',
+					desc: '',
+					content: ''
+				}
 
 			}
 		},
 		onLoad() {
 			this.init()
-			
+
 		},
 		onShow() {
-			
-			var pages  = getCurrentPages();
+
+			var pages = getCurrentPages();
 			var prevPage = pages[pages.length - 1]
-			this.brand=prevPage.brand
-			 if(this.brand){
-				 console.log("bbb", this.brand)
-				 	if (this.brand.name) {
-				 		this.curCityName = this.brand.name
-				 		this.curCityId = this.brand.id;
-						this.getHomeList(this.curCityId)
-				 	}
-					if (this.brand.choiceDate) {
-						var checkIn = this.brand.choiceDate[0].re
-						var checkOut = this.brand.choiceDate[1].re
-						this.dayCount = this.brand.dayCount
-						this.checkIn = checkIn
-						this.checkOut = checkOut
-						this.choiceDateArr=this.brand.choiceDateArr
-					}
-			 }
-			 else{
-				 return
-			 }
+			this.brand = prevPage.brand
+			if (this.brand) {
+				console.log("bbb", this.brand)
+				if (this.brand.name) {
+					this.curCityName = this.brand.name
+					this.curCityId = this.brand.id;
+					this.getHomeList(this.curCityId)
+				}
+				if (this.brand.choiceDate) {
+					var checkIn = this.brand.choiceDate[0].re
+					var checkOut = this.brand.choiceDate[1].re
+					this.dayCount = this.brand.dayCount
+					this.checkIn = checkIn
+					this.checkOut = checkOut
+					this.choiceDateArr = this.brand.choiceDateArr
+				}
+			} else {
+				return
+			}
 		},
 		computed: {
 			// 计算当前图片位置
@@ -241,9 +256,9 @@
 		},
 		methods: {
 			// 初始化数据
-			init(){
-				this.curCityId= 1,
-				this.curCityName='长沙'
+			init() {
+				this.curCityId = 1,
+					this.curCityName = '长沙'
 				this.getHomeList(this.curCityId)
 				this.getTimeandWeek()
 			},
@@ -263,7 +278,7 @@
 				if (index === 2) {
 					this.choicURL = this.choicData[index].url + this.curCityId + '&checkIn=' + this.checkIn +
 						'&checkOut=' + this.checkOut + '&curCityName=' + this.curCityName + '&keywords=' + this
-						.keywords+'&dayCount='+this.dayCount+'&choiceDateArr='+choiceDateArr+'&label=安心民宿'
+						.keywords + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr + '&label=安心民宿'
 				}
 
 			},
@@ -281,14 +296,14 @@
 					url: this.choicURL
 				})
 			},
-			openZeroYuanPage(){
+			openZeroYuanPage() {
 				uni.navigateTo({
 					url: '../zero-yuan/zero-yuan'
 				})
 			},
 			openFreeTrialPage() {
 				uni.navigateTo({
-					url: '../free-trial/free-trial?cityId='+this.curCityId
+					url: '../free-trial/free-trial?cityId=' + this.curCityId
 				})
 			},
 			openStudentPrivilege() {
@@ -324,7 +339,8 @@
 				uni.navigateTo({
 					url: '../listings/listings-list?cityId=' + this.curCityId + '&checkIn=' + this.checkIn +
 						'&checkOut=' + this.checkOut + '&curCityName=' + this.curCityName + '&keywords=' + this
-						.keywords+'&dayCount='+this.dayCount+'&choiceDateArr='+choiceDateArr+'&label=top美宿'
+						.keywords + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr +
+						'&label=top美宿'
 				})
 			},
 			openListingsDiscountPage(flag) {
@@ -332,7 +348,8 @@
 				uni.navigateTo({
 					url: '../listings/listings-list?cityId=' + this.curCityId + '&checkIn=' + this.checkIn +
 						'&checkOut=' + this.checkOut + '&curCityName=' + this.curCityName + '&keywords=' + this
-						.keywords+'&dayCount='+this.dayCount+'&choiceDateArr='+choiceDateArr+'&flag='+flag
+						.keywords + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr + '&flag=' +
+						flag
 				})
 			},
 		}

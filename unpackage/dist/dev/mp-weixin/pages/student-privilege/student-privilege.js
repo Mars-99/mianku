@@ -247,7 +247,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
+
 
 
 {
@@ -258,6 +260,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
   },
   onLoad: function onLoad() {
     this.getUserDetail();
+    this.getPrivilegeCoupon();
   },
   methods: {
     openAuthenticate: function openAuthenticate() {
@@ -283,6 +286,18 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
                 _this.userDetail = res.data;
                 console.log(_this.userDetail);case 10:case "end":return _context.stop();}}}, _callee);}))();
+
+
+    },
+    getPrivilegeCoupon: function getPrivilegeCoupon() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$privilegeCoupo, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+
+
+                  (0, _manage.privilegeCoupon)());case 2:_yield$privilegeCoupo = _context2.sent;res = _yield$privilegeCoupo.data;if (!(
+                res.code == 1)) {_context2.next = 8;break;}return _context2.abrupt("return",
+                _this2.$api.msg(res.msg));case 8:
+
+
+                console.log("getPrivilegeCoupon", res);case 9:case "end":return _context2.stop();}}}, _callee2);}))();
 
 
     } } };exports.default = _default;

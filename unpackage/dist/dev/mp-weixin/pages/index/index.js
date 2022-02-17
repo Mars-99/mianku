@@ -301,6 +301,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
 var _listingsFilter = _interopRequireDefault(__webpack_require__(/*! ../../components/listings-filter/listings-filter.vue */ 28));
 var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);
 
@@ -348,7 +357,14 @@ var _getdateTime = _interopRequireDefault(__webpack_require__(/*! @/common/getda
       hotCityData: [],
       check: [],
       brand: [],
-      choiceDateArr: [] };
+      choiceDateArr: [],
+      share: {
+        title: '眠库小程序',
+        path: '/pages/index/index',
+        imageUrl: '',
+        desc: '',
+        content: '' } };
+
 
 
   },
@@ -376,8 +392,7 @@ var _getdateTime = _interopRequireDefault(__webpack_require__(/*! @/common/getda
         this.checkOut = checkOut;
         this.choiceDateArr = this.brand.choiceDateArr;
       }
-    } else
-    {
+    } else {
       return;
     }
   },
@@ -482,7 +497,8 @@ var _getdateTime = _interopRequireDefault(__webpack_require__(/*! @/common/getda
       uni.navigateTo({
         url: '../listings/listings-list?cityId=' + this.curCityId + '&checkIn=' + this.checkIn +
         '&checkOut=' + this.checkOut + '&curCityName=' + this.curCityName + '&keywords=' + this.
-        keywords + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr + '&label=top美宿' });
+        keywords + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr +
+        '&label=top美宿' });
 
     },
     openListingsDiscountPage: function openListingsDiscountPage(flag) {
@@ -490,7 +506,8 @@ var _getdateTime = _interopRequireDefault(__webpack_require__(/*! @/common/getda
       uni.navigateTo({
         url: '../listings/listings-list?cityId=' + this.curCityId + '&checkIn=' + this.checkIn +
         '&checkOut=' + this.checkOut + '&curCityName=' + this.curCityName + '&keywords=' + this.
-        keywords + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr + '&flag=' + flag });
+        keywords + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr + '&flag=' +
+        flag });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

@@ -542,8 +542,14 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
       freeTrialPage: "",
       freeTrialShow: false,
 
-      orderDate: [] };
+      orderDate: [],
 
+      share: {
+        title: '眠库小程序',
+        path: '/pages/index/index',
+        imageUrl: '',
+        desc: '',
+        content: '' } };
 
 
   },
@@ -644,17 +650,11 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
       // 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
       this.$refs.popup.open('bottom');
     },
-    getHotelDetail: function getHotelDetail() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$hotelDetail, data, result, historyList, selectobj;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-
-                // if(!this.$mp.query.id){
-                // 	this.curID=this.listingsDetail.hotel.id
-                // }else{
-                // 	this.curID = Number(this.$mp.query.id)
-                // }
-                console.log("this.$mp.query", _this2.$mp.query);_context.next = 3;return (
+    getHotelDetail: function getHotelDetail() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$hotelDetail, data, result, historyList, selectobj;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
 
 
-                  (0, _manage.hotelDetail)(Number(_this2.$mp.query.id)));case 3:_yield$hotelDetail = _context.sent;data = _yield$hotelDetail.data;
+
+                  (0, _manage.hotelDetail)(Number(_this2.$mp.query.id)));case 2:_yield$hotelDetail = _context.sent;data = _yield$hotelDetail.data;
                 _this2.checkIn = _this2.$mp.query.checkIn;
                 _this2.checkOut = _this2.$mp.query.checkOut;
                 _this2.dayCount = _this2.$mp.query.dayCount;
@@ -717,6 +717,7 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
                 if (historyList.length > 10) {
                   historyList.pop();
                 }
+                _this2.Share();
                 uni.setStorageSync('history_list', historyList);case 35:case "end":return _context.stop();}}}, _callee);}))();
 
     },
@@ -881,6 +882,11 @@ var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js 
                     url: "../free-trial/free-trial-result?id=" + _this6.listingsDetail.hotel.id });
 
                 }case 6:case "end":return _context4.stop();}}}, _callee4);}))();
+    },
+    Share: function Share() {
+      this.share.title = this.listingsDetail.hotel.hotelName;
+      this.share.path = '@/listings/listings-detail?id=' + this.listingsDetail.hotel.id;
+      this.share.imageUrl = this.listingsDetail.hotel.thum;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -80,7 +80,7 @@ var components
 try {
   components = {
     uniLoadMore: function() {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 444))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 442))
     },
     uniIcons: function() {
       return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 326))
@@ -246,7 +246,7 @@ var _uniDataPicker = _interopRequireDefault(__webpack_require__(/*! ../uni-data-
 //
 //
 //
-var DataPickerView = function DataPickerView() {__webpack_require__.e(/*! require.ensure | uni_modules/uni-data-picker/components/uni-data-pickerview/uni-data-pickerview */ "uni_modules/uni-data-picker/components/uni-data-pickerview/uni-data-pickerview").then((function () {return resolve(__webpack_require__(/*! ../uni-data-pickerview/uni-data-pickerview.vue */ 455));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);}; /**
+var DataPickerView = function DataPickerView() {__webpack_require__.e(/*! require.ensure | uni_modules/uni-data-picker/components/uni-data-pickerview/uni-data-pickerview */ "uni_modules/uni-data-picker/components/uni-data-pickerview/uni-data-pickerview").then((function () {return resolve(__webpack_require__(/*! ../uni-data-pickerview/uni-data-pickerview.vue */ 453));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);}; /**
                                                                                                                                                                                                                                                    * DataPicker 级联选择
                                                                                                                                                                                                                                                    * @description 支持单列、和多列级联选择。列数没有限制，如果屏幕显示不全，顶部tab区域会左右滚动。
                                                                                                                                                                                                                                                    * @tutorial https://ext.dcloud.net.cn/plugin?id=3796

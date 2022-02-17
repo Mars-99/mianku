@@ -345,9 +345,15 @@
 				freeTrialPage: "",
 				freeTrialShow: false,
 
-				orderDate: []
+				orderDate: [],
 
-
+				share: {
+					title: '眠库小程序',
+					path: '/pages/index/index',
+					imageUrl: '',
+					desc: '',
+					content: ''
+				}
 			}
 		},
 		filters: {
@@ -429,7 +435,7 @@
 			openDetailMap() {
 				let markers = JSON.stringify(this.markers)
 				uni.navigateTo({
-					url: '../listings/detail-map?markers='+markers
+					url: '../listings/detail-map?markers=' + markers
 				})
 			},
 			openOrderConfirm() {
@@ -448,13 +454,7 @@
 				this.$refs.popup.open('bottom')
 			},
 			async getHotelDetail() {
-
-				// if(!this.$mp.query.id){
-				// 	this.curID=this.listingsDetail.hotel.id
-				// }else{
-				// 	this.curID = Number(this.$mp.query.id)
-				// }
-				console.log("this.$mp.query",this.$mp.query)
+				
 				const {
 					data
 				} = await hotelDetail(Number(this.$mp.query.id))
@@ -517,9 +517,10 @@
 					}
 				}
 				//历史浏览记录超过10个，则删除最早浏览的记录
-				if(historyList.length>10){
+				if (historyList.length > 10) {
 					historyList.pop()
 				}
+				this.Share()
 				uni.setStorageSync('history_list', historyList)
 
 			},
@@ -684,6 +685,11 @@
 						url: "../free-trial/free-trial-result?id=" + this.listingsDetail.hotel.id
 					})
 				}
+			},
+			Share(){
+				this.share.title = this.listingsDetail.hotel.hotelName
+				this.share.path = '@/listings/listings-detail?id=' + this.listingsDetail.hotel.id
+				this.share.imageUrl = this.listingsDetail.hotel.thum
 			}
 		}
 	}
