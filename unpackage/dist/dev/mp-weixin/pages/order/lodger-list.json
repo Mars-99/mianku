@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "常用入住人",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
-    "page-load": "/components/pageLoad/pageLoad"
-  }
-}

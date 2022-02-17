@@ -250,10 +250,11 @@
 					<button class="btn" type="primary" size="default" @tap="openOrderConfirm()">立即预定</button>
 				</view>
 			</view>
-			
+
 			<view class="shishui" v-if="freeTrialShow">
 				<view class='l-part'>
-					<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/shishui.jpg">
+					<image class="img" mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/shishui.jpg">
 					</image>
 				</view>
 				<view class='c-part'>
@@ -261,12 +262,13 @@
 					<view class='b-txt'>品质民宿免费住</view>
 				</view>
 				<view class="r-part">
-					<button class="btn" type="primary" size="default" @tap="freeTrialApply(listingsDetail.hotel.id)">去报名</button>
+					<button class="btn" type="primary" size="default"
+						@tap="freeTrialApply(listingsDetail.hotel.id)">去报名</button>
 					<view class="icon" @tap="freeTrialClose()">
 						<uni-icons type="closeempty" size="14" color="#cccccc"></uni-icons>
 					</view>
 				</view>
-				
+
 			</view>
 
 		</view>
@@ -339,11 +341,11 @@
 
 				isCollect: -1,
 				collectionList: [],
-				
-				freeTrialPage:"",
-				freeTrialShow:false,
-				
-				orderDate:[]
+
+				freeTrialPage: "",
+				freeTrialShow: false,
+
+				orderDate: []
 
 
 			}
@@ -459,10 +461,10 @@
 				this.checkIn = this.$mp.query.checkIn
 				this.checkOut = this.$mp.query.checkOut
 				this.dayCount = this.$mp.query.dayCount
-				
+
 				this.freeTrialPage = this.$mp.query.pageRoot
 				this.freeTrial()
-				console.log('freeTrialPage',this.freeTrialPage)
+				console.log('freeTrialPage', this.freeTrialPage)
 
 				if (this.$mp.query.choiceDateArr) {
 					this.choiceDateArr = JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
@@ -470,7 +472,7 @@
 				// console.log("choiceDateArr",this.choiceDateArr)
 				this.listingsDetail = data.data
 				this.orderDate = data.data.onOrder
-				console.log("orderDate",this.orderDate)
+				console.log("orderDate", this.orderDate)
 				this.getCollectionList(0)
 				if (this.dayCount == 1) {
 					if (this.week === 6 || this.week === 5) {
@@ -501,14 +503,19 @@
 
 				this.pageshow = false
 				//历史浏览记录
-				console.log('bbbb:', this.listingsDetail)
-				uni.setStorageSync('history_data', {
-					id: this.listingsDetail.hotel.id,
-					pic: this.listingsDetail.hotel.thum,
-					hotelName: this.listingsDetail.hotel.hotelName
-				})
-				let history_data = uni.getStorageInfoSync('history_data')
-				console.log('aaaa:', history_data)
+				let historyList = uni.getStorageSync('history_list')
+				if (!historyList) {
+					historyList = []
+					historyList.unshift(data.data.hotel)
+				} else {
+					let selectobj = historyList.find(obj => {
+						return obj.id === data.data.hotel.id
+					})
+					if (!selectobj) {
+						historyList.unshift(data.data.hotel)
+					}
+				}
+				uni.setStorageSync('history_list', historyList)
 
 			},
 			call_phone() {
@@ -535,13 +542,13 @@
 				this.week = num
 			},
 			selectDate() {
-				
+
 				let orderDate = JSON.stringify(this.orderDate)
 				// let orderDate = JSON.stringify(this.orderDate)
 				uni.navigateTo({
 					url: '../select-date/select-date?pageSource=listingsDetail' + '&weekendActivity=' + this
 						.listingsDetail.hotel.weekendActivity + '&weekdaysActivity=' + this.listingsDetail.hotel
-						.weekdaysActivity+'&orderDate='+ orderDate
+						.weekdaysActivity + '&orderDate=' + orderDate
 				})
 			},
 			getTimeandWeek() {
@@ -571,7 +578,7 @@
 
 			},
 			getTotalPice() {
-				if (this.choiceDateArr.length>0) {
+				if (this.choiceDateArr.length > 0) {
 					for (var i = 0; i < this.choiceDateArr.length; i++) {
 						if (this.choiceDateArr[i].week == '五' || this.choiceDateArr[i].week == '六') {
 							this.choiceDateArr[i].price = this.listingsDetail.hotel.weekendActivity
@@ -641,21 +648,21 @@
 					}
 				}
 			},
-			freeTrial(){
-				if(this.freeTrialPage == "试睡"){
+			freeTrial() {
+				if (this.freeTrialPage == "试睡") {
 					this.freeTrialShow = true
-				}else{
+				} else {
 					this.freeTrialShow = false
 				}
 			},
-			freeTrialClose(){
+			freeTrialClose() {
 				this.freeTrialShow = false
 			},
-			async freeTrialApply(hid){
+			async freeTrialApply(hid) {
 				let current_user = uni.getStorageSync('userinfo')
 				const {
 					data: res
-				} = await activityEnroll(hid,current_user.userName,current_user.phone)
+				} = await activityEnroll(hid, current_user.userName, current_user.phone)
 				if (res.code == 1) {
 					// // this.$api.msg(res.code.msg)
 					// let msg = this.$api.msg(res.code.msg)
@@ -666,10 +673,10 @@
 						duration: 2000,
 						position: 'top'
 					})
-					
+
 				} else {
 					uni.navigateTo({
-						url: "../free-trial/free-trial-result?id="+this.listingsDetail.hotel.id
+						url: "../free-trial/free-trial-result?id=" + this.listingsDetail.hotel.id
 					})
 				}
 			}
@@ -1176,7 +1183,8 @@
 		overflow-y: scroll;
 		background-color: #ffffff;
 	}
-	.shishui{
+
+	.shishui {
 		position: fixed;
 		bottom: 120rpx;
 		background-color: #ffffff;
@@ -1189,8 +1197,9 @@
 		align-items: center;
 		z-index: 11;
 		height: 100rpx;
-		box-shadow: 0 2px 15px 0 rgba(0,0,0,.1);
-		.l-part{
+		box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
+
+		.l-part {
 			width: 25%;
 			height: 100rpx;
 			overflow: hidden;
@@ -1199,26 +1208,32 @@
 			justify-content: center;
 			align-items: center;
 			margin-right: 20rpx;
-			.img{
+
+			.img {
 				width: 100%;
 			}
 		}
-		.c-part{
+
+		.c-part {
 			width: 50%;
-			.t-txt{
+
+			.t-txt {
 				font-size: 24rpx;
 				color: #666666;
 			}
-			.b-txt{
+
+			.b-txt {
 				font-size: 22rpx;
 				color: #999999;
 				font-weight: bold;
 			}
 		}
-		.r-part{
+
+		.r-part {
 			width: 20%;
 			position: relative;
-			.btn{
+
+			.btn {
 				border-radius: 50rpx;
 				border: none;
 				background-color: #ff941d;
@@ -1226,13 +1241,15 @@
 				line-height: 50rpx;
 				font-size: 22rpx;
 			}
-			.icon{
+
+			.icon {
 				position: absolute;
 				top: -40rpx;
 				right: 0;
 			}
 		}
 	}
+
 	/deep/ button::after {
 		border: none;
 	}

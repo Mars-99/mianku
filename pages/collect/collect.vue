@@ -40,7 +40,7 @@
 				<view v-show="current === 1">
 					<view class="history-litt">
 						<view class="listings-area">
-							<listingsItem></listingsItem>
+							<listingsItem :listingsList="historyList"></listingsItem>
 						</view>
 					</view>
 				</view>
@@ -51,14 +51,14 @@
 </template>
 
 <script>
-	// import listingsItem from '@/components/listings-item/listings-item.vue'
+	import listingsItem from '@/components/listings-item/listings-item.vue'
 	import {mapActions,mapGetters } from 'vuex'
 	import {
 		getCollectionList,city
 	} from '@/utils/request/manage.js'
 	export default {
 		components: {
-			// listingsItem
+			listingsItem
 		},
 		data() {
 			return {
@@ -69,7 +69,8 @@
 				cityData:[],
 				districtData:[],
 				pages: [{currentPage: 1,totalPage: 1,loadingType: 0}],
-				isLoading:false
+				isLoading:false,
+				historyList:[]
 			}
 		},
 		onLoad(){
@@ -128,6 +129,8 @@
 			
 				// this.collection_list.length
 				this.isLoading = true
+				
+				this.historyList = uni.getStorageSync('history_list')
 			},
 			openListingsDetail(item){
 				uni.navigateTo({

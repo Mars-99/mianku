@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "系统消息",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "load-more": "/components/load-more/load-more"
-  }
-}
