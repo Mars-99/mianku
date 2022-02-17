@@ -144,33 +144,7 @@
 				}],
 				educationIndex: 1,
 				classes: '0-0',
-				dataTree: [{
-						text: "上海",
-						value: "1-0",
-						children: [{
-								text: "学校名称",
-								value: "1-1"
-							},
-							{
-								text: "学校名称",
-								value: "1-2"
-							}
-						]
-					},
-					{
-						text: "北京",
-						value: "2-0",
-						children: [{
-								text: "学校名称",
-								value: "2-1"
-							},
-							{
-								text: "学校名称班",
-								value: "2-2"
-							}
-						]
-					}
-				],
+				dataTree: [],
 				universitData: []
 			}
 		},
@@ -186,8 +160,20 @@
 					return this.$api.msg(res.msg)
 				} else {
 					this.universitData = res.data
-
-					console.log("universit", this.universitData)
+					let i=0;
+					for(let key in this.universitData){
+						i++;
+						let children_arr = []
+						this.universitData[key].forEach((item,index)=>{
+							children_arr.push({text:item.schoolName,value:`${i}-${index+1}`})
+						})
+						let tree_obj = {
+							text:key,
+							value:`${i}-0`,
+							children:children_arr
+						}
+						this.dataTree.push(tree_obj)						
+					}
 
 				}
 			},

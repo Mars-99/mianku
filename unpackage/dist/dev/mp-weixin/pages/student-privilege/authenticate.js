@@ -314,33 +314,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
 
       educationIndex: 1,
       classes: '0-0',
-      dataTree: [{
-        text: "上海",
-        value: "1-0",
-        children: [{
-          text: "学校名称",
-          value: "1-1" },
-
-        {
-          text: "学校名称",
-          value: "1-2" }] },
-
-
-
-      {
-        text: "北京",
-        value: "2-0",
-        children: [{
-          text: "学校名称",
-          value: "2-1" },
-
-        {
-          text: "学校名称班",
-          value: "2-2" }] }],
-
-
-
-
+      dataTree: [],
       universitData: [] };
 
   },
@@ -353,11 +327,23 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
 
                   (0, _manage.getUniversit)());case 2:_yield$getUniversit = _context.sent;res = _yield$getUniversit.data;if (!(
                 res.code == 1)) {_context.next = 8;break;}return _context.abrupt("return",
-                _this.$api.msg(res.msg));case 8:
+                _this.$api.msg(res.msg));case 8:(function () {
 
-                _this.universitData = res.data;
+                  _this.universitData = res.data;
+                  var i = 0;var _loop = function _loop(
+                  key) {
+                    i++;
+                    var children_arr = [];
+                    _this.universitData[key].forEach(function (item, index) {
+                      children_arr.push({ text: item.schoolName, value: "".concat(i, "-").concat(index + 1) });
+                    });
+                    var tree_obj = {
+                      text: key,
+                      value: "".concat(i, "-0"),
+                      children: children_arr };
 
-                console.log("universit", _this.universitData);case 10:case "end":return _context.stop();}}}, _callee);}))();
+                    _this.dataTree.push(tree_obj);};for (var key in _this.universitData) {_loop(key);
+                  }})();case 9:case "end":return _context.stop();}}}, _callee);}))();
 
 
     },
