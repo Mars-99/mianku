@@ -89,20 +89,44 @@
 </template>
 
 <script>
+	import {
+		userDetail
+	} from '@/utils/request/manage.js'
 	export default {
 		data() {
 			return {
-				
+				userDetail:{}
 			}
 		},
 		onLoad() {
-			
+			this.getUserDetail()
 		},
 		methods: {
 			openAuthenticate() {
-				uni.navigateTo({
-					url: "../student-privilege/authenticate"
-				})
+				if(this.userDetail.examine == 3){
+					uni.showToast({
+					    icon: "none",
+					    title:'认证已提交，1-3个工作日完成认证审核',
+					        duration: 3000,
+					        position: 'top'
+					})
+				}else{
+					uni.navigateTo({
+						url: "../student-privilege/authenticate"
+					})
+				}
+			},
+			async getUserDetail() {
+				const {
+					data: res
+				} = await userDetail()
+				if (res.code == 1) {
+					return this.$api.msg(res.msg)
+				} else {
+					this.userDetail = res.data
+					console.log(this.userDetail)
+				}
+			
 			},
 		},
 	}

@@ -5,7 +5,7 @@
 				@clickItem="onClickItem" />
 		</view>
 		<view class="content">
-			<view v-show="current === 0">
+			<view v-if="current === 0">
 				<view class="current-students">
 					<view class="form-cont">
 						<uni-forms ref="form" :modelValue="formData" :rules="rules">
@@ -36,24 +36,23 @@
 								</view>
 							</uni-forms-item>
 							<uni-forms-item label="学校" name="telNumber">
-								<view>
-									<uni-data-picker placeholder="请选择学校" popup-title="请选择所在地区" :localdata="dataTree"
-										v-model="classes" @change="onchange" @nodeclick="onnodeclick"
-										@popupopened="onpopupopened" @popupclosed="onpopupclosed">
+								<view style="padding-left: 10rpx">
+									<uni-data-picker placeholder="请选择学校" popup-title="请选择学校" :localdata="dataTree"
+										v-model="school" @change="schoolChange">
 									</uni-data-picker>
 								</view>
 							</uni-forms-item>
 							<uni-forms-item label="上传学生证" name="telNumber">
-								<uni-file-picker v-model="imageValue" fileMediatype="image" mode="grid" @select="select"
-									@progress="progress" @success="success" @fail="fail" />
+								<upload-img ref="gUpload" :mode="imgList" @chooseFile="chooseFile"
+									@imgDelete="imgDelete" :control="control"></upload-img>
 							</uni-forms-item>
 
 						</uni-forms>
-						<button class="btn" @click="submit">提交</button>
+						<button class="btn" @click="submit">提交认证</button>
 					</view>
 				</view>
 			</view>
-			<view v-show="current === 1">
+				<view v-if="current === 1">
 				<view class="gaokao-students">
 					<view class="form-cont">
 						<uni-forms ref="form" :modelValue="formData" :rules="rules">
@@ -70,11 +69,11 @@
 								</view>
 							</uni-forms-item>
 							<uni-forms-item label="上传准考证" name="telNumber">
-								<uni-file-picker v-model="imageValue" fileMediatype="image" mode="grid" @select="select"
-									@progress="progress" @success="success" @fail="fail" />
+								<upload-img ref="gUpload" :mode="imgList" @chooseFile="chooseFile"
+									@imgDelete="imgDelete" :control="control"></upload-img>
 							</uni-forms-item>
 						</uni-forms>
-						<button class="btn" @click="submit">提交</button>
+						<button class="btn" @click="submit">提交认证</button>
 					</view>
 				</view>
 			</view>
@@ -84,7 +83,8 @@
 
 <script>
 	import {
-		getUniversit
+		getUniversit,
+		authenticationUpdateUrl
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
@@ -124,6 +124,8 @@
 				},
 				imageValue: [],
 				years: [{
+					name: '请选择入学年份'
+				}, {
 					name: '2021'
 				}, {
 					name: '2020'
@@ -132,8 +134,10 @@
 				}, {
 					name: '2018'
 				}],
-				yearsIndex: 1,
+				yearsIndex: 0,
 				education: [{
+					name: '请选择学历'
+				}, {
 					name: '大专'
 				}, {
 					name: '本科'
@@ -142,10 +146,18 @@
 				}, {
 					name: '博士'
 				}],
-				educationIndex: 1,
-				classes: '0-0',
+				educationIndex: 0,
+				school: '0-0',
 				dataTree: [],
-				universitData: []
+				universitData: [],
+				parameter: {
+					frontView: '',
+					realName: '',
+					school: '',
+					education: '',
+					enrollmentYear: ''
+				},
+				licenseUrl: []
 			}
 		},
 		onLoad() {
@@ -182,16 +194,54 @@
 				}
 				console.log("universit", this.dataTree)
 			},
+			async getAuthenticationUpdateUrl() {
+				const {
+					data: res
+				} = await authenticationUpdateUrl(this.formData.idCardNumber, this.parameter.frontView, this.formData
+					.name, this.parameter.school, this.parameter.education, this.parameter.enrollmentYear)
+				if (res.code == 1) {
+					return this.$api.msg(res.msg)
+				} else {
+					uni.showToast({
+					    icon: "none",
+					    title:'认证已提交，1-3个工作日完成认证审核',
+					        duration: 3000,
+					        position: 'top'
+					})
+                    uni.navigateBack({
+                    	success: function() {
+                    	        beforePage.onShow(); // 执行上一页的onLoad方法
+                    	    }
+                    })
+				}
+
+			},
+			submit() {
+
+				this.$refs.form.validate().then(res => {
+					console.log('表单数据信息：', res);
+					this.getAuthenticationUpdateUrl()
+				}).catch(err => {
+					console.log('表单错误信息：', err);
+				})
+			},
 			onClickItem(e) {
+				this.formData.name=''
+				this.formData.idCardNumber=''
+				this.licenseUrl = ''
+				this.yearsIndex = 0
+				this.educationIndex = 0,
+				this.school= '0-0'
+				
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex
 				}
 			},
 			// 1、监听身份证输入
 			Listeningfocus() {
-				console.log(this.formData.credNumber)
-				if (this.formData.credNumber != '') {
-					this.getCardTypeNumber(this.formData.credNumber)
+				console.log(this.formData.idCardNumber)
+				if (this.formData.idCardNumber != '') {
+					this.getCardTypeNumber(this.formData.idCardNumber)
 				}
 			},
 			// 2、检验身份证是否正确
@@ -208,46 +258,28 @@
 					console.log('身份证号码格式正确')
 				}
 			},
-			// 获取上传状态
-			select(e) {
-				console.log('选择文件：', e)
-			},
-			// 获取上传进度
-			progress(e) {
-				console.log('上传进度：', e)
-			},
-
-			// 上传成功
-			success(e) {
-				console.log('上传成功')
-			},
-
-			// 上传失败
-			fail(e) {
-				console.log('上传失败：', e)
-			},
 			yearsChange(e) {
 				this.yearsIndex = e.detail.value;
-				console.log(this.years[e.detail.value].name)
+				this.parameter.enrollmentYear = this.years[e.detail.value].name
+				console.log("this.parameter.enrollmentYear", this.parameter.enrollmentYear)
 			},
 			educationChange(e) {
 				this.educationIndex = e.detail.value;
-				console.log(e.detail)
+				this.parameter.education = this.education[e.detail.value].name
+				console.log("this.parameter.education", this.parameter.education)
 			},
-			onnodeclick(e) {
-				console.log(e);
-			},
-			onpopupopened(e) {
-				console.log('popupopened');
-			},
-			onpopupclosed(e) {
-				console.log('popupclosed');
-			},
-			onchange(e) {
-				console.log('---------onchange:', e);
-			},
-			onchange(e) {
+			schoolChange(e) {
 				const value = e.detail.value
+				this.parameter.school = value[1].text
+			},
+			chooseFile(list, v) {
+				this.licenseUrl = list.join(',')
+				this.parameter.frontView = this.licenseUrl
+				console.log("this.licenseUrl1111", this.licenseUrl)
+			},
+			imgDelete(list, eq) {
+				this.licenseUrl = list.join(',')
+				console.log("this.licenseUrl2222", this.licenseUrl)
 			},
 			onnodeclick(node) {},
 		}
@@ -285,6 +317,8 @@
 			padding-left: 10rpx;
 		}
 
+		
+
 		.choose-school {
 			line-height: 72rpx;
 		}
@@ -293,11 +327,12 @@
 	.btn {
 		border-radius: 90rpx;
 		border: none;
-		width: 50%;
+		width: 100%;
 		line-height: 90rpx;
 		border: none;
 		background-color: #333333;
 		color: #ffffff;
+		margin-top: 60rpx;
 	}
 
 	/deep/ .is-input-border {

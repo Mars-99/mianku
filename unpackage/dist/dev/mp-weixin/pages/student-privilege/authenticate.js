@@ -110,8 +110,8 @@ try {
     uniDataPicker: function() {
       return Promise.all(/*! import() | uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker.vue */ 419))
     },
-    uniFilePicker: function() {
-      return Promise.all(/*! import() | uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue */ 429))
+    uploadImg: function() {
+      return Promise.all(/*! import() | components/upload-img/upload-img */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/upload-img/upload-img")]).then(__webpack_require__.bind(null, /*! @/components/upload-img/upload-img.vue */ 533))
     }
   }
 } catch (e) {
@@ -252,8 +252,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 
-var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _methods;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 
 
 {
@@ -294,6 +294,8 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
 
       imageValue: [],
       years: [{
+        name: '请选择入学年份' },
+      {
         name: '2021' },
       {
         name: '2020' },
@@ -302,8 +304,10 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
       {
         name: '2018' }],
 
-      yearsIndex: 1,
+      yearsIndex: 0,
       education: [{
+        name: '请选择学历' },
+      {
         name: '大专' },
       {
         name: '本科' },
@@ -312,16 +316,24 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
       {
         name: '博士' }],
 
-      educationIndex: 1,
-      classes: '0-0',
+      educationIndex: 0,
+      school: '0-0',
       dataTree: [],
-      universitData: [] };
+      universitData: [],
+      parameter: {
+        frontView: '',
+        realName: '',
+        school: '',
+        education: '',
+        enrollmentYear: '' },
+
+      licenseUrl: [] };
 
   },
   onLoad: function onLoad() {
     this.universit();
   },
-  methods: (_methods = {
+  methods: {
     universit: function universit() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$getUniversit, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
 
 
@@ -352,16 +364,54 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
 
                 console.log("universit", _this.dataTree);case 10:case "end":return _context.stop();}}}, _callee);}))();
     },
+    getAuthenticationUpdateUrl: function getAuthenticationUpdateUrl() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$authentication, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+
+
+                  (0, _manage.authenticationUpdateUrl)(_this2.formData.idCardNumber, _this2.parameter.frontView, _this2.formData.
+                  name, _this2.parameter.school, _this2.parameter.education, _this2.parameter.enrollmentYear));case 2:_yield$authentication = _context2.sent;res = _yield$authentication.data;if (!(
+                res.code == 1)) {_context2.next = 8;break;}return _context2.abrupt("return",
+                _this2.$api.msg(res.msg));case 8:
+
+                uni.showToast({
+                  icon: "none",
+                  title: '认证已提交，1-3个工作日完成认证审核',
+                  duration: 3000,
+                  position: 'top' });
+
+                uni.navigateBack({
+                  success: function success() {
+                    beforePage.onShow(); // 执行上一页的onLoad方法
+                  } });case 10:case "end":return _context2.stop();}}}, _callee2);}))();
+
+
+
+    },
+    submit: function submit() {var _this3 = this;
+
+      this.$refs.form.validate().then(function (res) {
+        console.log('表单数据信息：', res);
+        _this3.getAuthenticationUpdateUrl();
+      }).catch(function (err) {
+        console.log('表单错误信息：', err);
+      });
+    },
     onClickItem: function onClickItem(e) {
+      this.formData.name = '';
+      this.formData.idCardNumber = '';
+      this.licenseUrl = '';
+      this.yearsIndex = 0;
+      this.educationIndex = 0,
+      this.school = '0-0';
+
       if (this.current !== e.currentIndex) {
         this.current = e.currentIndex;
       }
     },
     // 1、监听身份证输入
     Listeningfocus: function Listeningfocus() {
-      console.log(this.formData.credNumber);
-      if (this.formData.credNumber != '') {
-        this.getCardTypeNumber(this.formData.credNumber);
+      console.log(this.formData.idCardNumber);
+      if (this.formData.idCardNumber != '') {
+        this.getCardTypeNumber(this.formData.idCardNumber);
       }
     },
     // 2、检验身份证是否正确
@@ -378,48 +428,30 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);var _meth
         console.log('身份证号码格式正确');
       }
     },
-    // 获取上传状态
-    select: function select(e) {
-      console.log('选择文件：', e);
-    },
-    // 获取上传进度
-    progress: function progress(e) {
-      console.log('上传进度：', e);
-    },
-
-    // 上传成功
-    success: function success(e) {
-      console.log('上传成功');
-    },
-
-    // 上传失败
-    fail: function fail(e) {
-      console.log('上传失败：', e);
-    },
     yearsChange: function yearsChange(e) {
       this.yearsIndex = e.detail.value;
-      console.log(this.years[e.detail.value].name);
+      this.parameter.enrollmentYear = this.years[e.detail.value].name;
+      console.log("this.parameter.enrollmentYear", this.parameter.enrollmentYear);
     },
     educationChange: function educationChange(e) {
       this.educationIndex = e.detail.value;
-      console.log(e.detail);
+      this.parameter.education = this.education[e.detail.value].name;
+      console.log("this.parameter.education", this.parameter.education);
     },
-    onnodeclick: function onnodeclick(e) {
-      console.log(e);
+    schoolChange: function schoolChange(e) {
+      var value = e.detail.value;
+      this.parameter.school = value[1].text;
     },
-    onpopupopened: function onpopupopened(e) {
-      console.log('popupopened');
+    chooseFile: function chooseFile(list, v) {
+      this.licenseUrl = list.join(',');
+      this.parameter.frontView = this.licenseUrl;
+      console.log("this.licenseUrl1111", this.licenseUrl);
     },
-    onpopupclosed: function onpopupclosed(e) {
-      console.log('popupclosed');
+    imgDelete: function imgDelete(list, eq) {
+      this.licenseUrl = list.join(',');
+      console.log("this.licenseUrl2222", this.licenseUrl);
     },
-    onchange: function onchange(e) {
-      console.log('---------onchange:', e);
-    } }, _defineProperty(_methods, "onchange", function onchange(
-  e) {
-    var value = e.detail.value;
-  }), _defineProperty(_methods, "onnodeclick", function onnodeclick(
-  node) {}), _methods) };exports.default = _default;
+    onnodeclick: function onnodeclick(node) {} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

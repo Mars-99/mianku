@@ -7,6 +7,8 @@ let urlManage = {
 	userDetailUrl: 'api/user/detail', // 用户信息(24)
 	userCollection: 'api/user/collection', // 收藏/取消收藏接口(30)
 	userCommonIds: 'api/user/common_ids', // 用户收藏，点赞ID集合接口(32)
+	
+	upload: 'user/ajax_upload', // 资源上传接口(4)
 
 
 	roamListUrl: 'api/news/roam_list', // 逛一逛列表
@@ -52,6 +54,7 @@ let urlManage = {
 	getCollectionList: 'api/user/collection_list', //收藏文章、酒店列表 --刘慧
 
     getUniversityUrl: 'api/home/university', //获取学校
+	getAuthenticationUpdateUrl: 'api/user/authentication_update', //学生认证
 
 
 
@@ -98,6 +101,11 @@ const userDetail = function() {
 // 用户收藏，点赞ID集合接口(32)
 const getUserCommonIds = function() {
 	return $http.get(urlManage.userCommonIds)
+}
+
+// 资源上传接口(4)
+const getUpload = function(file) { // file类型要求 String
+	return $http.upload(urlManage.upload, file)
 }
 
 // 逛一逛列表
@@ -348,12 +356,25 @@ const getUniversit = function() {
 		
 	})
 }
+// 学生认证
+const authenticationUpdateUrl = function(idCard,frontView,realName,school,education,enrollmentYear) {
+	return $http.post(urlManage.getAuthenticationUpdateUrl, {
+		idCard:idCard,
+		frontView:frontView,
+		realName:realName,
+		school:school,
+		education:education,
+		enrollmentYear:enrollmentYear,
+		
+	})
+}
 export {
 	wxLogin,
 	wxInfo,
 	wxPhone,
 	userDetail,
 	getUserCommonIds,
+	getUpload,
 	roamList,
 	roamDetail,
 	city,
@@ -390,4 +411,5 @@ export {
 	getCollectionList,
 	getUserCollection,
 	getUniversit,
+	authenticationUpdateUrl,
 }

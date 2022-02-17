@@ -94,7 +94,7 @@
 			var prevPage = pages[pages.length - 1]
 			this.brand = prevPage.brand
 			if (this.brand) {
-				console.log("bbb", this.brand)
+				
 				if (this.brand.name) {
 					this.curCityName = this.brand.name
 					this.cityId = this.brand.id;
@@ -122,16 +122,14 @@
 				} = await hotelList(Number(this.cityId), this.checkIn, this.checkOut, this.keywords, this.label, this
 					.districtId, this.flag, this.occupancy, this.bedNum, this.priceValue[0], this.priceValue[1],
 					this.infrastructure, this.houseNum, this.tag, this.rules,this.page,this.limit)
-				this.listingsList = data.data.hotels
-				console.log(data.data.hotels)
 				this.totalPage = data.data.pages
 				if (this.page == 1) {
 					this.listingsList = data.data.hotels
 					this.pageshow=false
-					console.log(this.listingsList)
+					
 				} else {
 					this.listingsList = this.listingsList.concat(data.data.hotels)
-					console.log(this.listingsList)
+				
 					this.pageshow=false
 				}
 

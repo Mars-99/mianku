@@ -4730,7 +4730,7 @@ module.exports = index_cjs;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getUniversit = exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.authenticationUpdateUrl = exports.getUniversit = exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUpload = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
 var _requestConfig = _interopRequireDefault(__webpack_require__(/*! ./requestConfig.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 接口管理
 var urlManage = {
   wxLoginUrl: 'wx/login', // 微信登录(1-1)
@@ -4739,6 +4739,8 @@ var urlManage = {
   userDetailUrl: 'api/user/detail', // 用户信息(24)
   userCollection: 'api/user/collection', // 收藏/取消收藏接口(30)
   userCommonIds: 'api/user/common_ids', // 用户收藏，点赞ID集合接口(32)
+
+  upload: 'user/ajax_upload', // 资源上传接口(4)
 
 
   roamListUrl: 'api/news/roam_list', // 逛一逛列表
@@ -4783,7 +4785,8 @@ var urlManage = {
 
   getCollectionList: 'api/user/collection_list', //收藏文章、酒店列表 --刘慧
 
-  getUniversityUrl: 'api/home/university' //获取学校
+  getUniversityUrl: 'api/home/university', //获取学校
+  getAuthenticationUpdateUrl: 'api/user/authentication_update' //学生认证
 };
 
 
@@ -4832,8 +4835,13 @@ exports.userDetail = userDetail;var getUserCommonIds = function getUserCommonIds
   return _requestConfig.default.get(urlManage.userCommonIds);
 };
 
+// 资源上传接口(4)
+exports.getUserCommonIds = getUserCommonIds;var getUpload = function getUpload(file) {// file类型要求 String
+  return _requestConfig.default.upload(urlManage.upload, file);
+};
+
 // 逛一逛列表
-exports.getUserCommonIds = getUserCommonIds;var roamList = function roamList(cityId) {
+exports.getUpload = getUpload;var roamList = function roamList(cityId) {
   return _requestConfig.default.post(urlManage.roamListUrl, {
     cityId: cityId });
 
@@ -5079,7 +5087,19 @@ exports.getCollectionList = getCollectionList;var getUniversit = function getUni
   return _requestConfig.default.get(urlManage.getUniversityUrl, {});
 
 
-};exports.getUniversit = getUniversit;
+};
+// 学生认证
+exports.getUniversit = getUniversit;var authenticationUpdateUrl = function authenticationUpdateUrl(idCard, frontView, realName, school, education, enrollmentYear) {
+  return _requestConfig.default.post(urlManage.getAuthenticationUpdateUrl, {
+    idCard: idCard,
+    frontView: frontView,
+    realName: realName,
+    school: school,
+    education: education,
+    enrollmentYear: enrollmentYear });
+
+
+};exports.authenticationUpdateUrl = authenticationUpdateUrl;
 
 /***/ }),
 
@@ -14489,357 +14509,6 @@ SchemaValidator;exports.default = _default;
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "" };exports.default = _default;
-
-/***/ }),
-
-/***/ 434:
-/*!****************************************************************************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-file-picker/components/uni-file-picker/choose-and-upload-file.js ***!
-  \****************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni, uniCloud) {Object.defineProperty(exports, "__esModule", { value: true });exports.chooseAndUploadFile = chooseAndUploadFile;exports.uploadCloudFiles = uploadCloudFiles;
-
-var ERR_MSG_OK = 'chooseAndUploadFile:ok';
-var ERR_MSG_FAIL = 'chooseAndUploadFile:fail';
-
-function chooseImage(opts) {var
-
-  count =
-
-
-
-  opts.count,_opts$sizeType = opts.sizeType,sizeType = _opts$sizeType === void 0 ? ['original', 'compressed'] : _opts$sizeType,_opts$sourceType = opts.sourceType,sourceType = _opts$sourceType === void 0 ? ['album', 'camera'] : _opts$sourceType,extension = opts.extension;
-  return new Promise(function (resolve, reject) {
-    uni.chooseImage({
-      count: count,
-      sizeType: sizeType,
-      sourceType: sourceType,
-      extension: extension,
-      success: function success(res) {
-        resolve(normalizeChooseAndUploadFileRes(res, 'image'));
-      },
-      fail: function fail(res) {
-        reject({
-          errMsg: res.errMsg.replace('chooseImage:fail', ERR_MSG_FAIL) });
-
-      } });
-
-  });
-}
-
-function chooseVideo(opts) {var
-
-  camera =
-
-
-
-
-  opts.camera,compressed = opts.compressed,maxDuration = opts.maxDuration,_opts$sourceType2 = opts.sourceType,sourceType = _opts$sourceType2 === void 0 ? ['album', 'camera'] : _opts$sourceType2,extension = opts.extension;
-  return new Promise(function (resolve, reject) {
-    uni.chooseVideo({
-      camera: camera,
-      compressed: compressed,
-      maxDuration: maxDuration,
-      sourceType: sourceType,
-      extension: extension,
-      success: function success(res) {var
-
-        tempFilePath =
-
-
-
-
-        res.tempFilePath,duration = res.duration,size = res.size,height = res.height,width = res.width;
-        resolve(normalizeChooseAndUploadFileRes({
-          errMsg: 'chooseVideo:ok',
-          tempFilePaths: [tempFilePath],
-          tempFiles: [
-          {
-            name: res.tempFile && res.tempFile.name || '',
-            path: tempFilePath,
-            size: size,
-            type: res.tempFile && res.tempFile.type || '',
-            width: width,
-            height: height,
-            duration: duration,
-            fileType: 'video',
-            cloudPath: '' }] },
-
-        'video'));
-      },
-      fail: function fail(res) {
-        reject({
-          errMsg: res.errMsg.replace('chooseVideo:fail', ERR_MSG_FAIL) });
-
-      } });
-
-  });
-}
-
-function chooseAll(opts) {var
-
-  count =
-
-  opts.count,extension = opts.extension;
-  return new Promise(function (resolve, reject) {
-    var chooseFile = uni.chooseFile;
-    if (typeof wx !== 'undefined' &&
-    typeof wx.chooseMessageFile === 'function') {
-      chooseFile = wx.chooseMessageFile;
-    }
-    if (typeof chooseFile !== 'function') {
-      return reject({
-        errMsg: ERR_MSG_FAIL + ' 请指定 type 类型，该平台仅支持选择 image 或 video。' });
-
-    }
-    chooseFile({
-      type: 'all',
-      count: count,
-      extension: extension,
-      success: function success(res) {
-        resolve(normalizeChooseAndUploadFileRes(res));
-      },
-      fail: function fail(res) {
-        reject({
-          errMsg: res.errMsg.replace('chooseFile:fail', ERR_MSG_FAIL) });
-
-      } });
-
-  });
-}
-
-function normalizeChooseAndUploadFileRes(res, fileType) {
-  res.tempFiles.forEach(function (item, index) {
-    if (!item.name) {
-      item.name = item.path.substring(item.path.lastIndexOf('/') + 1);
-    }
-    if (fileType) {
-      item.fileType = fileType;
-    }
-    item.cloudPath =
-    Date.now() + '_' + index + item.name.substring(item.name.lastIndexOf('.'));
-  });
-  if (!res.tempFilePaths) {
-    res.tempFilePaths = res.tempFiles.map(function (file) {return file.path;});
-  }
-  return res;
-}
-
-function uploadCloudFiles(files) {var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;var _onUploadProgress = arguments.length > 2 ? arguments[2] : undefined;
-  files = JSON.parse(JSON.stringify(files));
-  var len = files.length;
-  var count = 0;
-  var self = this;
-  return new Promise(function (resolve) {
-    while (count < max) {
-      next();
-    }
-
-    function next() {
-      var cur = count++;
-      if (cur >= len) {
-        !files.find(function (item) {return !item.url && !item.errMsg;}) && resolve(files);
-        return;
-      }
-      var fileItem = files[cur];
-      var index = self.files.findIndex(function (v) {return v.uuid === fileItem.uuid;});
-      fileItem.url = '';
-      delete fileItem.errMsg;
-
-      uniCloud.
-      uploadFile({
-        filePath: fileItem.path,
-        cloudPath: fileItem.cloudPath,
-        fileType: fileItem.fileType,
-        onUploadProgress: function onUploadProgress(res) {
-          res.index = index;
-          _onUploadProgress && _onUploadProgress(res);
-        } }).
-
-      then(function (res) {
-        fileItem.url = res.fileID;
-        fileItem.index = index;
-        if (cur < len) {
-          next();
-        }
-      }).
-      catch(function (res) {
-        fileItem.errMsg = res.errMsg || res.message;
-        fileItem.index = index;
-        if (cur < len) {
-          next();
-        }
-      });
-    }
-  });
-}
-
-
-
-
-
-function uploadFiles(choosePromise, _ref)
-
-
-{var onChooseFile = _ref.onChooseFile,onUploadProgress = _ref.onUploadProgress;
-  return choosePromise.
-  then(function (res) {
-    if (onChooseFile) {
-      var customChooseRes = onChooseFile(res);
-      if (typeof customChooseRes !== 'undefined') {
-        return Promise.resolve(customChooseRes).then(function (chooseRes) {return typeof chooseRes === 'undefined' ?
-          res : chooseRes;});
-      }
-    }
-    return res;
-  }).
-  then(function (res) {
-    if (res === false) {
-      return {
-        errMsg: ERR_MSG_OK,
-        tempFilePaths: [],
-        tempFiles: [] };
-
-    }
-    return res;
-  });
-}
-
-function chooseAndUploadFile()
-
-{var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { type: 'all' };
-  if (opts.type === 'image') {
-    return uploadFiles(chooseImage(opts), opts);
-  } else
-  if (opts.type === 'video') {
-    return uploadFiles(chooseVideo(opts), opts);
-  }
-  return uploadFiles(chooseAll(opts), opts);
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 425)["default"]))
-
-/***/ }),
-
-/***/ 435:
-/*!***********************************************************************************************************************!*\
-  !*** C:/Users/Mars/Documents/HBuilderProjects/mianku/uni_modules/uni-file-picker/components/uni-file-picker/utils.js ***!
-  \***********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.get_file_data = exports.get_file_info = exports.get_files_and_is_max = exports.get_extname = exports.get_file_ext = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 13));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * 获取文件名和后缀
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * @param {String} name
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
-var get_file_ext = function get_file_ext(name) {
-  var last_len = name.lastIndexOf('.');
-  var len = name.length;
-  return {
-    name: name.substring(0, last_len),
-    ext: name.substring(last_len + 1, len) };
-
-};
-
-/**
-    * 获取扩展名
-    * @param {Array} fileExtname
-    */exports.get_file_ext = get_file_ext;
-var get_extname = function get_extname(fileExtname) {
-  if (!Array.isArray(fileExtname)) {
-    var extname = fileExtname.replace(/(\[|\])/g, '');
-    return extname.split(',');
-  } else {
-    return fileExtname;
-  }
-  return [];
-};
-
-/**
-    * 获取文件和检测是否可选
-    */exports.get_extname = get_extname;
-var get_files_and_is_max = function get_files_and_is_max(res, _extname) {
-  var filePaths = [];
-  var files = [];
-  if (!_extname || _extname.length === 0) {
-    return {
-      filePaths: filePaths,
-      files: files };
-
-  }
-  res.tempFiles.forEach(function (v) {
-    var fileFullName = get_file_ext(v.name);
-    var extname = fileFullName.ext.toLowerCase();
-    if (_extname.indexOf(extname) !== -1) {
-      files.push(v);
-      filePaths.push(v.path);
-    }
-  });
-  if (files.length !== res.tempFiles.length) {
-    uni.showToast({
-      title: "\u5F53\u524D\u9009\u62E9\u4E86".concat(res.tempFiles.length, "\u4E2A\u6587\u4EF6 \uFF0C").concat(res.tempFiles.length - files.length, " \u4E2A\u6587\u4EF6\u683C\u5F0F\u4E0D\u6B63\u786E"),
-      icon: 'none',
-      duration: 5000 });
-
-  }
-
-  return {
-    filePaths: filePaths,
-    files: files };
-
-};
-
-
-/**
-    * 获取图片信息
-    * @param {Object} filepath
-    */exports.get_files_and_is_max = get_files_and_is_max;
-var get_file_info = function get_file_info(filepath) {
-  return new Promise(function (resolve, reject) {
-    uni.getImageInfo({
-      src: filepath,
-      success: function success(res) {
-        resolve(res);
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-};
-/**
-    * 获取封装数据
-    */exports.get_file_info = get_file_info;
-var get_file_data = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(files) {var type,fileFullName,extname,filedata,imageinfo,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:type = _args.length > 1 && _args[1] !== undefined ? _args[1] : 'image';
-            // 最终需要上传数据库的数据
-            fileFullName = get_file_ext(files.name);
-            extname = fileFullName.ext.toLowerCase();
-            filedata = {
-              name: files.name,
-              uuid: files.uuid,
-              extname: extname || '',
-              cloudPath: files.cloudPath,
-              fileType: files.fileType,
-              url: files.path || files.path,
-              size: files.size, //单位是字节
-              image: {},
-              path: files.path,
-              video: {} };if (!(
-
-            type === 'image')) {_context.next = 14;break;}_context.next = 7;return (
-              get_file_info(files.path));case 7:imageinfo = _context.sent;
-            delete filedata.video;
-            filedata.image.width = imageinfo.width;
-            filedata.image.height = imageinfo.height;
-            filedata.image.location = imageinfo.path;_context.next = 15;break;case 14:
-
-            delete filedata.image;case 15:return _context.abrupt("return",
-
-            filedata);case 16:case "end":return _context.stop();}}}, _callee);}));return function get_file_data(_x) {return _ref.apply(this, arguments);};}();exports.get_file_data = get_file_data;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

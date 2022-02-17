@@ -249,7 +249,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
     var prevPage = pages[pages.length - 1];
     this.brand = prevPage.brand;
     if (this.brand) {
-      console.log("bbb", this.brand);
+
       if (this.brand.name) {
         this.curCityName = this.brand.name;
         this.cityId = this.brand.id;
@@ -277,18 +277,16 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                   (0, _manage.hotelList)(Number(_this.cityId), _this.checkIn, _this.checkOut, _this.keywords, _this.label, _this.
                   districtId, _this.flag, _this.occupancy, _this.bedNum, _this.priceValue[0], _this.priceValue[1],
                   _this.infrastructure, _this.houseNum, _this.tag, _this.rules, _this.page, _this.limit));case 2:_yield$hotelList = _context.sent;data = _yield$hotelList.data;
-                _this.listingsList = data.data.hotels;
-                console.log(data.data.hotels);
                 _this.totalPage = data.data.pages;
                 if (_this.page == 1) {
                   _this.listingsList = data.data.hotels;
                   _this.pageshow = false;
-                  console.log(_this.listingsList);
+
                 } else {
                   _this.listingsList = _this.listingsList.concat(data.data.hotels);
-                  console.log(_this.listingsList);
+
                   _this.pageshow = false;
-                }case 8:case "end":return _context.stop();}}}, _callee);}))();
+                }case 6:case "end":return _context.stop();}}}, _callee);}))();
 
     },
     getCity: function getCity() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$city, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
