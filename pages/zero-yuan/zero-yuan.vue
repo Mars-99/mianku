@@ -12,17 +12,25 @@
 						<view class="l-part">
 							<image class="img" mode="widthFix"
 								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png"></image>
-							<view class="cont">
-								<view class="t-txt"><text class="txt">￥</text>{{item.restrict}}</view>
+							<view class="cont" v-if="item.type == 2">
+								<view class="t-txt">{{item.discount}}</view>
+								<view class="b-txt">全场通用</view>
+							</view>
+							<view class="cont" v-else>
+								<view class="t-txt"><text class="txt">￥</text>{{item.deduct}}</view>
 								<view class="b-txt">满{{item.restrict}}-{{item.deduct}}</view>
 							</view>
 						</view>
 						<view class="r-part">
 							<view class="title">{{item.title}}</view>
 							<view class="b-cont">
-								<view class="l-txt">
+								<view class="l-txt" v-if="item.type == 2">
+									<text class="txt">享所有房源</text>
+									{{item.discount}}折
+								</view>
+								<view class="l-txt" v-else>
 									<text class="txt">价值</text>
-									￥100
+									￥{{item.deduct}}
 								</view>
 								<view class="r-btn">
 									<button class="btn" type="primary" size="default" @tap="openZeroYuanDetailPage(item.id)">免费拿</button>
@@ -194,6 +202,7 @@
 						this.prizelist = this.prizelist.concat(data.data[prize])
 					}
 				}
+				console.log("this.prizelist",this.prizelist)
 				// const {data1} = await getUserShare()
 				// this.myPrizeList = data1.data
 				// console.log('助力活动用户数据:',data1)

@@ -274,6 +274,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -326,12 +334,13 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                     _this2.prizelist = _this2.prizelist.concat(data.data[prize]);
                   }
                 }
+                console.log("this.prizelist", _this2.prizelist);
                 // const {data1} = await getUserShare()
                 // this.myPrizeList = data1.data
                 // console.log('助力活动用户数据:',data1)
                 // const {data2} = await getUserSharePrice()
                 // console.log('领取助力奖励:',data2)
-              case 5:case "end":return _context.stop();}}}, _callee);}))();},
+              case 6:case "end":return _context.stop();}}}, _callee);}))();},
     openZeroYuanDetailPage: function openZeroYuanDetailPage(id) {
       var current_user = uni.getStorageSync('userinfo');
       if (!current_user) {
