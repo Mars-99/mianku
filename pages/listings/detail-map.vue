@@ -13,24 +13,11 @@
 		data() {
 			return {
 				title: 'map',
-				latitude: 28.192118928215603,
-				longitude: 112.97686562469652,
-				markers: [{
-					width: 40,
-					height: 40,
-					latitude: 28.192118928215603,
-					longitude: 112.97686562469652,
-					iconPath: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/map-icon.png',
-					"callout": {
-						"content": "中国, 湖南省, 长沙市, 芙蓉区, IFS国金中心",
-						"borderRadius": 5,
-						"display": "ALWAYS",
-						"padding": 7,
-						"bgColor": "#FFFFFF",
-						"textAlign":"center",
-					}
-				}],
+				latitude: 0,
+				longitude: 0,
+				markers: [],
 				swiperheight: 0,
+				// markers:[]
 			}
 		},
 		  mounted () {
@@ -44,6 +31,15 @@
 		      }
 		    })
 		  },
+		  onShow() {
+		  	// console.log(this.$mp.query.markers)
+			if(this.$mp.query.markers){
+				this.markers = JSON.parse(this.$mp.query.markers)
+				console.log("this.markers", this.markers)
+			}
+			this.latitude = this.markers[0].latitude
+			this.longitude =this.markers[0].longitude
+		  }
 	}
 </script>
 

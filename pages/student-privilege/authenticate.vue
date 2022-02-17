@@ -64,7 +64,7 @@
 								<uni-easyinput type="idcard" @blur="Listeningfocus()" v-model="formData.idCardNumber"
 									placeholder="请输入证件号码" />
 							</uni-forms-item>
-							<uni-forms-item label="学历" >
+							<uni-forms-item label="学历">
 								<view style="padding: 20rpx;background-color: white;">
 									应届高考生
 								</view>
@@ -160,22 +160,27 @@
 					return this.$api.msg(res.msg)
 				} else {
 					this.universitData = res.data
-					let i=0;
-					for(let key in this.universitData){
+					let i = 0;
+					for (let key in this.universitData) {
 						i++;
 						let children_arr = []
-						this.universitData[key].forEach((item,index)=>{
-							children_arr.push({text:item.schoolName,value:`${i}-${index+1}`})
+						this.universitData[key].forEach((item, index) => {
+							children_arr.push({
+								text: item.schoolName,
+								value: `${i}-${index+1}`
+							})
 						})
+						children_arr.sort((a, b) => a.text.localeCompare(b.text, 'zh'))
 						let tree_obj = {
-							text:key,
-							value:`${i}-0`,
-							children:children_arr
+							text: key,
+							value: `${i}-0`,
+							children: children_arr
 						}
-						this.dataTree.push(tree_obj)						
+						this.dataTree.push(tree_obj)
 					}
-
+					this.dataTree.sort((a, b) => a.text.localeCompare(b.text, 'zh'))
 				}
+				console.log("universit", this.dataTree)
 			},
 			onClickItem(e) {
 				if (this.current !== e.currentIndex) {
@@ -256,16 +261,18 @@
 		background-color: #ffffff;
 		border-radius: 8rpx;
 	}
-	.gaokao-students{
+
+	.gaokao-students {
 		margin: 30rpx;
 		padding: 30rpx;
 		background-color: #ffffff;
 		border-radius: 8rpx;
 	}
+
 	.form-cont {
 		background-color: #ffffff;
 		padding: 30rpx;
-	
+
 		.credType {
 			display: flex;
 			box-sizing: border-box;
@@ -277,12 +284,12 @@
 			line-height: 72rpx;
 			padding-left: 10rpx;
 		}
-	
+
 		.choose-school {
 			line-height: 72rpx;
 		}
 	}
-	
+
 	.btn {
 		border-radius: 90rpx;
 		border: none;
@@ -302,9 +309,10 @@
 	/deep/ .input-value-border {
 		border: 0px !important;
 	}
+
 	/deep/ .uni-forms-item__inner {
-	    display: flex;
-	    padding: 10px;
-	    border-bottom: 1px #f5f5f5 solid;
+		display: flex;
+		padding: 10px;
+		border-bottom: 1px #f5f5f5 solid;
 	}
 </style>

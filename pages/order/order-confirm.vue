@@ -84,14 +84,14 @@
 					</view>
 					<view class="total">
 						合计：<text
-							class="number">￥{{totalPice+parseInt(listingsDetail.hotel.cleaningFee)-parseInt(listingsDetail.hotel.firstReduce)}}</text>
+							class="number">￥{{totalPice}}</text>
 					</view>
 				</view>
 			</view>
 			<view class="bottom-nav">
 				<view class="left">
 					<view class="total-number">
-						￥{{totalPice+parseInt(listingsDetail.hotel.cleaningFee)-parseInt(listingsDetail.hotel.firstReduce)}}
+						￥{{totalPice}}
 					</view>
 				</view>
 				<view class="right">
@@ -178,6 +178,8 @@
 				this.totalPice = this.$mp.query.totalPice
 				this.listingsDetail = data.data
 				this.pageshow = false
+				
+				this.totalPice = Number(this.totalPice)+Number(this.listingsDetail.hotel.cleaningFee)-Number(this.listingsDetail.hotel.firstReduce)
 
 			},
 			openLodgerPage() {

@@ -382,11 +382,9 @@
 		},
 		onLoad() {
 			this.getWeeK()
-			this.getTimeandWeek()
 			this.getHotelDetail()
-
+			// this.getTimeandWeek()
 			// console.log(this.markers)
-
 		},
 		onShow() {
 			var pages = getCurrentPages();
@@ -429,8 +427,9 @@
 
 			},
 			openDetailMap() {
+				let markers = JSON.stringify(this.markers)
 				uni.navigateTo({
-					url: '../listings/detail-map'
+					url: '../listings/detail-map?markers='+markers
 				})
 			},
 			openOrderConfirm() {
@@ -455,13 +454,15 @@
 				// }else{
 				// 	this.curID = Number(this.$mp.query.id)
 				// }
+				console.log("this.$mp.query",this.$mp.query)
 				const {
 					data
 				} = await hotelDetail(Number(this.$mp.query.id))
 				this.checkIn = this.$mp.query.checkIn
 				this.checkOut = this.$mp.query.checkOut
 				this.dayCount = this.$mp.query.dayCount
-
+				this.checkInYH = this.checkIn.slice(5)
+				this.checkOutYH = this.checkOut.slice(5)
 				this.freeTrialPage = this.$mp.query.pageRoot
 				this.freeTrial()
 				console.log('freeTrialPage', this.freeTrialPage)

@@ -128,8 +128,10 @@
 				if (this.page == 1) {
 					this.listingsList = data.data.hotels
 					this.pageshow=false
+					console.log(this.listingsList)
 				} else {
 					this.listingsList = this.listingsList.concat(data.data.hotels)
+					console.log(this.listingsList)
 					this.pageshow=false
 				}
 

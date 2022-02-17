@@ -75,6 +75,9 @@
 		},
 		onLoad(){
 			this.getCity()
+		},
+		onShow() {
+			
 			this.initData(0)
 		},
 		computed:{

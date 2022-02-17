@@ -21,8 +21,8 @@
 						{{item.hotelName}}
 					</view>
 					<view class="char" v-if="!bsOrigin">
-						<view class="char-active" v-for="(bq ,key) in item.label.split(',')" :key="key"
-							v-if="item.label">{{bq}}</view>
+						<view class="char-active" v-for="(bq ,key) in item.flag.split(',')" :key="key"
+							v-if="item.flag">{{bq | flag}}</view>
 						<view class="txt" v-if="item.infrastructure.indexOf('投影仪') != -1">投影仪</view>
 						<view class="txt" v-if="item.tag.indexOf('近地铁') != -1">近地铁</view>
 						<view class="txt" v-if="item.service.indexOf('自主入住') != -1">自主入住</view>
@@ -32,8 +32,8 @@
 						<view class="CP">￥{{week===6 ||week===5?item.weekendActivity:item.weekdaysActivity}}</view>
 						<view class="OP">￥{{week===6 ||week===5?item.weekendOriginal:item.weekdaysOriginal}}</view>
 						<view class="wan">/晚</view>
-						<view class="youhui">
-							首单立减30元
+						<view class="youhui" v-if="item.firstReduce">
+							首单立减{{item.firstReduce}}元
 						</view>
 					</view>
 					<view class="rec-reason" v-if="bsOrigin">
@@ -82,6 +82,24 @@
 			return {
 
 			}
+		},
+		filters: {
+			flag(value) {
+				switch (value) {
+					case 'h':
+						//这里是值对应的处理
+						return value = "首单立减";
+						break
+					case "c":
+						return value = "今日特价";
+						break
+					case "j":
+						return value = "新房优惠";
+						break
+					default:
+						break
+				}
+			},
 		},
 	
 		methods: {

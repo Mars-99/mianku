@@ -232,9 +232,13 @@
 		},
 		created() {
 			this.init();
+			
 		},
 		onLoad() {
 			this.init();
+		},
+		onShow() {
+			this.dayClick()
 		},
 		watch: {
 			show: function(newVal, oldVal) {
@@ -782,7 +786,8 @@
 					var nonArr = [];
 					var count = 0;
 					//详情页过来 判断是否有房
-					if(this.pageSource){
+					if(this.pageSource && this.orderDate.length>0){
+						console.log("this.orderDate",this.orderDate)
 						
 						let orderDate =this.orderDate
 						let dateArr = []
@@ -793,8 +798,10 @@
 						dateArr.forEach(date2=>{
 							dateArr2 += this.getdiffdate(date2.checkIn,date2.checkOut)+","
 						})
-					
-						this.newArrDate = dateArr2.split(",")
+					    if(dateArr2){
+							this.newArrDate = dateArr2.split(",")
+						}
+						
 						let that = this
 						this.date.forEach(function(dataItems) {
 							dataItems.forEach(function(dataItem) {
