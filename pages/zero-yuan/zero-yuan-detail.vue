@@ -5,10 +5,10 @@
 			</image>
 			<view class="user-cont">
 				<view class="avatar">
-					<image class="img" mode="aspectFill" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg">
+					<image class="img" mode="aspectFill" :src="userinfo.face">
 					</image>
 				</view>
-				<view class="name">Mars.</view>
+				<view class="name">{{userinfo.userName}}</view>
 				<view class="slogan">“朋友们,求点击助力！”</view>
 				<view class="countdown">助力倒计时：<span>23</span>:<span>18</span>:<span>08</span></view>
 			</view>
@@ -20,12 +20,12 @@
 						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
 						</image>
 						<view class="cont">
-							<view class="t-txt"><text class="txt">￥</text>100</view>
-							<view class="b-txt">满200-100</view>
+							<view class="t-txt"><text class="txt">￥</text>{{detail_info.prize.restrict}}</view>
+							<view class="b-txt">满{{detail_info.prize.restrict}}{{detail_info.prize.deduct}}</view>
 						</view>
 					</view>
 					<view class="r-part">
-						<view class="title">【民宿券】满200返100 新老客均可使用</view>
+						<view class="title">{{detail_info.prize,title}}</view>
 						<view class="b-cont">
 							<view class="l-txt">
 								<text class="txt">价值</text>
@@ -43,7 +43,7 @@
 					ddadadad
 				</view>
 				<view class="help-btn">
-					<button class="btn" type="primary" size="default" @tap="">分享领助力包</button>
+					<button class="btn" type="primary" size="default" @tap="share()">分享领助力包</button>
 				</view>
 			</view>
 
@@ -55,7 +55,8 @@
 		<view class="help-rule">
 			<view class="title">活动规则</view>
 			<view class="cont">
-				1.免单攻略：<br>
+				{{detail_info.share.remark}}
+				<!-- 1.免单攻略：<br>
 				1） 选择心仪的民宿券，点击免费拿;<br>
 				2）分享微信好友；<br>
 				3）好友进入小程序，完成授权，并点击助力，助力成功；<br>
@@ -70,7 +71,7 @@
 				（如批量注册、恶意购买、虛假分享、倒买倒卖、虛假交易等）用户和商户不得进行有组织的作弊行为，否则眠库有权取消用户、商户参与活动资格，取消己经领取的商品，必要时取消后续参与眠库任意活动的权利，并追究法律责任7．对优惠券有疑问，可联系眠库城市民宿客服，
 				电话：15364037300/15580819506.
 
-
+ -->
 
 			</view>
 		</view>
@@ -78,14 +79,56 @@
 </template>
 
 <script>
+	import {
+		mapActions,
+		mapGetters
+	} from 'vuex'
+	import {
+		getShareDetail,
+		getUserShare,
+		getUserSharePrice
+	} from '@/utils/request/manage.js'
 	export default {
 		data() {
 			return {
-
+				detail_info:{},
+				userinfo:{}
 			}
 		},
+		onLoad(){
+			this.initData()
+		},
+		computed: {
+			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
+		},
 		methods: {
-
+			async initData(){	
+				this.userinfo = uni.getStorageSync('userinfo')				
+				const {
+					data
+				} = await getShareDetail()
+				this.detail_info.share = data.data.share
+				for (let i = 1; i <= 10; i++) {
+					let target = 'target' + i
+					let reward = 'reward' + i
+					let prize = 'prize' + i
+					if (data.data.share[target] > 0 && data.data.share[reward] > 0) {
+						let selectobj = data.data[prize].find(obj=>{
+							return obj.id === Number(this.$mp.query.id)
+						})
+						if(selectobj){
+							this.detail_info.prize = selectobj
+						}
+					}
+				}
+				console.log('aaaaaa:',this.detail_info)
+				// const {data1} = await getUserShare()
+				// this.myPrizeList = data1.data
+				// console.log('助力活动用户数据:',data1)
+			},
+			share(){
+				
+			}
 		}
 	}
 </script>

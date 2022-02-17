@@ -7,7 +7,7 @@ let urlManage = {
 	userDetailUrl: 'api/user/detail', // 用户信息(24)
 	userCollection: 'api/user/collection', // 收藏/取消收藏接口(30)
 	userCommonIds: 'api/user/common_ids', // 用户收藏，点赞ID集合接口(32)
-	
+
 	upload: 'user/ajax_upload', // 资源上传接口(4)
 
 
@@ -27,7 +27,7 @@ let urlManage = {
 	reportListUrl: 'api/news/report_list', // 获取试睡报告列表
 	reportDetailUrl: 'api/news/report', // 获取试睡报告详情
 	activityEnrollUrl: 'api/user/activity_enroll', // 试睡活动报名
-	
+
 
 	userMsgList: 'api/user/msg_list', // 消息列表(33)
 	userNewMsg: 'api/user/new_msg', // 新消息数(34)
@@ -53,12 +53,14 @@ let urlManage = {
 
 	getCollectionList: 'api/user/collection_list', //收藏文章、酒店列表 --刘慧
 
-    getUniversityUrl: 'api/home/university', //获取学校
+	getUniversityUrl: 'api/home/university', //获取学校
 	getAuthenticationUpdateUrl: 'api/user/authentication_update', //学生认证
 	getPrivilegeCouponUrl: 'api/user/getPrivilegeCoupon', //学生特权优惠券
 	
 
-
+	getShareDetail: 'api/activity/share_detail', //分享助力活动详情
+	getUserShare: 'api/user/share', //助力活动用户数据
+	getUserSharePrice: 'api/user/share_price', //领取助力奖励
 
 
 
@@ -211,11 +213,11 @@ const reportDetail = function(id) {
 	})
 }
 // 试睡活动报名
-const activityEnroll = function(hid,contacts,phone) {
+const activityEnroll = function(hid, contacts, phone) {
 	return $http.post(urlManage.activityEnrollUrl, {
-		hid:hid,
-		contacts:contacts,
-		phone:phone,
+		hid: hid,
+		contacts: contacts,
+		phone: phone,
 	})
 }
 
@@ -355,26 +357,39 @@ const getCollectionList = function(type, page, limit) {
 // 获取学校
 const getUniversit = function() {
 	return $http.get(urlManage.getUniversityUrl, {
-		
-	})
-}
-// 学生认证
-const authenticationUpdateUrl = function(idCard,frontView,realName,school,education,enrollmentYear) {
-	return $http.post(urlManage.getAuthenticationUpdateUrl, {
-		idCard:idCard,
-		frontView:frontView,
-		realName:realName,
-		school:school,
-		education:education,
-		enrollmentYear:enrollmentYear,
-		
-	})
-}
 
+	})
+}
 // 学生认证
+const authenticationUpdateUrl = function(idCard, frontView, realName, school, education, enrollmentYear) {
+	return $http.post(urlManage.getAuthenticationUpdateUrl, {
+		idCard: idCard,
+		frontView: frontView,
+		realName: realName,
+		school: school,
+		education: education,
+		enrollmentYear: enrollmentYear,
+
+	})
+}
+// 学生优惠券
 const privilegeCoupon = function() {
 	return $http.get(urlManage.getPrivilegeCouponUrl, {
 	})
+	}
+
+//分享助力活动详情
+const getShareDetail = function() {
+	return $http.get(urlManage.getShareDetail, {})
+}
+//助力活动用户数据
+const getUserShare = function() {
+	return $http.get(urlManage.getUserShare, {})
+}
+//领取助力奖励
+const getUserSharePrice = function() {
+	return $http.get(urlManage.getUserSharePrice, {})
+
 }
 export {
 	wxLogin,
@@ -420,5 +435,8 @@ export {
 	getUserCollection,
 	getUniversit,
 	authenticationUpdateUrl,
-	privilegeCoupon
+	privilegeCoupon,
+	getShareDetail,
+	getUserShare,
+	getUserSharePrice,
 }

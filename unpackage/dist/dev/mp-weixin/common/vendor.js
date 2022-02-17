@@ -4730,7 +4730,7 @@ module.exports = index_cjs;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.privilegeCoupon = exports.authenticationUpdateUrl = exports.getUniversit = exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUpload = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.getUserSharePrice = exports.getUserShare = exports.getShareDetail = exports.privilegeCoupon = exports.authenticationUpdateUrl = exports.getUniversit = exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUpload = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
 var _requestConfig = _interopRequireDefault(__webpack_require__(/*! ./requestConfig.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 接口管理
 var urlManage = {
   wxLoginUrl: 'wx/login', // 微信登录(1-1)
@@ -4787,11 +4787,13 @@ var urlManage = {
 
   getUniversityUrl: 'api/home/university', //获取学校
   getAuthenticationUpdateUrl: 'api/user/authentication_update', //学生认证
-  getPrivilegeCouponUrl: 'api/user/getPrivilegeCoupon' //学生特权优惠券
+  getPrivilegeCouponUrl: 'api/user/getPrivilegeCoupon', //学生特权优惠券
+
+
+  getShareDetail: 'api/activity/share_detail', //分享助力活动详情
+  getUserShare: 'api/user/share', //助力活动用户数据
+  getUserSharePrice: 'api/user/share_price' //领取助力奖励
 };
-
-
-
 
 
 
@@ -5102,12 +5104,25 @@ exports.getUniversit = getUniversit;var authenticationUpdateUrl = function authe
 
 
 };
-
-// 学生认证
+// 学生优惠券
 exports.authenticationUpdateUrl = authenticationUpdateUrl;var privilegeCoupon = function privilegeCoupon() {
   return _requestConfig.default.get(urlManage.getPrivilegeCouponUrl, {});
 
-};exports.privilegeCoupon = privilegeCoupon;
+};
+
+//分享助力活动详情
+exports.privilegeCoupon = privilegeCoupon;var getShareDetail = function getShareDetail() {
+  return _requestConfig.default.get(urlManage.getShareDetail, {});
+};
+//助力活动用户数据
+exports.getShareDetail = getShareDetail;var getUserShare = function getUserShare() {
+  return _requestConfig.default.get(urlManage.getUserShare, {});
+};
+//领取助力奖励
+exports.getUserShare = getUserShare;var getUserSharePrice = function getUserSharePrice() {
+  return _requestConfig.default.get(urlManage.getUserSharePrice, {});
+
+};exports.getUserSharePrice = getUserSharePrice;
 
 /***/ }),
 

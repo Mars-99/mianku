@@ -2,82 +2,39 @@
 	<view class="content">
 		<view class="JRMD-box" :style="{'min-height': swiperheight + 'px'}" v-if="isPage">
 			<view class="banner">
-				<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner.jpg">
+				<image class="img" mode="widthFix"
+					src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner.jpg">
 				</image>
 			</view>
 			<view class="mian-box">
 				<view class="coupon-list">
-					<view class="coupon-item">
+					<view class="coupon-item" v-for="item in prizelist" :key="item.id">
 						<view class="l-part">
-							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
-							</image>
+							<image class="img" mode="widthFix"
+								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png"></image>
 							<view class="cont">
-								<view class="t-txt"><text class="txt">￥</text>100</view>
-								<view class="b-txt">满200-100</view>
+								<view class="t-txt"><text class="txt">￥</text>{{item.restrict}}</view>
+								<view class="b-txt">满{{item.restrict}}-{{item.deduct}}</view>
 							</view>
 						</view>
 						<view class="r-part">
-							<view class="title">【民宿券】满200返100 新老客均可使用</view>
+							<view class="title">{{item.title}}</view>
 							<view class="b-cont">
 								<view class="l-txt">
 									<text class="txt">价值</text>
 									￥100
 								</view>
 								<view class="r-btn">
-									<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+									<button class="btn" type="primary" size="default" @tap="openZeroYuanDetailPage(item.id)">免费拿</button>
 								</view>
 							</view>
 						</view>
 					</view>
-					<view class="coupon-item">
-						<view class="l-part">
-							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
-							</image>
-							<view class="cont">
-								<view class="t-txt"><text class="txt">￥</text>100</view>
-								<view class="b-txt">满200-100</view>
-							</view>
-						</view>
-						<view class="r-part">
-							<view class="title">【民宿券】满200返100 新老客均可使用</view>
-							<view class="b-cont">
-								<view class="l-txt">
-									<text class="txt">价值</text>
-									￥100
-								</view>
-								<view class="r-btn">
-									<button class="btn" type="primary" size="default" @tap="">免费拿</button>
-								</view>
-							</view>
-						</view>
-					</view>
-					<view class="coupon-item">
-						<view class="l-part">
-							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
-							</image>
-							<view class="cont">
-								<view class="t-txt"><text class="txt">￥</text>100</view>
-								<view class="b-txt">满200-100</view>
-							</view>
-						</view>
-						<view class="r-part">
-							<view class="title">【民宿券】满200返100 新老客均可使用</view>
-							<view class="b-cont">
-								<view class="l-txt">
-									<text class="txt">价值</text>
-									￥100
-								</view>
-								<view class="r-btn">
-									<button class="btn" type="primary" size="default" @tap="">免费拿</button>
-								</view>
-							</view>
-						</view>
-					</view>
-
 				</view>
 			</view>
 			<view class="bottom-zw">
-				<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
+				<image class="img" mode="widthFix"
+					src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
 				</image>
 			</view>
 
@@ -86,7 +43,8 @@
 			<view class="coupon-list">
 				<view class="coupon-item">
 					<view class="l-part">
-						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						<image class="img" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
 						</image>
 						<view class="cont">
 							<view class="t-txt"><text class="txt">￥</text>100</view>
@@ -108,7 +66,8 @@
 				</view>
 				<view class="coupon-item">
 					<view class="l-part">
-						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						<image class="img" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
 						</image>
 						<view class="cont">
 							<view class="t-txt"><text class="txt">￥</text>100</view>
@@ -130,7 +89,8 @@
 				</view>
 				<view class="coupon-item">
 					<view class="l-part">
-						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						<image class="img" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
 						</image>
 						<view class="cont">
 							<view class="t-txt"><text class="txt">￥</text>100</view>
@@ -145,7 +105,7 @@
 								￥100
 							</view>
 							<view class="r-btn">
-								<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+								<button class="btn" type="primary" size="default" >免费拿</button>
 							</view>
 						</view>
 					</view>
@@ -156,18 +116,22 @@
 		<view class="botton-nav">
 			<view class="nav-item" @tap="openJRMD()">
 				<view class="icon">
-					<image class="img" v-if="isPage" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon-act.png">
+					<image class="img" v-if="isPage" mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon-act.png">
 					</image>
-					<image class="img" v-else mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon.png">
+					<image class="img" v-else mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon.png">
 					</image>
 				</view>
 				今日免单
 			</view>
 			<view class="nav-item" @tap="openWDMD()">
 				<view class="icon">
-					<image class="img" v-if="isPage" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon.png">
+					<image class="img" v-if="isPage" mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon.png">
 					</image>
-					<image class="img" v-else mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon-act.png">
+					<image class="img" v-else mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon-act.png">
 					</image>
 				</view>
 				我的免单
@@ -178,11 +142,22 @@
 </template>
 
 <script>
+	import {
+		mapActions,
+		mapGetters
+	} from 'vuex'
+	import {
+		getShareDetail,
+		getUserShare,
+		getUserSharePrice
+	} from '@/utils/request/manage.js'
 	export default {
 		data() {
 			return {
 				swiperheight: 0,
 				isPage: true,
+				prizelist: [],
+				myPrizeList:[]
 			}
 		},
 		mounted() {
@@ -194,13 +169,48 @@
 				}
 			})
 		},
+		computed: {
+			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
+		},
+		onLoad() {
+			this.initData()
+		},
 		methods: {
 			openJRMD() {
 				this.isPage = true;
 			},
 			openWDMD() {
 				this.isPage = false;
-			}
+			},
+			async initData() {
+				const {
+					data
+				} = await getShareDetail()
+				for (let i = 1; i <= 10; i++) {
+					let target = 'target' + i
+					let reward = 'reward' + i
+					let prize = 'prize' + i
+					if (data.data.share[target] > 0 && data.data.share[reward] > 0) {
+						this.prizelist = this.prizelist.concat(data.data[prize])
+					}
+				}
+				// const {data1} = await getUserShare()
+				// this.myPrizeList = data1.data
+				// console.log('助力活动用户数据:',data1)
+				// const {data2} = await getUserSharePrice()
+				// console.log('领取助力奖励:',data2)
+			},
+			openZeroYuanDetailPage(id){
+				let current_user = uni.getStorageSync('userinfo')
+				if (!current_user) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+				uni.navigateTo({
+					url: '../zero-yuan/zero-yuan-detail?id='+id
+				})
+			},
 		}
 	}
 </script>
@@ -322,6 +332,7 @@
 
 		.WDMD-box {
 			margin-top: 30rpx;
+
 			.coupon-list {
 				.coupon-item {
 					background-color: #ffffff;
