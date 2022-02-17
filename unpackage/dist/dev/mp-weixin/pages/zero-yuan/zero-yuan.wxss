@@ -1,0 +1,200 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+/* 水平间距 */
+.content .JRMD-box.data-v-7ac33e64 {
+  background-color: #b90d1d;
+}
+.content .JRMD-box .banner .img.data-v-7ac33e64 {
+  width: 100%;
+  display: block;
+}
+.content .JRMD-box .mian-box.data-v-7ac33e64 {
+  background: url(https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-bg.jpg) repeat-y;
+  background-position: center;
+  background-size: 100%;
+  padding: 20rpx;
+}
+.content .JRMD-box .mian-box .coupon-list.data-v-7ac33e64 {
+  margin-top: -100px;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item.data-v-7ac33e64 {
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  width: 85%;
+  margin: 30rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .l-part.data-v-7ac33e64 {
+  width: 35%;
+  position: relative;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .l-part .img.data-v-7ac33e64 {
+  width: 100%;
+  display: block;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .l-part .cont.data-v-7ac33e64 {
+  position: absolute;
+  top: 15%;
+  left: 60rpx;
+  text-align: center;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .l-part .cont .t-txt.data-v-7ac33e64 {
+  font-size: 40rpx;
+  color: #ffffff;
+  font-weight: bold;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .l-part .cont .t-txt .txt.data-v-7ac33e64 {
+  font-size: 24rpx;
+  font-weight: 100;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .l-part .cont .b-txt.data-v-7ac33e64 {
+  background-color: #e93f41;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+  padding: 5rpx 10rpx;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .r-part.data-v-7ac33e64 {
+  width: 60%;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .r-part .title.data-v-7ac33e64 {
+  font-weight: bold;
+  color: #333333;
+  font-size: 28rpx;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .r-part .b-cont.data-v-7ac33e64 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .r-part .b-cont .l-txt.data-v-7ac33e64 {
+  font-weight: bold;
+  color: #ed5454;
+  font-size: 28rpx;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .r-part .b-cont .l-txt .txt.data-v-7ac33e64 {
+  font-weight: 100;
+  color: #999999;
+  font-size: 24rpx;
+}
+.content .JRMD-box .mian-box .coupon-list .coupon-item .r-part .b-cont .btn.data-v-7ac33e64 {
+  border-radius: 40rpx;
+  border: none;
+  background-color: #ed5454;
+  color: #fffff;
+  line-height: 50rpx;
+  font-size: 24rpx;
+}
+.content .JRMD-box .bottom-zw .img.data-v-7ac33e64 {
+  width: 100%;
+}
+.content .WDMD-box.data-v-7ac33e64 {
+  margin-top: 30rpx;
+}
+.content .WDMD-box .coupon-list .coupon-item.data-v-7ac33e64 {
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  width: 85%;
+  margin: 30rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content .WDMD-box .coupon-list .coupon-item .l-part.data-v-7ac33e64 {
+  width: 35%;
+  position: relative;
+}
+.content .WDMD-box .coupon-list .coupon-item .l-part .img.data-v-7ac33e64 {
+  width: 100%;
+  display: block;
+}
+.content .WDMD-box .coupon-list .coupon-item .l-part .cont.data-v-7ac33e64 {
+  position: absolute;
+  top: 15%;
+  left: 60rpx;
+  text-align: center;
+}
+.content .WDMD-box .coupon-list .coupon-item .l-part .cont .t-txt.data-v-7ac33e64 {
+  font-size: 40rpx;
+  color: #ffffff;
+  font-weight: bold;
+}
+.content .WDMD-box .coupon-list .coupon-item .l-part .cont .t-txt .txt.data-v-7ac33e64 {
+  font-size: 24rpx;
+  font-weight: 100;
+}
+.content .WDMD-box .coupon-list .coupon-item .l-part .cont .b-txt.data-v-7ac33e64 {
+  background-color: #e93f41;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+  padding: 5rpx 10rpx;
+}
+.content .WDMD-box .coupon-list .coupon-item .r-part.data-v-7ac33e64 {
+  width: 60%;
+}
+.content .WDMD-box .coupon-list .coupon-item .r-part .title.data-v-7ac33e64 {
+  font-weight: bold;
+  color: #333333;
+  font-size: 28rpx;
+}
+.content .WDMD-box .coupon-list .coupon-item .r-part .b-cont.data-v-7ac33e64 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content .WDMD-box .coupon-list .coupon-item .r-part .b-cont .l-txt.data-v-7ac33e64 {
+  font-weight: bold;
+  color: #ed5454;
+  font-size: 28rpx;
+}
+.content .WDMD-box .coupon-list .coupon-item .r-part .b-cont .l-txt .txt.data-v-7ac33e64 {
+  font-weight: 100;
+  color: #999999;
+  font-size: 24rpx;
+}
+.content .WDMD-box .coupon-list .coupon-item .r-part .b-cont .btn.data-v-7ac33e64 {
+  border-radius: 40rpx;
+  border: none;
+  background-color: #ed5454;
+  color: #fffff;
+  line-height: 50rpx;
+  font-size: 24rpx;
+}
+.content .botton-nav.data-v-7ac33e64 {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 30rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content .botton-nav .nav-item.data-v-7ac33e64 {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2rpx #e0e0e0 solid;
+}
+.content .botton-nav .nav-item .icon.data-v-7ac33e64 {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}
+.content .botton-nav .nav-item .icon .img.data-v-7ac33e64 {
+  width: 100%;
+}
+.content .botton-nav .nav-item.data-v-7ac33e64:last-child {
+  border-right: 0;
+}
+.data-v-7ac33e64 button::after {
+  border: none;
+}
+

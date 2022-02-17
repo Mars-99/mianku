@@ -1,0 +1,1 @@
+<view class="load-more" style="{{'background-color:'+(bgc)+';'+('height:'+(height+'rpx')+';')}}"><block wx:if="{{$root.g0}}"><view class="mix-load-icon hticon icon-zhongxinjiazai"></view></block><text class="mix-load-text">{{''+(loadingType===0?contentText[0]:loadingType===1?contentText[1]:contentText[2])+''}}</text></view>

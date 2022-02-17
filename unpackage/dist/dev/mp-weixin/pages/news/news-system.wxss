@@ -1,0 +1,95 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+/* 水平间距 */
+.system-list-wrapper.data-v-4e7aef26 {
+  padding: 30rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.system-list-wrapper .msg-icon.data-v-4e7aef26 {
+  position: relative;
+  width: 80rpx;
+  height: 80rpx;
+}
+.system-list-wrapper .msg-icon .user-img.data-v-4e7aef26,
+.system-list-wrapper .msg-icon .img.data-v-4e7aef26 {
+  width: 100%;
+  border-radius: 40rpx;
+}
+.system-list-wrapper .msg-icon .red-dot.data-v-4e7aef26 {
+  position: absolute;
+  right: -4rpx;
+  top: -4rpx;
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 18rpx;
+  border: 4rpx solid #FFF;
+  background-color: #FF2B25;
+}
+.system-list-wrapper .msg-content.data-v-4e7aef26 {
+  padding: 0 30rpx 30rpx 30rpx;
+  border-bottom: 1px solid #E1E1E1;
+  width: 88%;
+}
+.system-list-wrapper .msg-content .msg-content-top .msg-name.data-v-4e7aef26 {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 18rpx;
+}
+.system-list-wrapper .msg-content .msg-content-top .msg-time.data-v-4e7aef26 {
+  font-size: 24rpx;
+  color: #999;
+}
+.system-list-wrapper .msg-content .msg-content-bottom.data-v-4e7aef26 {
+  font-size: 26rpx;
+  color: #666;
+}
+/* 遮罩 */
+.shade.data-v-4e7aef26 {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-touch-callout: none;
+}
+.shade .pop.data-v-4e7aef26 {
+  position: fixed;
+  z-index: 101;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-align: left;
+  color: #333;
+  background-color: #fff;
+  box-shadow: 0px 4rpx 10rpx 0px rgba(0, 0, 0, 0.14);
+  line-height: 40px;
+  transition: -webkit-transform 0.15s ease-in-out 0s;
+  transition: transform 0.15s ease-in-out 0s;
+  transition: transform 0.15s ease-in-out 0s, -webkit-transform 0.15s ease-in-out 0s;
+  -webkit-user-select: none;
+          user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-transform: scale(0, 0);
+          transform: scale(0, 0);
+  padding: 8px 5px;
+}
+.shade .pop.show.data-v-4e7aef26 {
+  -webkit-transform: scale(1, 1);
+          transform: scale(1, 1);
+}
+.shade .pop > view.data-v-4e7aef26 {
+  padding: 0 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-user-select: none;
+          user-select: none;
+  -webkit-touch-callout: none;
+}
+.shade .pop > view.data-v-4e7aef26:active {
+  background-color: #f3f3f3;
+}
+

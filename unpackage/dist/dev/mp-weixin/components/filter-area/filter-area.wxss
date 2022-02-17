@@ -1,0 +1,193 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+/* 水平间距 */
+.c-flex-align.data-v-14ff010a {
+  display: flex;
+  align-items: center;
+}
+.c-flex-center.data-v-14ff010a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.filter-area.data-v-14ff010a {
+  padding: 30rpx 50rpx;
+}
+.filter-area .filter-list.data-v-14ff010a {
+  display: flex;
+  justify-content: space-between;
+}
+.filter-area .filter-list .filter-item.data-v-14ff010a {
+  font-size: 24rpx;
+  font-weight: bold;
+}
+.filter-area .filter-list .filter-item .icon.data-v-14ff010a {
+  display: inline-flex;
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 18rpx;
+  background-color: #f6f7fa;
+  margin: 0 10rpx;
+  padding: 5rpx;
+  justify-content: center;
+  align-items: center;
+}
+.navs.data-v-14ff010a {
+  position: relative;
+  height: 110rpx;
+  padding: 0 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border-bottom: 2rpx solid #f5f6f9;
+  color: #8b9aae;
+  z-index: 999;
+  box-sizing: border-box;
+}
+.navs .date.data-v-14ff010a {
+  justify-content: flex-end;
+}
+.actNav.data-v-14ff010a {
+  color: #ff941d;
+  font-weight: bold;
+}
+.mask.data-v-14ff010a {
+  z-index: 666;
+  position: fixed;
+  top: calc(25px + 150rpx);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.15s linear;
+}
+.mask.show.data-v-14ff010a {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.mask.hide.data-v-14ff010a {
+  display: none;
+}
+.popup.data-v-14ff010a {
+  z-index: 667;
+  position: fixed;
+  top: calc(25px + 150rpx);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 600rpx;
+  background-color: #ffffff;
+  border-bottom-left-radius: 20rpx;
+  border-bottom-right-radius: 20rpx;
+  overflow: scroll;
+  transition: all 1s linear;
+  opacity: 0;
+  display: none;
+  width: 100%;
+  padding: 0 0 30rpx 0;
+  border-top: 1px #f0f0f1 solid;
+}
+.popup .item-opt.data-v-14ff010a {
+  height: 80rpx;
+  padding: 0rpx 30rpx;
+  line-height: 80rpx;
+  color: #666666;
+  border-bottom: 1rpx solid #f0f0f1;
+}
+.popup .actOpt.data-v-14ff010a {
+  color: #4d7df9;
+  font-weight: bold;
+  position: relative;
+}
+.popup .actOpt.data-v-14ff010a::after {
+  content: '✓';
+  font-weight: bold;
+  font-size: 36rpx;
+  position: absolute;
+  right: 40rpx;
+}
+.popup .hot-cbd.data-v-14ff010a {
+  border-bottom: 1rpx solid #f0f0f1;
+  padding: 0 30rpx 30rpx 30rpx;
+}
+.popup .hot-cbd .h3.data-v-14ff010a {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: bold;
+  padding: 20rpx 0;
+}
+.popup .hot-cbd .txt.data-v-14ff010a {
+  background-color: #f6f7fa;
+  border-radius: 8rpx;
+  padding: 10rpx 30rpx;
+  margin: 10rpx;
+  display: inline-flex;
+  color: #ff941d;
+  font-size: 24rpx;
+}
+.popup .rs-flex.data-v-14ff010a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup .filter .sx-item.data-v-14ff010a {
+  padding: 30rpx;
+}
+.popup .filter .sx-item .sx-title.data-v-14ff010a {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: bold;
+  padding: 0 0 20rpx 0;
+}
+.popup .filter .sx-item .sx-cont .noselde.data-v-14ff010a {
+  background-color: #f6f7fa;
+  border-radius: 8rpx;
+  padding: 10rpx 30rpx;
+  margin: 10rpx;
+  display: inline-flex;
+  color: #666666;
+  font-size: 24rpx;
+}
+.popup .filter .sx-item .sx-cont .selde.data-v-14ff010a {
+  background-color: #ff941d;
+  border-radius: 8rpx;
+  padding: 10rpx 30rpx;
+  margin: 10rpx;
+  display: inline-flex;
+  color: #ffffff;
+  font-size: 24rpx;
+}
+.popup .filter .sx-item .cj-slider.data-v-14ff010a {
+  width: 90%;
+  margin: auto;
+  margin-top: 20rpx;
+}
+.popup .filter .sx-item .cj-slide__text.data-v-14ff010a {
+  text-align: center;
+  padding: 20rpx;
+}
+.popup .operate-btn.data-v-14ff010a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup .operate-btn .btn.data-v-14ff010a {
+  margin: 50rpx 30rpx;
+  border: none;
+}
+.popup .operate-btn .clear-btn.data-v-14ff010a {
+  width: 35%;
+  border: 1px #cccccc solid;
+}
+.popup .operate-btn .save-btn.data-v-14ff010a {
+  width: 60%;
+  background-color: #ff941d;
+  color: #ffffff;
+}
+.popupShow.data-v-14ff010a {
+  display: block;
+  opacity: 1;
+}
+

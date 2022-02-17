@@ -1,0 +1,1 @@
+<view><view class="cont-map"><map style="{{'width:100%;'+('height:'+(swiperheight+'px')+';')}}" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}"></map></view></view>

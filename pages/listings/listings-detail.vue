@@ -515,6 +515,10 @@
 						historyList.unshift(data.data.hotel)
 					}
 				}
+				//历史浏览记录超过10个，则删除最早浏览的记录
+				if(historyList.length>10){
+					historyList.pop()
+				}
 				uni.setStorageSync('history_list', historyList)
 
 			},
