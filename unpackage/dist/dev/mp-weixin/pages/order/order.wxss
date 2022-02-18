@@ -79,6 +79,9 @@
 .order-list .order-item .footer.data-v-127632e4 {
   padding-top: 20rpx;
   text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .order-list .order-item .footer .btn-solid.data-v-127632e4 {
   border-radius: 60rpx;
@@ -99,6 +102,11 @@
   margin: 0 10rpx;
   line-height: 60rpx;
   font-size: 26rpx;
+}
+.order-list .order-item .footer .l-part.data-v-127632e4 {
+  font-size: 24rpx;
+  color: #ed7961;
+  padding: 0 20rpx;
 }
 .none-data.data-v-127632e4 {
   border-radius: 8rpx;

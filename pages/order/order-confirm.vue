@@ -84,14 +84,14 @@
 					</view>
 					<view class="total">
 						合计：<text
-							class="number">￥{{totalPice}}</text>
+							class="number">￥{{payPice}}</text>
 					</view>
 				</view>
 			</view>
 			<view class="bottom-nav">
 				<view class="left">
 					<view class="total-number">
-						￥{{totalPice}}
+						￥{{payPice}}
 					</view>
 				</view>
 				<view class="right">
@@ -128,6 +128,7 @@
 				arriveAt: '',
 				couponId: 0, //优惠券id
 				orderNumber: 0,
+				payPice:0,
 			}
 		},
 		onLoad() {
@@ -179,7 +180,7 @@
 				this.listingsDetail = data.data
 				this.pageshow = false
 				
-				this.totalPice = Number(this.totalPice)+Number(this.listingsDetail.hotel.cleaningFee)-Number(this.listingsDetail.hotel.firstReduce)
+				this.payPice = Number(this.totalPice)+Number(this.listingsDetail.hotel.cleaningFee)-Number(this.listingsDetail.hotel.firstReduce)
 
 			},
 			openLodgerPage() {

@@ -1,1 +1,1 @@
-<label endTime="{{endTime}}" callback="{{callback}}" endText="{{endText}}" class="_span"><block wx:if="{{$slots.default}}"><slot></slot></block><block wx:else>{{''+content+''}}</block></label>
+<view class="data-v-18c54940"><block wx:if="{{isCounttime}}"><text class="data-v-18c54940">{{cancelTime}}</text></block></view>

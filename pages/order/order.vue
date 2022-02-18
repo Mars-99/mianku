@@ -41,9 +41,15 @@
 							</view>
 						</view>
 						<view class="footer" v-if="item.state===0">
-							<button class="btn-hollow" type="default" size="mini"
-								@tap="cancelOrder(item.id)">取消订单</button>
-							<button class="btn-solid" type="default" size="mini" @tap="payWX(item.id)">立即支付</button>
+							<view class="l-part">
+								<timer :endTime="item.createdAt"></timer>
+							</view>
+							<view class="r-part">
+								<button class="btn-hollow" type="default" size="mini"
+									@tap="cancelOrder(item.id)">取消订单</button>
+								<button class="btn-solid" type="default" size="mini" @tap="payWX(item.id)">立即支付</button>
+							</view>
+							
 						</view>
 						<view class="footer" v-if="item.state===1">
 							<button class="btn-solid" type="default" size="mini" @tap="customerService()">联系客服</button>
@@ -78,9 +84,11 @@
 		payWX,
 	} from '@/utils/request/manage.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
+	import timer from '@/components/djs/djs'
 	export default {
 		components: {
-			pageLoad
+			pageLoad,
+			timer
 		},
 		data() {
 			return {
@@ -95,6 +103,7 @@
 		},
 		mounted() {
 			// this.show_lists = this.orderListData
+			
 		},
 		onShow() {
 			this.getOrderList()
@@ -255,6 +264,7 @@
 					url: '../listings/listings-detail?id=' + item.hid
 				})
 			},
+	
 		}
 	}
 </script>
@@ -358,6 +368,9 @@
 			.footer {
 				padding-top: 20rpx;
 				text-align: right;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
 
 				.btn-solid {
 					border-radius: 60rpx;
@@ -379,6 +392,11 @@
 					margin: 0 10rpx;
 					line-height: 60rpx;
 					font-size: 26rpx;
+				}
+				.l-part{
+					font-size: 24rpx;
+					color: #ed7961;
+					padding: 0 20rpx;
 				}
 			}
 

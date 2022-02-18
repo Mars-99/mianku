@@ -461,8 +461,12 @@
 				this.checkIn = this.$mp.query.checkIn
 				this.checkOut = this.$mp.query.checkOut
 				this.dayCount = this.$mp.query.dayCount
-				this.checkInYH = this.checkIn.slice(5)
-				this.checkOutYH = this.checkOut.slice(5)
+				if(this.checkOut || this.checkIn){
+					this.checkInYH = this.checkIn.slice(5)
+					this.checkOutYH = this.checkOut.slice(5)
+				}else{
+					this.getTimeandWeek()
+				}
 				this.freeTrialPage = this.$mp.query.pageRoot
 				this.freeTrial()
 				console.log('freeTrialPage', this.freeTrialPage)

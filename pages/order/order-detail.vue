@@ -4,7 +4,7 @@
 			<view class="state-txt">
 				{{ orderDetail.state | payStatus }}
 			</view>
-			<view class="hint-txt" v-if="orderDetail.state == 0">订单已提交，24分18秒 后未支付订单将自动取消</view>
+			<view class="hint-txt" v-if="orderDetail.state == 0 && isCounttime">订单已提交，{{cancelTime}} 后未支付订单将自动取消</view>
 			<view class="hint-txt" v-if="orderDetail.state == 1">订单已支付，眠库民宿等待您的入住！</view>
 			<view class="hint-txt" v-if="orderDetail.state == 5">订单已退款，款项将在1-3个工作日内原来返回。</view>
 			<view class="hint-txt" v-if="orderDetail.state == 9">订单完成，眠库民宿期待您的再次到了。</view>
@@ -73,20 +73,22 @@
 	import {
 		orderDetail
 	} from '@/utils/request/manage.js'
-	import djs from '@/components/djs/djs'
+	import moment from 'moment'
 	export default {
-		components: {
-			djs:djs
-		},
 		data() {
 			return {
 				orderDetail: {},
 				reside: [],
-				rocallTime: ''
+				rocallTime: '',
+				liveCountTimes: '',
+				rocallTime: '',
+				cancelTime: '',
+				isCounttime: true
 			}
 		},
 		onLoad() {
 			this.getOrderDetail()
+			this.getCancelTime()
 		},
 		filters: {
 			payStatus(value) {
@@ -117,39 +119,28 @@
 				}
 				// this.pageshow = false
 			},
-			ComputetTime(data) {
-				let st = data.currentTime.replace(/\-/g, "/"), //当前服务器时间
-					ct = data.formatCreateTime.replace(/\-/g, "/"); //创建订单时间
-				let ts = new Date(st).getTime(),
-					tc = new Date(ct).getTime();
-				let cm = 15 * 60 * 1000 - (ts - tc);
-				this.runBack(cm);
+
+
+			getCancelTime() {
+				let t = setInterval(() => {
+					let endTime = moment(this.orderDetail.createdAt).format(); //下单时间
+					let nowTime = moment().format(); //当前时间
+					let diff = 1800 - moment(nowTime, 'YYYY-MM-DD hh:mm:ss').diff(endTime, "seconds"); //时间差
+					let days = parseInt(diff / (3600 * 24));
+					diff = diff - days * 3600 * 24;
+					let hour = parseInt(diff / 3600); //根据获得的秒数计算有多少小时
+					diff = diff - hour * 3600;
+					let minute = parseInt(diff / 60); //根据获得的秒数计算有多少分钟
+					let second = diff - 60 * minute;
+					this.cancelTime = minute + "分" + second+"秒"
+					if (diff <= 0) {
+						this.cancelTime = ' 0分0秒';
+						this.isCounttime = false;
+					    clearInterval(t);
+					}
+				}, 1000);
 			},
-			runBack(cm) {
-				if (cm > 0) {
-					cm > 60000 ?
-						(this.rocallTime =
-							(new Date(cm).getMinutes() < 10 ?
-								"0" + new Date(cm).getMinutes() :
-								new Date(cm).getMinutes()) +
-							":" +
-							(new Date(cm).getSeconds() < 10 ?
-								"0" + new Date(cm).getSeconds() :
-								new Date(cm).getSeconds())) :
-						(this.rocallTime =
-							"00:" +
-							(new Date(cm).getSeconds() < 10 ?
-								"0" + new Date(cm).getSeconds() :
-								new Date(cm).getSeconds()));
-					let _msThis = this;
-					setTimeout(function() {
-						cm -= 1000;
-						_msThis.runBack(cm);
-					}, 1000);
-				} else {
-					this.changeOrderState(); //调用改变订单状态接口
-				}
-			},
+
 		}
 	}
 </script>

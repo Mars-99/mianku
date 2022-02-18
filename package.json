@@ -1,8 +1,8 @@
 {
   "name": "mianku",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
+  "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,5 +10,18 @@
   "license": "ISC",
   "dependencies": {
     "gcoord": "^0.3.2"
-  }
+  },
+  "devDependencies": {
+    "moment": "^2.29.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mars-99/mianku.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Mars-99/mianku/issues"
+  },
+  "homepage": "https://github.com/Mars-99/mianku#readme",
+  "private": true
 }
