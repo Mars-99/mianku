@@ -218,6 +218,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -257,7 +260,11 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                 _this.userinfo = uni.getStorageSync('userinfo');if (
                 _this.userinfo) {_context.next = 7;break;}
                 _this.$api.msg('请先登录');
-                _this.$api.href('../login/login?recommend=' + _this.$mp.query.recommend);return _context.abrupt("return");case 7:_context.next = 9;return (
+                if (_this.$mp.query.recommend) {
+                  _this.$api.href('../login/login?recommend=' + _this.$mp.query.recommend);
+                } else {
+                  _this.$api.href('../login/login');
+                }return _context.abrupt("return");case 7:_context.next = 9;return (
 
 
 
@@ -281,7 +288,8 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
     },
     Share: function Share() {
       this.share.title = '0元领福利';
-      this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id + '&recommend=' + this.userinfo.id;
+      this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id + '&recommend=' + this.
+      userinfo.id;
       this.share.imageUrl = '';
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

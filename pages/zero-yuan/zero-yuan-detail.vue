@@ -1,7 +1,8 @@
 <template>
 	<view class="content">
 		<view class="banner">
-			<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner-detail.jpg">
+			<image class="img" mode="widthFix"
+				src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner-detail.jpg">
 			</image>
 			<view class="user-cont">
 				<view class="avatar">
@@ -17,7 +18,8 @@
 			<view class="coupon-list">
 				<view class="coupon-item">
 					<view class="l-part">
-						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						<image class="img" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
 						</image>
 						<view class="cont" v-if="detail_info.prize.type == 2">
 							<view class="t-txt">{{detail_info.prize.discount}}</view>
@@ -57,7 +59,8 @@
 
 		</view>
 		<view class="bottom-zw">
-			<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
+			<image class="img" mode="widthFix"
+				src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
 			</image>
 		</view>
 		<view class="help-rule">
@@ -98,11 +101,11 @@
 	export default {
 		data() {
 			return {
-				detail_info:{
-					share:{},
-					prize:{}
+				detail_info: {
+					share: {},
+					prize: {}
 				},
-				userinfo:{},
+				userinfo: {},
 				share: {
 					title: '0元领福利',
 					path: '/pages/index/index',
@@ -112,20 +115,24 @@
 				}
 			}
 		},
-		onLoad(){
+		onLoad() {
 			this.initData()
 		},
 		computed: {
 			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
 		},
 		methods: {
-			async initData(){	
-				console.log('recommend:',this.$mp.query.recommend)
-				console.log('shareid:',this.$mp.query.id)
-				this.userinfo = uni.getStorageSync('userinfo')	
-				if(!this.userinfo){
+			async initData() {
+				console.log('recommend:', this.$mp.query.recommend)
+				console.log('shareid:', this.$mp.query.id)
+				this.userinfo = uni.getStorageSync('userinfo')
+				if (!this.userinfo) {
 					this.$api.msg('请先登录')
-					this.$api.href('../login/login?recommend='+this.$mp.query.recommend)
+					if (this.$mp.query.recommend) {
+						this.$api.href('../login/login?recommend=' + this.$mp.query.recommend)
+					} else {
+						this.$api.href('../login/login')
+					}
 					return
 				}
 				const {
@@ -137,19 +144,20 @@
 					let reward = 'reward' + i
 					let prize = 'prize' + i
 					if (data.data.share[target] > 0 && data.data.share[reward] > 0) {
-						let selectobj = data.data[prize].find(obj=>{
+						let selectobj = data.data[prize].find(obj => {
 							return obj.id === Number(this.$mp.query.id)
 						})
-						if(selectobj){
+						if (selectobj) {
 							this.detail_info.prize = selectobj
 						}
 					}
 				}
 				this.Share()
 			},
-			Share(){
+			Share() {
 				this.share.title = '0元领福利'
-				this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id+'&recommend='+this.userinfo.id
+				this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id + '&recommend=' + this
+					.userinfo.id
 				this.share.imageUrl = ''
 			}
 		}
