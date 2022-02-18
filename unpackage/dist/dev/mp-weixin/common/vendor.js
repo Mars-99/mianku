@@ -2260,15 +2260,16 @@ var store = new _vuex.default.Store({
     } },
 
   actions: {
-    login: function login(context) {var _this = this;
+    login: function login(context, param) {var _this = this;
       return new Promise(function (resolve, reject) {
+        console.log('vuex recommend:', param);
         var _self = _this;
         uni.login({
           provider: 'weixin',
           success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(wxloginRes) {var _yield$wxLogin, res, _yield$userDetail, user_data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
 
 
-                        (0, _manage.wxLogin)(wxloginRes.code));case 2:_yield$wxLogin = _context.sent;res = _yield$wxLogin.data;if (!(
+                        (0, _manage.wxLogin)(wxloginRes.code, param));case 2:_yield$wxLogin = _context.sent;res = _yield$wxLogin.data;if (!(
 
                       res.code == 1)) {_context.next = 8;break;}return _context.abrupt("return",
                       _self.$api.msg('登录失败!' + res.msg));case 8:
@@ -4799,6 +4800,7 @@ var urlManage = {
 
 // 微信登录(1-1)
 var wxLogin = function wxLogin(code, recommend) {
+  console.log('wxLogin recommend:', recommend);
   return _requestConfig.default.post(urlManage.wxLoginUrl, {
     code: code,
     recommend: recommend });

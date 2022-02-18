@@ -44,16 +44,20 @@
 		methods: {
 			...mapActions(['login','authUserInfo','getPhoneNumber']),
 			async init(){
-				if(!this.getIsLogin){
-					await this.login()
+				// if(!this.getIsLogin){
+				// 	await this.login()
+				// }
+				let current_user = uni.getStorageSync('userinfo')
+				if (!current_user) {
+					console.log('login页面获取到的recommend值：',this.$mp.query.recommend)
+					await this.login(this.$mp.query.recommend)
 				}
 			},
 			auth(){
 				if(this.getNeedAuth){
 					this.authUserInfo()
 				}
-			},
-			
+			},			
 			getPhoneNumber(e){
 				console.log(e)
 				const userinfo = uni.getStorageSync('userinfo');

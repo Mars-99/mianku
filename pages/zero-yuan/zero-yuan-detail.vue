@@ -10,7 +10,7 @@
 				</view>
 				<view class="name">{{userinfo.userName}}</view>
 				<view class="slogan">“朋友们,求点击助力！”</view>
-				<view class="countdown">助力倒计时：<span>23</span>:<span>18</span>:<span>08</span></view>
+				<!-- <view class="countdown">助力倒计时：<span>23</span>:<span>18</span>:<span>08</span></view> -->
 			</view>
 		</view>
 		<view class="main-box">
@@ -120,7 +120,14 @@
 		},
 		methods: {
 			async initData(){	
-				this.userinfo = uni.getStorageSync('userinfo')				
+				console.log('recommend:',this.$mp.query.recommend)
+				console.log('shareid:',this.$mp.query.id)
+				this.userinfo = uni.getStorageSync('userinfo')	
+				if(!this.userinfo){
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login?recommend='+this.$mp.query.recommend)
+					return
+				}
 				const {
 					data
 				} = await getShareDetail()
@@ -142,7 +149,7 @@
 			},
 			Share(){
 				this.share.title = '0元领福利'
-				this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id
+				this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id+'&recommend='+this.userinfo.id
 				this.share.imageUrl = ''
 			}
 		}
