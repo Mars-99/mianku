@@ -234,7 +234,14 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
         share: {},
         prize: {} },
 
-      userinfo: {} };
+      userinfo: {},
+      share: {
+        title: '0元领福利',
+        path: '/pages/index/index',
+        imageUrl: '',
+        desc: '',
+        content: '' } };
+
 
   },
   onLoad: function onLoad() {
@@ -263,10 +270,12 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                     }
                   }
                 }
-                console.log('aaaa:', _this.detail_info);case 8:case "end":return _context.stop();}}}, _callee);}))();
+                _this.Share();case 8:case "end":return _context.stop();}}}, _callee);}))();
     },
-    shareActivity: function shareActivity() {
-
+    Share: function Share() {
+      this.share.title = '0元领福利';
+      this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id;
+      this.share.imageUrl = '';
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

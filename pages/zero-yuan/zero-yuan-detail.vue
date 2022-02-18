@@ -31,7 +31,7 @@
 					<view class="r-part">
 						<view class="title">{{detail_info.prize.title}}</view>
 						<view class="b-cont">
-							<view class="l-txt" v-if="item.type == 2">
+							<view class="l-txt" v-if="detail_info.prize.type == 2">
 								<text class="txt">享所有房源</text>
 								{{detail_info.prize.discount}}折
 							</view>
@@ -51,7 +51,7 @@
 					ddadadad
 				</view>
 				<view class="help-btn">
-					<button class="btn" type="primary" size="default" @tap="shareActivity()">分享领助力包</button>
+					<button class="btn" type="primary" size="default" @tap="Share()">分享领助力包</button>
 				</view>
 			</view>
 
@@ -102,7 +102,14 @@
 					share:{},
 					prize:{}
 				},
-				userinfo:{}
+				userinfo:{},
+				share: {
+					title: '0元领福利',
+					path: '/pages/index/index',
+					imageUrl: '',
+					desc: '',
+					content: ''
+				}
 			}
 		},
 		onLoad(){
@@ -131,10 +138,12 @@
 						}
 					}
 				}
-				console.log('aaaa:',this.detail_info)
+				this.Share()
 			},
-			shareActivity(){
-				
+			Share(){
+				this.share.title = '0元领福利'
+				this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id
+				this.share.imageUrl = ''
 			}
 		}
 	}
