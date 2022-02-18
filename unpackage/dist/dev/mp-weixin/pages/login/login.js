@@ -175,9 +175,14 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
   methods: _objectSpread(_objectSpread({},
   (0, _vuex.mapActions)(['login', 'authUserInfo', 'getPhoneNumber'])), {}, {
-    init: function init() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (
-                _this.getIsLogin) {_context.next = 3;break;}_context.next = 3;return (
-                  _this.login());case 3:case "end":return _context.stop();}}}, _callee);}))();
+    init: function init() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var current_user;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                // if(!this.getIsLogin){
+                // 	await this.login()
+                // }
+                current_user = uni.getStorageSync('userinfo');if (
+                current_user) {_context.next = 5;break;}
+                console.log('login页面获取到的recommend值：', _this.$mp.query.recommend);_context.next = 5;return (
+                  _this.login(_this.$mp.query.recommend));case 5:case "end":return _context.stop();}}}, _callee);}))();
 
     },
     auth: function auth() {
@@ -185,7 +190,6 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
         this.authUserInfo();
       }
     },
-
     getPhoneNumber: function getPhoneNumber(e) {
       console.log(e);
       var userinfo = uni.getStorageSync('userinfo');

@@ -73,6 +73,7 @@ let urlManage = {
 
 // 微信登录(1-1)
 const wxLogin = function(code, recommend) {
+	console.log('wxLogin recommend:',recommend)
 	return $http.post(urlManage.wxLoginUrl, {
 		code: code,
 		recommend: recommend,

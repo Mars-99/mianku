@@ -322,7 +322,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
     openWDMD: function openWDMD() {
       this.isPage = false;
     },
-    initData: function initData() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$getShareDetail, data, i, target, reward, prize;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    initData: function initData() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$getShareDetail, data, i, target, reward, prize, _yield$getUserShare, data1, _yield$getUserSharePr, data2;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
 
 
                   (0, _manage.getShareDetail)());case 2:_yield$getShareDetail = _context.sent;data = _yield$getShareDetail.data;
@@ -333,14 +333,13 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                   if (data.data.share[target] > 0 && data.data.share[reward] > 0) {
                     _this2.prizelist = _this2.prizelist.concat(data.data[prize]);
                   }
-                }
-                console.log("this.prizelist", _this2.prizelist);
-                // const {data1} = await getUserShare()
+                }_context.next = 7;return (
+                  (0, _manage.getUserShare)());case 7:_yield$getUserShare = _context.sent;data1 = _yield$getUserShare.data1;
                 // this.myPrizeList = data1.data
-                // console.log('助力活动用户数据:',data1)
-                // const {data2} = await getUserSharePrice()
-                // console.log('领取助力奖励:',data2)
-              case 6:case "end":return _context.stop();}}}, _callee);}))();},
+                console.log('助力活动用户数据:', _this2.data1);_context.next = 12;return (
+                  (0, _manage.getUserSharePrice)());case 12:_yield$getUserSharePr = _context.sent;data2 = _yield$getUserSharePr.data2;
+                console.log('领取助力奖励:', data2);case 15:case "end":return _context.stop();}}}, _callee);}))();
+    },
     openZeroYuanDetailPage: function openZeroYuanDetailPage(id) {
       var current_user = uni.getStorageSync('userinfo');
       if (!current_user) {

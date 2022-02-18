@@ -211,6 +211,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -223,8 +230,18 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 {
   data: function data() {
     return {
-      detail_info: {},
-      userinfo: {} };
+      detail_info: {
+        share: {},
+        prize: {} },
+
+      userinfo: {},
+      share: {
+        title: '0元领福利',
+        path: '/pages/index/index',
+        imageUrl: '',
+        desc: '',
+        content: '' } };
+
 
   },
   onLoad: function onLoad() {
@@ -235,10 +252,17 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
   methods: {
     initData: function initData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$getShareDetail, data, i, target, reward, prize, selectobj;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                _this.userinfo = uni.getStorageSync('userinfo');_context.next = 3;return (
+                console.log('recommend:', _this.$mp.query.recommend);
+                console.log('shareid:', _this.$mp.query.id);
+                _this.userinfo = uni.getStorageSync('userinfo');if (
+                _this.userinfo) {_context.next = 7;break;}
+                _this.$api.msg('请先登录');
+                _this.$api.href('../login/login?recommend=' + _this.$mp.query.recommend);return _context.abrupt("return");case 7:_context.next = 9;return (
 
 
-                  (0, _manage.getShareDetail)());case 3:_yield$getShareDetail = _context.sent;data = _yield$getShareDetail.data;
+
+
+                  (0, _manage.getShareDetail)());case 9:_yield$getShareDetail = _context.sent;data = _yield$getShareDetail.data;
                 _this.detail_info.share = data.data.share;
                 for (i = 1; i <= 10; i++) {
                   target = 'target' + i;
@@ -253,13 +277,12 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                     }
                   }
                 }
-                console.log('aaaaaa:', _this.detail_info);
-                // const {data1} = await getUserShare()
-                // this.myPrizeList = data1.data
-                // console.log('助力活动用户数据:',data1)
-              case 8:case "end":return _context.stop();}}}, _callee);}))();},
-    share: function share() {
-
+                _this.Share();case 14:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    Share: function Share() {
+      this.share.title = '0元领福利';
+      this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id + '&recommend=' + this.userinfo.id;
+      this.share.imageUrl = '';
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

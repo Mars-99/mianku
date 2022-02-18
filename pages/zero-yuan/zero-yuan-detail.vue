@@ -10,7 +10,7 @@
 				</view>
 				<view class="name">{{userinfo.userName}}</view>
 				<view class="slogan">“朋友们,求点击助力！”</view>
-				<view class="countdown">助力倒计时：<span>23</span>:<span>18</span>:<span>08</span></view>
+				<!-- <view class="countdown">助力倒计时：<span>23</span>:<span>18</span>:<span>08</span></view> -->
 			</view>
 		</view>
 		<view class="main-box">
@@ -19,17 +19,25 @@
 					<view class="l-part">
 						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
 						</image>
-						<view class="cont">
-							<view class="t-txt"><text class="txt">￥</text>{{detail_info.prize.restrict}}</view>
-							<view class="b-txt">满{{detail_info.prize.restrict}}{{detail_info.prize.deduct}}</view>
+						<view class="cont" v-if="detail_info.prize.type == 2">
+							<view class="t-txt">{{detail_info.prize.discount}}</view>
+							<view class="b-txt">全场通用</view>
+						</view>
+						<view class="cont" v-else>
+							<view class="t-txt"><text class="txt">￥</text>{{detail_info.prize.deduct}}</view>
+							<view class="b-txt">满{{detail_info.prize.restrict}}-{{detail_info.prize.deduct}}</view>
 						</view>
 					</view>
 					<view class="r-part">
-						<view class="title">{{detail_info.prize,title}}</view>
+						<view class="title">{{detail_info.prize.title}}</view>
 						<view class="b-cont">
-							<view class="l-txt">
+							<view class="l-txt" v-if="detail_info.prize.type == 2">
+								<text class="txt">享所有房源</text>
+								{{detail_info.prize.discount}}折
+							</view>
+							<view class="l-txt" v-else>
 								<text class="txt">价值</text>
-								￥100
+								￥{{detail_info.prize.deduct}}
 							</view>
 						</view>
 					</view>
@@ -43,7 +51,7 @@
 					ddadadad
 				</view>
 				<view class="help-btn">
-					<button class="btn" type="primary" size="default" @tap="share()">分享领助力包</button>
+					<button class="btn" type="primary" size="default" @tap="Share()">分享领助力包</button>
 				</view>
 			</view>
 
@@ -54,8 +62,7 @@
 		</view>
 		<view class="help-rule">
 			<view class="title">活动规则</view>
-			<view class="cont">
-				{{detail_info.share.remark}}
+			<view class="cont" v-html="detail_info.share.remark">
 				<!-- 1.免单攻略：<br>
 				1） 选择心仪的民宿券，点击免费拿;<br>
 				2）分享微信好友；<br>
@@ -91,8 +98,18 @@
 	export default {
 		data() {
 			return {
-				detail_info:{},
-				userinfo:{}
+				detail_info:{
+					share:{},
+					prize:{}
+				},
+				userinfo:{},
+				share: {
+					title: '0元领福利',
+					path: '/pages/index/index',
+					imageUrl: '',
+					desc: '',
+					content: ''
+				}
 			}
 		},
 		onLoad(){
@@ -103,7 +120,14 @@
 		},
 		methods: {
 			async initData(){	
-				this.userinfo = uni.getStorageSync('userinfo')				
+				console.log('recommend:',this.$mp.query.recommend)
+				console.log('shareid:',this.$mp.query.id)
+				this.userinfo = uni.getStorageSync('userinfo')	
+				if(!this.userinfo){
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login?recommend='+this.$mp.query.recommend)
+					return
+				}
 				const {
 					data
 				} = await getShareDetail()
@@ -121,13 +145,12 @@
 						}
 					}
 				}
-				console.log('aaaaaa:',this.detail_info)
-				// const {data1} = await getUserShare()
-				// this.myPrizeList = data1.data
-				// console.log('助力活动用户数据:',data1)
+				this.Share()
 			},
-			share(){
-				
+			Share(){
+				this.share.title = '0元领福利'
+				this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id+'&recommend='+this.userinfo.id
+				this.share.imageUrl = ''
 			}
 		}
 	}
