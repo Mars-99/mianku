@@ -1,82 +1,93 @@
 <template>
 	<view>
-		<page-load v-if="pageshow"></page-load>
-		<view v-else class="uni-padding-wrap uni-common-mt">
-			<view style="background-color: #ffffff;">
-				<uni-segmented-control :activeIndex="activeIndex" :values="items" style-type="text"
-					active-color="#ff941d" @clickItem="onClickItem" />
-			</view>
-			<view class="content">
-				<view class="order-list" v-if="orderListData.length>0">
-					<view class="order-item" v-for="(item ,index) in orderListData" :key="index">
-						<view class="head">
-							<view class="order-number">
-								<view class="icon">
-									<image class="img" mode="widthFix"
-										src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order-list-icon.png">
-									</image>
-								</view>
-								<view class="number">{{item.orderId}}</view>
-							</view>
-							<view class="order-state">{{ item.state | payStatus }}</view>
-						</view>
-						<view class="body" @tap="openOrderDetail(item.id)">
-							<view class="listings">
-								<view class="picture">
-									<image class="img" :v-if="item.thum" mode="widthFix" :src="item.thum">
-									</image>
-								</view>
-								<view class="info">
-									<view class="title">
-										{{item.title}}
+		<view class="login" v-if="!current_user">
+			<uni-icons type="contact" size="100" color="#dddddd"></uni-icons>
+			<view class="txt">您尚未登录，请登录后查看</view>
+			<button class="btn" type="primary" size="default" @tap="isLogin">登录/注册</button>
+		</view>
+		<view v-else>
+			<page-load v-if="pageshow"></page-load>
+			<view v-else class="uni-padding-wrap uni-common-mt">
+				<view style="background-color: #ffffff;">
+					<uni-segmented-control :activeIndex="activeIndex" :values="items" style-type="text"
+						active-color="#ff941d" @clickItem="onClickItem" />
+				</view>
+				<view class="content">
+					<view class="order-list" v-if="orderListData.length>0">
+						<view class="order-item" v-for="(item ,index) in orderListData" :key="index">
+							<view class="head">
+								<view class="order-number">
+									<view class="icon">
+										<image class="img" mode="widthFix"
+											src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order-list-icon.png">
+										</image>
 									</view>
-									<view class="date">
-										<view class="in-out">{{item.checkIn}}至{{item.checkOut}}</view>
+									<view class="number">{{item.orderId}}</view>
+								</view>
+								<view class="order-state">{{ item.state | payStatus }}</view>
+							</view>
+							<view class="body" @tap="openOrderDetail(item.id)">
+								<view class="listings">
+									<view class="picture">
+										<image class="img" :v-if="item.thum" mode="widthFix" :src="item.thum">
+										</image>
 									</view>
-									<view class="status-desc">
-										<text class="active">支付金额</text>
-										<text class="txt" style="margin-left: 10rpx;">￥{{item.price}}</text>
+									<view class="info">
+										<view class="title">
+											{{item.title}}
+										</view>
+										<view class="date">
+											<view class="in-out">{{item.checkIn}}至{{item.checkOut}}</view>
+										</view>
+										<view class="status-desc">
+											<text class="active">支付金额</text>
+											<text class="txt" style="margin-left: 10rpx;">￥{{item.price}}</text>
+										</view>
 									</view>
 								</view>
 							</view>
-						</view>
-						<view class="footer" v-if="item.state===0">
-							<view class="l-part">
-								<timer :endTime="item.createdAt"></timer>
-							</view>
-							<view class="r-part">
+							<view class="footer" v-if="item.state===0">
+			
+								<view class="l-part">
+									<timer :endTime="item.createdAt"></timer>
+								</view>
 								<button class="btn-hollow" type="default" size="mini"
 									@tap="cancelOrder(item.id)">取消订单</button>
 								<button class="btn-solid" type="default" size="mini" @tap="payWX(item.id)">立即支付</button>
+								
 							</view>
-							
-						</view>
-						<view class="footer" v-if="item.state===1">
-							<button class="btn-solid" type="default" size="mini" @tap="customerService()">联系客服</button>
-						</view>
-						<view class="footer" v-if="item.state===3">
-							<button class="btn-hollow" type="default" size="mini" @tap="delOrder(item.id)">删除订单</button>
-							<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(item)">再次预定</button>
-						</view>
-						<view class="footer" v-if="item.state===9">
-							<button class="btn-hollow" type="default" size="mini" @tap="delOrder(item.id)">删除订单</button>
-							<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(item)">再次预定</button>
+							<view class="footer" v-if="item.state===1">
+								<button class="btn-solid" type="default" size="mini" @tap="customerService()">联系客服</button>
+							</view>
+							<view class="footer" v-if="item.state===3">
+								<button class="btn-hollow" type="default" size="mini" @tap="delOrder(item.id)">删除订单</button>
+								<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(item)">再次预定</button>
+							</view>
+							<view class="footer" v-if="item.state===9">
+								<button class="btn-hollow" type="default" size="mini" @tap="delOrder(item.id)">删除订单</button>
+								<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(item)">再次预定</button>
+							</view>
 						</view>
 					</view>
-				</view>
-				<view class="none-data" v-else>
-					<view class="img-signal">
-						<image class="img" mode="widthFix" src="../../static/image/no-data.png">
-						</image>
-						<text>暂无订单</text>
+					<view class="none-data" v-else>
+						<view class="img-signal">
+							<image class="img" mode="widthFix" src="../../static/image/no-data.png">
+							</image>
+							<text>暂无订单</text>
+						</view>
 					</view>
 				</view>
 			</view>
 		</view>
+
 	</view>
 </template>
 
 <script>
+	import {
+		mapActions,
+		mapGetters
+	} from 'vuex'
 	import {
 		orderList,
 		delOrder,
@@ -99,11 +110,18 @@
 				orderListData: [],
 				// show_lists: '',
 				pageshow: true,
+				current_user:null,
 			}
+		},
+		computed: {
+			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
 		},
 		mounted() {
 			// this.show_lists = this.orderListData
 			
+		},
+		onLoad() {
+		this.isLogin()	
 		},
 		onShow() {
 			this.getOrderList()
@@ -140,7 +158,7 @@
 						break;
 				}
 				this.getOrderList(this.state)
-				console.log("activeIndex", this.activeIndex)
+
 			},
 		},
 		methods: {
@@ -149,16 +167,6 @@
 				this.btnnum = e
 				if (this.activeIndex !== e.currentIndex) {
 					this.activeIndex = e.currentIndex
-					// if (this.activeIndex == 0) {
-					// 	this.show_lists = this.orderListData
-					// } else {
-					// 	this.show_lists = []
-					// 	for (let i = 0; i < this.orderListData.length; i++) {
-					// 		if (this.orderListData[i].status == this.activeIndex) {
-					// 			this.show_lists.push(this.orderListData[i])
-					// 		}
-					// 	}
-					// }
 				}
 			},
 			async getOrderList(id) {
@@ -169,8 +177,6 @@
 					return this.$api.msg(res.msg)
 				} else {
 					this.orderListData = res.data.rs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-					console.log("res", res)
-					console.log("orderListData", this.orderListData)
 				}
 				this.pageshow = false
 			},
@@ -182,9 +188,6 @@
 				if (res.code == 1) {
 					return this.$api.msg(res.msg)
 				} else {
-
-					console.log("res", res)
-
 				}
 				this.getOrderList()
 				this.pageshow = false
@@ -204,19 +207,7 @@
 				this.getOrderList()
 				this.pageshow = false
 			},
-			// async payWX(id) {
-			// 	const {
-			// 		data: res
-			// 	} = await payWX(id)
-			// 	if (res.code == 1) {
-			// 		return this.$api.msg(res.msg)
-			// 	} else {
-			// 		// this.orderNumber= res
-
-			// 		console.log("res", "支付成功", res)
-			// 	}
-
-			// },
+			
 			async payWX(id) {
 				const {
 					data: res
@@ -264,12 +255,34 @@
 					url: '../listings/listings-detail?id=' + item.hid
 				})
 			},
+			isLogin(){
+				this.current_user = uni.getStorageSync('userinfo')
+				if (!this.current_user) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+			}
 	
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.login{
+		padding: 150rpx 50rpx;
+		text-align: center;
+		.txt{
+			margin: 30rpx auto;
+		}
+		.btn{
+			background: linear-gradient(0deg, rgba(221,135,12,1) 0%, rgba(255,202,73,1) 100%);
+			color: #ffffff;
+			border-radius: 40rpx;
+			width: 50%;
+			margin: 0 auto;
+		}
+	}
 	.order-list {
 		margin: 30rpx;
 
@@ -332,13 +345,6 @@
 						width: 60%;
 
 						.title {
-							// text-overflow: -o-ellipsis-lastline;
-							// overflow: hidden;
-							// text-overflow: ellipsis;
-							// display: -webkit-box;
-							// -webkit-line-clamp: 2;
-							// line-clamp: 2;
-							// -webkit-box-orient: vertical;
 							overflow: hidden;
 							text-overflow: ellipsis;
 							white-space: nowrap;
@@ -370,7 +376,7 @@
 				text-align: right;
 				display: flex;
 				align-items: center;
-				justify-content: space-between;
+				justify-content: flex-end;
 
 				.btn-solid {
 					border-radius: 60rpx;

@@ -2,6 +2,20 @@
 /* 水平间距 */
 /* 水平间距 */
 /* 水平间距 */
+.login.data-v-127632e4 {
+  padding: 150rpx 50rpx;
+  text-align: center;
+}
+.login .txt.data-v-127632e4 {
+  margin: 30rpx auto;
+}
+.login .btn.data-v-127632e4 {
+  background: linear-gradient(0deg, #dd870c 0%, #ffca49 100%);
+  color: #ffffff;
+  border-radius: 40rpx;
+  width: 50%;
+  margin: 0 auto;
+}
 .order-list.data-v-127632e4 {
   margin: 30rpx;
 }
@@ -81,7 +95,7 @@
   text-align: right;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 .order-list .order-item .footer .btn-solid.data-v-127632e4 {
   border-radius: 60rpx;

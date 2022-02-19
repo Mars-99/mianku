@@ -1,46 +1,53 @@
 <template>
 	<view>
-		<view class="uni-padding-wrap uni-common-mt">
-			<view style="background-color: #ffffff;">
-				<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#ff941d"
-					@clickItem="onClickItem" />
-			</view>
-			<view class="content">
-				<view v-show="current === 0">
-					<view class="collect-list">
-						<uni-title type="h4" :title="collectionLength+'个房源' "></uni-title>
-						<view v-for="item in collectionList" :key="item.cid" class="collect-item" @tap="openListingsDetail(item)">
-							<view class="img-left">
-								<image mode="widthFix" :src="item.thum"></image>
-							</view>
-							<view class="cont-right">
-								<view class="info">
-									<text class="txt">{{item.cityName}}-{{item.districtName}}</text>·
-									<text class="txt">{{item.houseType}}{{item.bedType}}</text>·
-									<text class="txt">可住{{item.occupancy}}人</text>
+		<view class="login" v-if="!current_user">
+			<uni-icons type="contact" size="100" color="#dddddd"></uni-icons>
+			<view class="txt">您尚未登录，请登录后查看</view>
+			<button class="btn" type="primary" size="default" @tap="isLogin">登录/注册</button>
+		</view>
+		<view v-else>
+			<view class="uni-padding-wrap uni-common-mt">
+				<view style="background-color: #ffffff;">
+					<uni-segmented-control :current="current" :values="items" style-type="text" active-color="#ff941d"
+						@clickItem="onClickItem" />
+				</view>
+				<view class="content">
+					<view v-show="current === 0">
+						<view class="collect-list">
+							<uni-title type="h4" :title="collectionLength+'个房源' "></uni-title>
+							<view v-for="item in collectionList" :key="item.cid" class="collect-item" @tap="openListingsDetail(item)">
+								<view class="img-left">
+									<image mode="widthFix" :src="item.thum"></image>
 								</view>
-								<view class="title">
-									{{item.hotelName}}
-								</view>
-								<view class="bottom-info">
-									<view class="price">
-										<view class="CP">￥{{item.weekdaysActivity}}</view>
-										<view class="OP">￥{{item.weekdaysOriginal}}</view>
-										<view class="wan">/晚</view>
+								<view class="cont-right">
+									<view class="info">
+										<text class="txt">{{item.cityName}}-{{item.districtName}}</text>·
+										<text class="txt">{{item.houseType}}{{item.bedType}}</text>·
+										<text class="txt">可住{{item.occupancy}}人</text>
 									</view>
-									<view class="collect">
-										<uni-icons type="star" size="24" color="#cccccc" v-if="false"></uni-icons>
-										<uni-icons type="star-filled" size="24" color="#ff951d" v-else></uni-icons>
+									<view class="title">
+										{{item.hotelName}}
+									</view>
+									<view class="bottom-info">
+										<view class="price">
+											<view class="CP">￥{{item.weekdaysActivity}}</view>
+											<view class="OP">￥{{item.weekdaysOriginal}}</view>
+											<view class="wan">/晚</view>
+										</view>
+										<view class="collect">
+											<uni-icons type="star" size="24" color="#cccccc" v-if="false"></uni-icons>
+											<uni-icons type="star-filled" size="24" color="#ff951d" v-else></uni-icons>
+										</view>
 									</view>
 								</view>
 							</view>
 						</view>
 					</view>
-				</view>
-				<view v-show="current === 1">
-					<view class="history-litt">
-						<view class="listings-area">
-							<listingsItem :listingsList="historyList"></listingsItem>
+					<view v-show="current === 1">
+						<view class="history-litt">
+							<view class="listings-area">
+								<listingsItem :listingsList="historyList"></listingsItem>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -70,11 +77,13 @@
 				districtData:[],
 				pages: [{currentPage: 1,totalPage: 1,loadingType: 0}],
 				isLoading:false,
-				historyList:[]
+				historyList:[],
+				current_user:null,
 			}
 		},
 		onLoad(){
 			this.getCity()
+			this.isLogin()	
 		},
 		onShow() {
 			
@@ -100,12 +109,6 @@
 				}
 			},
 			async initData(type){
-				let current_user = uni.getStorageSync('userinfo')
-				if (!current_user) {
-					this.$api.msg('请先登录')
-					this.$api.href('../login/login')
-					return
-				}
 				const {data:res} = await getCollectionList(type)				
 							
 				// this.pages[this.current].totalPage = res.data.pages
@@ -140,11 +143,33 @@
 					url: '../listings/listings-detail?id=' + item.cid
 				})
 			},
+			isLogin(){
+				this.current_user = uni.getStorageSync('userinfo')
+				if (!this.current_user) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.login{
+		padding: 150rpx 50rpx;
+		text-align: center;
+		.txt{
+			margin: 30rpx auto;
+		}
+		.btn{
+			background: linear-gradient(0deg, rgba(221,135,12,1) 0%, rgba(255,202,73,1) 100%);
+			color: #ffffff;
+			border-radius: 40rpx;
+			width: 50%;
+			margin: 0 auto;
+		}
+	}
 	.collect-list {
 		padding: 5%;
 		background-color: #ffffff;

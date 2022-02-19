@@ -152,6 +152,10 @@
 </template>
 
 <script>
+	import {
+		mapActions,
+		mapGetters
+	} from 'vuex'
 	import listingsFilter from '../../components/listings-filter/listings-filter.vue'
 	import {
 		homeList
@@ -210,6 +214,9 @@
 
 			}
 		},
+		computed: {
+			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
+		},
 		onLoad() {
 			this.init()
 
@@ -257,6 +264,12 @@
 		methods: {
 			// 初始化数据
 			init() {
+				// let current_user = uni.getStorageSync('userinfo')
+				// if (!current_user) {
+				// 	this.$api.msg('请先登录')
+				// 	this.$api.href('../login/login')
+				// 	return
+				// }
 				this.curCityId = 1,
 					this.curCityName = '长沙'
 				this.getHomeList(this.curCityId)

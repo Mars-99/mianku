@@ -168,7 +168,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
   },
   onLoad: function onLoad() {
-    this.init();
+    // this.init()
   },
   computed: _objectSpread({},
   (0, _vuex.mapGetters)(['getUserinfo', 'getNeedAuth', 'getIsLogin'])),
@@ -185,6 +185,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
     },
     auth: function auth() {
+      this.init();
       if (this.getNeedAuth) {
         this.authUserInfo();
       }

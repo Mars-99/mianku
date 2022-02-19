@@ -145,6 +145,20 @@
 /* 水平间距 */
 /* 水平间距 */
 /* 水平间距 */
+.login.data-v-6cfe335c {
+  padding: 150rpx 50rpx;
+  text-align: center;
+}
+.login .txt.data-v-6cfe335c {
+  margin: 30rpx auto;
+}
+.login .btn.data-v-6cfe335c {
+  background: linear-gradient(0deg, #dd870c 0%, #ffca49 100%);
+  color: #ffffff;
+  border-radius: 40rpx;
+  width: 50%;
+  margin: 0 auto;
+}
 .collect-list.data-v-6cfe335c {
   padding: 5%;
   background-color: #ffffff;

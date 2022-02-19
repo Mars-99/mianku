@@ -64,10 +64,16 @@
 							￥{{listingsDetail.hotel.cleaningFee}}
 						</view>
 					</view>
-					<view class="item">
+					<view class="item" v-if="userDetail.isFirst == 1">
 						<view class="left">首单立减</view>
 						<view class="right">
 							<text class="act-txt">-￥{{listingsDetail.hotel.firstReduce}}</text>
+						</view>
+					</view>
+					<view class="item" v-if="userDetail.examine == 1">
+						<view class="left">学生特权</view>
+						<view class="right">
+							<text class="act-txt">享9.5折</text>
 						</view>
 					</view>
 					<!-- <view class="item">
@@ -83,8 +89,7 @@
 						</view>
 					</view>
 					<view class="total">
-						合计：<text
-							class="number">￥{{payPice}}</text>
+						合计：<text class="number">￥{{payPice}}</text>
 					</view>
 				</view>
 			</view>
@@ -107,6 +112,7 @@
 		hotelDetail,
 		booking,
 		payWX,
+		userDetail,
 	} from '@/utils/request/manage.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
 	export default {
@@ -128,7 +134,8 @@
 				arriveAt: '',
 				couponId: 0, //优惠券id
 				orderNumber: 0,
-				payPice:0,
+				payPice: 0,
+				userDetail:{},
 			}
 		},
 		onLoad() {
@@ -144,7 +151,7 @@
 						contacts: item.contacts,
 						cardType: item.cardType,
 						phone: item.phone,
-					 idCard: item.idCard,
+						idCard: item.idCard,
 					}))
 
 					console.log("this.checkedLodgerList", this.checkedLodgerList)
@@ -174,14 +181,27 @@
 				this.checkOut = this.$mp.query.checkOut
 				this.checkInYH = this.checkIn.slice(5)
 				this.checkOutYH = this.checkOut.slice(5)
-				console.log(this.checkIn, this.checkOut)
 				this.dayCount = this.$mp.query.dayCount
 				this.totalPice = this.$mp.query.totalPice
 				this.listingsDetail = data.data
 				this.pageshow = false
-				
-				this.payPice = Number(this.totalPice)+Number(this.listingsDetail.hotel.cleaningFee)-Number(this.listingsDetail.hotel.firstReduce)
 
+				const {
+					data:res
+				} = await userDetail()
+				this.userDetail = res.data
+				console.log("this.userDetail",this.userDetail)
+				if(this.userDetail.isFirst == 0){
+					this.listingsDetail.hotel.firstReduce = 0
+				}
+				if(this.userDetail.examine == 1){
+					this.payPice = Number(this.totalPice) *0.95 + Number(this.listingsDetail.hotel.cleaningFee) - Number(this
+						.listingsDetail.hotel.firstReduce)
+				}else{
+					this.payPice = Number(this.totalPice) + Number(this.listingsDetail.hotel.cleaningFee) - Number(this
+						.listingsDetail.hotel.firstReduce)
+				}
+				
 			},
 			openLodgerPage() {
 				uni.navigateTo({
@@ -228,7 +248,7 @@
 								url: '../order/order-result?state=success'
 							})
 							console.log('success:' + JSON.stringify(res));
-							
+
 						},
 						fail(err) {
 							uni.navigateTo({

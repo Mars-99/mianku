@@ -247,7 +247,8 @@
 					</view>
 				</view>
 				<view class="right">
-					<button class="btn" type="primary" size="default" @tap="openOrderConfirm()">立即预定</button>
+					<button class="btn" type="primary" size="default" v-if="wufang" @tap="selectDate()">选择日期暂无房源</button>
+					<button class="btn" type="primary" size="default" v-else @tap="openOrderConfirm()">立即预定</button>
 				</view>
 			</view>
 
@@ -286,6 +287,7 @@
 		getUserCollection,
 		getCollectionList,
 		activityEnroll,
+		userDetail,
 	} from '@/utils/request/manage.js'
 	import gcoord from '@/common/gcoord.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
@@ -350,7 +352,9 @@
 				freeTrialShow: false,
 
 				orderDate: [],
+				newArrDate:[],
 				assign:[],
+				wufang:false,
 
 				share: {
 					title: '眠库小程序',
@@ -410,6 +414,7 @@
 					this.checkOutYH = this.checkOut.slice(5)
 					this.choiceDateArr = this.brand.choiceDateArr
 					this.getTotalPice()
+					this.listingStatus()
 				} else {
 					return
 				}
@@ -418,46 +423,6 @@
 			}
 		},
 		methods: {
-			change(e) {
-				this.current = e.detail.current;
-			},
-			openM(e) {
-				this.show = e.show
-			},
-			openListingsDetail(item) {
-				this.checkIn = this.checkIn
-				this.checkOut = this.checkOut
-
-				console.log("b", this.checkIn, this.checkOut)
-				let choiceDateArr = encodeURIComponent(JSON.stringify(this.choiceDateArr))
-
-				uni.navigateTo({
-					url: '../listings/listings-detail?id=' + item.id + '&checkIn=' + this.checkIn + '&checkOut=' +
-						this.checkOut + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr
-				})
-
-			},
-			openDetailMap() {
-				let markers = JSON.stringify(this.markers)
-				uni.navigateTo({
-					url: '../listings/detail-map?markers=' + markers
-				})
-			},
-			openOrderConfirm() {
-				console.log("b", this.checkIn, this.checkOut)
-				this.checkIn = this.checkIn
-				this.checkOut = this.checkOut
-				uni.navigateTo({
-					url: '../order/order-confirm?id=' + this.listingsDetail.hotel.id + '&checkIn=' + this.checkIn +
-						'&checkOut=' +
-						this.checkOut + '&dayCount=' + this.dayCount + '&totalPice=' + this.totalPice
-				})
-
-			},
-			open(e) {
-				// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
-				this.$refs.popup.open('bottom')
-			},
 			async getHotelDetail() {
 				
 				const {
@@ -465,7 +430,9 @@
 				} = await hotelDetail(Number(this.$mp.query.id))
 				this.checkIn = this.$mp.query.checkIn
 				this.checkOut = this.$mp.query.checkOut
-				this.dayCount = this.$mp.query.dayCount
+				if(this.$mp.query.dayCount){
+					this.dayCount = this.$mp.query.dayCount
+				}
 				if(this.checkOut || this.checkIn){
 					this.checkInYH = this.checkIn.slice(5)
 					this.checkOutYH = this.checkOut.slice(5)
@@ -474,8 +441,6 @@
 				}
 				this.freeTrialPage = this.$mp.query.pageRoot
 				this.freeTrial()
-				console.log('freeTrialPage', this.freeTrialPage)
-
 				if (this.$mp.query.choiceDateArr) {
 					this.choiceDateArr = JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
 				}
@@ -492,7 +457,7 @@
 				// } else {
 				// 	this.getTotalPice()
 				// }
-
+			
 				this.flag = data.data.hotel.flag.split(',')
 				this.security = data.data.hotel.security.split(',')
 				this.service = data.data.hotel.service.split(',')
@@ -509,7 +474,7 @@
 				this.markers[0].latitude = result[1]
 				this.markers[0].longitude = result[0];
 				this.markers[0].callout.content = data.data.hotel.address
-
+			
 				this.pageshow = false
 				//历史浏览记录
 				let historyList = uni.getStorageSync('history_list')
@@ -530,7 +495,49 @@
 				}
 				this.Share()
 				uni.setStorageSync('history_list', historyList)
+				this.listingStatus()
+			},
+			change(e) {
+				this.current = e.detail.current;
+			},
+			openM(e) {
+				this.show = e.show
+			},
+			openListingsDetail(item) {
+				this.checkIn = this.checkIn
+				this.checkOut = this.checkOut
+				let choiceDateArr = encodeURIComponent(JSON.stringify(this.choiceDateArr))
+				uni.navigateTo({
+					url: '../listings/listings-detail?id=' + item.id + '&checkIn=' + this.checkIn + '&checkOut=' +
+						this.checkOut + '&dayCount=' + this.dayCount + '&choiceDateArr=' + choiceDateArr
+				})
 
+			},
+			openDetailMap() {
+				let markers = JSON.stringify(this.markers)
+				uni.navigateTo({
+					url: '../listings/detail-map?markers=' + markers
+				})
+			},
+			openOrderConfirm() {
+				let current_user = uni.getStorageSync('userinfo')
+				if (!current_user) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+				this.checkIn = this.checkIn
+				this.checkOut = this.checkOut
+				uni.navigateTo({
+					url: '../order/order-confirm?id=' + this.listingsDetail.hotel.id + '&checkIn=' + this.checkIn +
+						'&checkOut=' +
+						this.checkOut + '&dayCount=' + this.dayCount + '&totalPice=' + this.totalPice
+				})
+
+			},
+			open(e) {
+				// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
+				this.$refs.popup.open('bottom')
 			},
 			dealPrice(){
 				let day = moment().format("YYYY-MM-DD");
@@ -641,11 +648,9 @@
 					this.$api.href('../login/login')
 					return
 				}
-				console.log('aaaaaa', this.listingsDetail.hotel.id)
 				const {
 					data
 				} = await getUserCollection(this.listingsDetail.hotel.id, 0)
-				console.log(data)
 				if (data.code == 1) {
 					this.$api.msg(data.code.msg)
 				} {
@@ -659,24 +664,27 @@
 				//根据data的返回值来判断收藏样式变更
 			},
 			async getCollectionList(type) {
-				const {
-					data: res
-				} = await getCollectionList(type)
-				if (res.code == 1) {
-					this.$api.msg(data.code.msg)
-				} else {
-					this.collectionList = res.data.rs
-					console.log("收藏列表", this.collectionList)
-					let isCollect = this.collectionList.find(item => item.cid == this.listingsDetail.hotel.id)
-					if (isCollect) {
-						console.log("isCollect", isCollect)
-						if (isCollect.cid == this.listingsDetail.hotel.id) {
-							this.isCollect = 0
-						} else {
-							this.isCollect = -1
-						}
+				let current_user = uni.getStorageSync('userinfo')
+				if(current_user){
+					const {
+						data: res
+					} = await getCollectionList(type)
+					if (res.code == 1) {
+						this.$api.msg(data.code.msg)
 					} else {
-						return
+						this.collectionList = res.data.rs
+						// console.log("收藏列表", this.collectionList)
+						let isCollect = this.collectionList.find(item => item.cid == this.listingsDetail.hotel.id)
+						if (isCollect) {
+							// console.log("isCollect", isCollect)
+							if (isCollect.cid == this.listingsDetail.hotel.id) {
+								this.isCollect = 0
+							} else {
+								this.isCollect = -1
+							}
+						} else {
+							return
+						}
 					}
 				}
 			},
@@ -691,14 +699,14 @@
 				this.freeTrialShow = false
 			},
 			async freeTrialApply(hid) {
-				let current_user = uni.getStorageSync('userinfo')
+				
+				const {
+					data:res2
+				} = await userDetail()
 				const {
 					data: res
-				} = await activityEnroll(hid, current_user.userName, current_user.phone)
+				} = await activityEnroll(hid, res2.data.userName, res2.data.phone)
 				if (res.code == 1) {
-					// // this.$api.msg(res.code.msg)
-					// let msg = this.$api.msg(res.code.msg)
-					// console.log("res.code.msg",res.msg)
 					uni.showToast({
 						icon: "none",
 						title: res.msg,
@@ -716,6 +724,68 @@
 				this.share.title = this.listingsDetail.hotel.hotelName
 				this.share.path = '@/listings/listings-detail?id=' + this.listingsDetail.hotel.id
 				this.share.imageUrl = this.listingsDetail.hotel.thum
+			},
+			getdiffdate(stime, etime) {
+				//初始化日期列表，数组
+				var diffdate = new Array();
+				var i = 0;
+				//开始日期小于等于结束日期,并循环
+				while (stime <= etime) {
+					diffdate[i] = stime;
+			
+					//获取开始日期时间戳
+					var stime_ts = new Date(stime).getTime();
+					// console.log('当前日期：'+stime   +'当前时间戳：'+stime_ts);
+			
+					//增加一天时间戳后的日期
+					var next_date = stime_ts + (24 * 60 * 60 * 1000);
+			
+					//拼接年月日，这里的月份会返回（0-11），所以要+1
+					var next_dates_y = new Date(next_date).getFullYear() + '-';
+					var next_dates_m = (new Date(next_date).getMonth() + 1 < 10) ? '0' + (new Date(next_date).getMonth() +
+						1) + '-' : (new Date(next_date).getMonth() + 1) + '-';
+					var next_dates_d = (new Date(next_date).getDate() < 10) ? '0' + new Date(next_date).getDate() :
+						new Date(next_date).getDate();
+			
+					stime = next_dates_y + next_dates_m + next_dates_d;
+			
+					//增加数组key
+					i++;
+				}
+				diffdate.pop();
+				// console.log(diffdate);
+				return diffdate;
+			},
+			listingStatus(){
+				if(this.orderDate.length>0){
+					let orderDate = this.orderDate
+					let dateArr = []
+					let dateArr2 = []
+					orderDate.forEach(date => {
+						dateArr.push({
+							checkIn: date.checkIn,
+							checkOut: date.checkOut
+						})
+					})
+					dateArr.forEach(date2 => {
+						dateArr2 += this.getdiffdate(date2.checkIn, date2.checkOut) + ","
+					})
+					if (dateArr2) {
+						this.newArrDate = dateArr2.split(",")
+					}
+					let choiceDateArr222 = this.choiceDateArr.concat()
+					choiceDateArr222.pop()
+					choiceDateArr222.forEach(item => {
+						let aaa = this.newArrDate.find(order => order == item.re)
+						if (aaa) {
+							this.wufang = true
+						}
+					})
+					let bbb = this.newArrDate.find(order => order == this.checkIn)
+					if(bbb){
+						this.wufang = true
+					}
+				}
 			}
 		}
 	}

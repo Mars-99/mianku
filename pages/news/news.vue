@@ -1,39 +1,47 @@
 <template>
 	<view class="content">
-		<view class="news-type">
-			<view class="item" @tap="openSystemNews()">
-				<view class="l-part">
-					<image class="img" mode="widthFix" src="../../static/image/news-xt-icon.png">
-					</image>
+		<view class="login" v-if="!current_user">
+			<uni-icons type="contact" size="100" color="#dddddd"></uni-icons>
+			<view class="txt">您尚未登录，请登录后查看</view>
+			<button class="btn" type="primary" size="default" @tap="isLogin">登录/注册</button>
+		</view>
+		<view v-else>
+			<view class="news-type">
+				<view class="item" @tap="openSystemNews()">
+					<view class="l-part">
+						<image class="img" mode="widthFix" src="../../static/image/news-xt-icon.png">
+						</image>
+					</view>
+					<view class="c-part">
+						<view class="h2">系统消息</view>
+						<view class="info">{{messageList.length?messageList[0].msg:'暂无消息'}}</view>
+					</view>
+					<view class="r-part">
+						<view class="date">{{messageList.length?$api.timeHandle(messageList[0].updatedAt):''}}</view>
+						<view class="remind" v-if="sta.length">
+							<uni-badge :text="sta.length"></uni-badge>
+						</view>
+					</view>
 				</view>
-				<view class="c-part">
-					<view class="h2">系统消息</view>
-					<view class="info">{{messageList.length?messageList[0].msg:'暂无消息'}}</view>
-				</view>
-				<view class="r-part">
-					<view class="date">{{messageList.length?$api.timeHandle(messageList[0].updatedAt):''}}</view>
-					<view class="remind" v-if="sta.length">
-						<uni-badge :text="sta.length"></uni-badge>
+				<view class="item" @tap="openCustomerService()">
+					<view class="l-part">
+						<image class="img" mode="widthFix" src="../../static/image/news-kf-icon.png">
+						</image>
+					</view>
+					<view class="c-part">
+						<view class="h2">客服消息</view>
+						<view class="info">眠库专属客服，点击立即聊天。</view>
+					</view>
+					<view class="r-part">
+						<!-- <view class="date">{{$api.timeHandle('2022-01-29')}}</view>
+						<view class="remind">
+							<uni-badge text="8"></uni-badge>
+						</view> -->
 					</view>
 				</view>
 			</view>
-			<view class="item" @tap="openCustomerService()">
-				<view class="l-part">
-					<image class="img" mode="widthFix" src="../../static/image/news-kf-icon.png">
-					</image>
-				</view>
-				<view class="c-part">
-					<view class="h2">客服消息</view>
-					<view class="info">眠库专属客服，点击立即聊天。</view>
-				</view>
-				<view class="r-part">
-					<!-- <view class="date">{{$api.timeHandle('2022-01-29')}}</view>
-					<view class="remind">
-						<uni-badge text="8"></uni-badge>
-					</view> -->
-				</view>
-			</view>
 		</view>
+
 	</view>
 </template>
 
@@ -42,17 +50,22 @@
 		getUserMsgList,
 	} from '@/utils/request/manage.js'
 	import {
-		mapState
+		mapActions,
+		mapGetters
 	} from 'vuex'
 	export default {
 		data() {
 			return {
 				messageList: [],
-				sta: []
+				sta: [],
+				current_user:null,
 			}
 		},
 		computed: {
-			...mapState(['hasLogin'])
+			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
+		},
+		onLoad() {
+			this.isLogin()	
 		},
 		onShow() {
 			this.initData()
@@ -74,7 +87,7 @@
 				} = await getUserMsgList()
 				console.log(res)
 				if (res.code == -1) {
-					return this.$api.msg(res.msg)
+					// return this.$api.msg(res.msg)
 				}
 				this.totalPage = res.data.pages
 				if (res.data.page == 1) {
@@ -87,12 +100,34 @@
 					return item.state == 0
 				})
 			},
+			isLogin(){
+				this.current_user = uni.getStorageSync('userinfo')
+				if (!this.current_user) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+			}
 
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.login{
+		padding: 150rpx 50rpx;
+		text-align: center;
+		.txt{
+			margin: 30rpx auto;
+		}
+		.btn{
+			background: linear-gradient(0deg, rgba(221,135,12,1) 0%, rgba(255,202,73,1) 100%);
+			color: #ffffff;
+			border-radius: 40rpx;
+			width: 50%;
+			margin: 0 auto;
+		}
+	}
 	.news-type {
 		margin-top: 2rpx;
 

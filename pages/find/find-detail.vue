@@ -99,8 +99,12 @@
 			</view>
 		</view>
 		<view class="bottom-nav">
-			<view class="left">
-				<uni-icons type="star" size="30"></uni-icons> 收藏提及房源
+			<view class="left" @tap="getUserCollection()">
+				<uni-icons :type="isCollect==0?'star-filled':'star'" size="30"
+					:color="isCollect==0?'#ff941d':'#333333'"></uni-icons>
+				<view class="txt">
+					收藏提及房源
+				</view>
 			</view>
 			<view class="right">
 				<button class="btn" type="primary" size="default" @tap="openListingsDetail(aboutHotelID)">文中提及</button>
@@ -111,7 +115,13 @@
 
 <script>
 	import {
-		roamDetail
+		mapActions,
+		mapGetters
+	} from 'vuex'
+	import {
+		roamDetail,
+		getUserCollection,
+		getCollectionList,
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
@@ -170,8 +180,13 @@
 				],
 				aboutHotel: [],
 				aboutHotelID: 0,
-				recommendList:[]
+				recommendList:[],
+				isCollect: -1,
+				collectionList: [],
 			}
+		},
+		computed: {
+			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
 		},
 		onLoad() {
 			this.getRoamDetail()
@@ -196,6 +211,55 @@
 				this.aboutHotel = data.data.about_hotel
 				this.aboutHotelID = data.data.about_hotel[0].id
 				this.recommendList=data.data.recommend
+				this.getCollectionList(0)
+			},
+			async getUserCollection() {
+				this.isCollect
+				let current_user = uni.getStorageSync('userinfo')
+				if (!current_user) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+				const {
+					data
+				} = await getUserCollection(this.aboutHotelID, 0)
+				if (data.code == 1) {
+					this.$api.msg(data.code.msg)
+				} {
+					if (this.isCollect == 0) {
+						this.isCollect = -1
+					} else {
+						this.isCollect = 0
+					}
+				}
+			
+				//根据data的返回值来判断收藏样式变更
+			},
+			async getCollectionList(type) {
+				let current_user = uni.getStorageSync('userinfo')
+				if(current_user){
+					const {
+						data: res
+					} = await getCollectionList(type)
+					if (res.code == 1) {
+						this.$api.msg(data.code.msg)
+					} else {
+						this.collectionList = res.data.rs
+						// console.log("收藏列表", this.collectionList)
+						let isCollect = this.collectionList.find(item => item.cid == this.aboutHotelID)
+						if (isCollect) {
+							// console.log("isCollect", isCollect)
+							if (isCollect.cid == this.aboutHotelID) {
+								this.isCollect = 0
+							} else {
+								this.isCollect = -1
+							}
+						} else {
+							return
+						}
+					}
+				}
 			},
 		}
 	}

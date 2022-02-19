@@ -30,28 +30,32 @@
 					<view class="order-list">
 						<view class="order-item">
 							<view class="icon">
-								<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_all.png">
+								<image class="img" mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_all.png">
 								</image>
 							</view>
 							<view class="txt">全部</view>
 						</view>
 						<view class="order-item">
 							<view class="icon">
-								<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_pending-payment.png">
+								<image class="img" mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_pending-payment.png">
 								</image>
 							</view>
 							<view class="txt">待付款</view>
 						</view>
 						<view class="order-item">
 							<view class="icon">
-								<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_waiting_checkin.png">
+								<image class="img" mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_waiting_checkin.png">
 								</image>
 							</view>
 							<view class="txt">待入住</view>
 						</view>
 						<view class="order-item">
 							<view class="icon">
-								<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_finish.png">
+								<image class="img" mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_finish.png">
 								</image>
 							</view>
 							<view class="txt">已完成</view>
@@ -64,21 +68,24 @@
 				<uni-card :border="false" class="column-list">
 					<view class="column-item">
 						<view class="icon">
-							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_student.png">
+							<image class="img" mode="widthFix"
+								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_student.png">
 							</image>
 						</view>
-						<view class="txt">学生特权</view>
+						<view class="txt" @tap="openStudentPrivilege()">学生特权</view>
 					</view>
 					<view class="column-item">
 						<view class="icon">
-							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_collect.png">
+							<image class="img" mode="widthFix"
+								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_collect.png">
 							</image>
 						</view>
-						<view class="txt">我的收藏</view>
+						<view class="txt" @tap="openCollect()">我的收藏</view>
 					</view>
 					<view class="column-item">
 						<view class="icon">
-							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_discount.png">
+							<image class="img" mode="widthFix"
+								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_discount.png">
 							</image>
 						</view>
 						<view class="txt">我的优惠券</view>
@@ -88,7 +95,7 @@
 							<image class="img" mode="widthFix" src="../../static/image/user_icon_connect.png">
 							</image>
 						</view>
-						<view class="txt">联系客服</view>
+						<view class="txt" @tap="customerService()">联系客服</view>
 					</view>
 				</uni-card>
 			</view>
@@ -106,7 +113,7 @@
 				swiperheight: 0,
 				bg: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user-bg.png',
 				avatarUser: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar-user.jpg',
-				userinfo:{}
+				userinfo: {}
 			}
 		},
 		onLoad() {
@@ -128,12 +135,27 @@
 				const {
 					data
 				} = await userDetail()
-				this.userinfo= data.data
+				this.userinfo = data.data
 				console.log(data.data)
 			},
-			openLogin(){
+			openLogin() {
 				uni.navigateTo({
 					url: '../login/login'
+				})
+			},
+			openStudentPrivilege() {
+				uni.navigateTo({
+					url: '../student-privilege/student-privilege'
+				})
+			},
+			openCollect() {
+				uni.switchTab({
+					url: '../collect/collect'
+				})
+			},
+			customerService() {
+				uni.navigateTo({
+					url: '../news/customer-service'
 				})
 			},
 		}

@@ -36,7 +36,7 @@
 			}
 		},
 		onLoad() {
-           this.init()
+           // this.init()
 		},
 		computed:{
 			...mapGetters(['getUserinfo','getNeedAuth','getIsLogin'])
@@ -53,6 +53,7 @@
 				}
 			},
 			auth(){
+				this.init()
 				if(this.getNeedAuth){
 					this.authUserInfo()
 				}

@@ -255,15 +255,18 @@
 				this.week = num
 			},
 			async getCollectionList(type) {
-				const {
-					data: res
-				} = await getCollectionList(type)
-				if (res.code == 1) {
-					this.$api.msg(data.code.msg)
-				} else {
-					this.collectionList = res.data.rs
-					this.collec()
-					// console.log("收藏列表", this.collectionList)
+				let current_user = uni.getStorageSync('userinfo')
+				if(current_user){
+					const {
+						data: res
+					} = await getCollectionList(type)
+					if (res.code == 1) {
+						this.$api.msg(data.code.msg)
+					} else {
+						this.collectionList = res.data.rs
+						this.collec()
+						// console.log("收藏列表", this.collectionList)
+					}
 				}
 
 

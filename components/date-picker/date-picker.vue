@@ -845,19 +845,6 @@
 					});
 					that.choiceDateArr.push(that.date[index][indexs]);
 
-					// that.choiceDateArr.forEach(item => {
-					// 	// if (item.act.dingdan == true) {
-					// 	// 	uni.showToast({
-					// 	// 		icon: "none",
-					// 	// 		title: '日期无房不可选',
-					// 	// 		duration: 2000,
-					// 	// 		position: 'top'
-					// 	// 	})
-					// 	// 	return
-					// 	// }
-
-
-					// })
 
 					//设置开始和结果两个日期
 					this.choiceDate[0] = that.choiceDateArr[0];
@@ -874,8 +861,6 @@
 								} else {
 									dataItem.act.tip = '入住';
 								}
-
-								console.log("dataItems", dataItem)
 							});
 						});
 						this.dateFlag = {
@@ -926,20 +911,18 @@
 					this.dayCount = 1;
 					this.choiceDate[0] = curDate;
 				}
-				console.log(" this.choiceDateArr1",this.choiceDateArr)
 				this.choiceDateArr222 = this.choiceDateArr.concat()
 				this.choiceDateArr222.pop()
-				console.log(" this.choiceDateArr1",this.choiceDateArr)
-				console.log(" this.choiceDateArr222",this.choiceDateArr222)
 				this.choiceDateArr222.forEach(item => {
 					let aaa = this.newArrDate.find(order => order == item.re)
 					if (aaa) {
 						uni.showToast({
 							icon: "none",
 							title: '日期无房不可选',
-							duration: 3000,
+							duration: 2000,
 							position: 'top'
 						})
+						this.choice = false
 					}
 				})
 			},
