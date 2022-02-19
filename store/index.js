@@ -36,16 +36,15 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
-		login(context,param) {
+		login(context) {
 			return new Promise((resolve,reject) =>{
-				console.log('vuex recommend:',param)
 				let _self = this
 				uni.login({
 					provider: 'weixin',
 					success: async (wxloginRes) => {
 						const {
 							data: res
-						} = await wxLogin(wxloginRes.code,param)
+						} = await wxLogin(wxloginRes.code)
 						
 						if (res.code == 1) {
 							return _self.$api.msg('登录失败!' + res.msg)
