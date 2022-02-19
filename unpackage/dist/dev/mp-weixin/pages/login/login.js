@@ -180,9 +180,8 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                 // 	await this.login()
                 // }
                 current_user = uni.getStorageSync('userinfo');if (
-                current_user) {_context.next = 5;break;}
-                console.log('login页面获取到的recommend值：', _this.$mp.query.recommend);_context.next = 5;return (
-                  _this.login(_this.$mp.query.recommend));case 5:case "end":return _context.stop();}}}, _callee);}))();
+                current_user) {_context.next = 4;break;}_context.next = 4;return (
+                  _this.login());case 4:case "end":return _context.stop();}}}, _callee);}))();
 
     },
     auth: function auth() {

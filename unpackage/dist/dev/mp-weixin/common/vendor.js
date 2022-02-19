@@ -8823,16 +8823,15 @@ var store = new _vuex.default.Store({
     } },
 
   actions: {
-    login: function login(context, param) {var _this = this;
+    login: function login(context) {var _this = this;
       return new Promise(function (resolve, reject) {
-        console.log('vuex recommend:', param);
         var _self = _this;
         uni.login({
           provider: 'weixin',
           success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(wxloginRes) {var _yield$wxLogin, res, _yield$userDetail, user_data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
 
 
-                        (0, _manage.wxLogin)(wxloginRes.code, param));case 2:_yield$wxLogin = _context.sent;res = _yield$wxLogin.data;if (!(
+                        (0, _manage.wxLogin)(wxloginRes.code));case 2:_yield$wxLogin = _context.sent;res = _yield$wxLogin.data;if (!(
 
                       res.code == 1)) {_context.next = 8;break;}return _context.abrupt("return",
                       _self.$api.msg('登录失败!' + res.msg));case 8:
@@ -10959,7 +10958,7 @@ module.exports = index_cjs;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getUserSharePrice = exports.getUserShare = exports.getShareDetail = exports.privilegeCoupon = exports.authenticationUpdateUrl = exports.getUniversit = exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUpload = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.userHelp = exports.getUserSharePrice = exports.getUserShare = exports.getShareDetail = exports.privilegeCoupon = exports.authenticationUpdateUrl = exports.getUniversit = exports.getUserCollection = exports.getCollectionList = exports.cancelOrder = exports.delOrder = exports.orderDetail = exports.orderList = exports.payWX = exports.booking = exports.editLodger = exports.delLodger = exports.addLodger = exports.getLodgerList = exports.getUserImAdd = exports.getUserImList = exports.getUserMsgDel = exports.getUserMsgRead = exports.getUserNewMsg = exports.getUserMsgList = exports.activityEnroll = exports.reportDetail = exports.reportList = exports.activityPrizeList = exports.activityHotelList = exports.bsHotelList = exports.hotelDetail = exports.hotelList = exports.homeList = exports.city = exports.roamDetail = exports.roamList = exports.getUpload = exports.getUserCommonIds = exports.userDetail = exports.wxPhone = exports.wxInfo = exports.wxLogin = void 0;
 var _requestConfig = _interopRequireDefault(__webpack_require__(/*! ./requestConfig.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 接口管理
 var urlManage = {
   wxLoginUrl: 'wx/login', // 微信登录(1-1)
@@ -11021,10 +11020,9 @@ var urlManage = {
 
   getShareDetail: 'api/activity/share_detail', //分享助力活动详情
   getUserShare: 'api/user/share', //助力活动用户数据
-  getUserSharePrice: 'api/user/share_price' //领取助力奖励
+  getUserSharePrice: 'api/user/share_price', //领取助力奖励
+  userHelp: 'api/user/help' //0元助力
 };
-
-
 
 
 
@@ -11351,8 +11349,11 @@ exports.getShareDetail = getShareDetail;var getUserShare = function getUserShare
 //领取助力奖励
 exports.getUserShare = getUserShare;var getUserSharePrice = function getUserSharePrice() {
   return _requestConfig.default.get(urlManage.getUserSharePrice, {});
-
-};exports.getUserSharePrice = getUserSharePrice;
+};
+// 0元助力
+exports.getUserSharePrice = getUserSharePrice;var userHelp = function userHelp(userid) {
+  return _requestConfig.default.post(urlManage.userHelp, { id: userid });
+};exports.userHelp = userHelp;
 
 /***/ }),
 /* 18 */

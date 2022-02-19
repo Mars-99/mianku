@@ -49,8 +49,7 @@
 				// }
 				let current_user = uni.getStorageSync('userinfo')
 				if (!current_user) {
-					console.log('login页面获取到的recommend值：',this.$mp.query.recommend)
-					await this.login(this.$mp.query.recommend)
+					await this.login()
 				}
 			},
 			auth(){

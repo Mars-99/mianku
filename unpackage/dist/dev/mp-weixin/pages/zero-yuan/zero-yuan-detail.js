@@ -230,6 +230,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
 
 
+
 {
   data: function data() {
     return {
@@ -255,21 +256,16 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
   methods: {
     initData: function initData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$getShareDetail, data, i, target, reward, prize, selectobj;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                console.log('recommend:', _this.$mp.query.recommend);
-                console.log('shareid:', _this.$mp.query.id);
+                console.log('被助力用户id:', _this.$mp.query.recommend);
                 _this.userinfo = uni.getStorageSync('userinfo');if (
-                _this.userinfo) {_context.next = 7;break;}
+                _this.userinfo) {_context.next = 6;break;}
                 _this.$api.msg('请先登录');
-                if (_this.$mp.query.recommend) {
-                  _this.$api.href('../login/login?recommend=' + _this.$mp.query.recommend);
-                } else {
-                  _this.$api.href('../login/login');
-                }return _context.abrupt("return");case 7:_context.next = 9;return (
+                _this.$api.href('../login/login');return _context.abrupt("return");case 6:_context.next = 8;return (
 
 
 
 
-                  (0, _manage.getShareDetail)());case 9:_yield$getShareDetail = _context.sent;data = _yield$getShareDetail.data;
+                  (0, _manage.getShareDetail)());case 8:_yield$getShareDetail = _context.sent;data = _yield$getShareDetail.data;
                 _this.detail_info.share = data.data.share;
                 for (i = 1; i <= 10; i++) {
                   target = 'target' + i;
@@ -284,13 +280,21 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                     }
                   }
                 }
-                _this.Share();case 14:case "end":return _context.stop();}}}, _callee);}))();
+                _this.Share();case 13:case "end":return _context.stop();}}}, _callee);}))();
     },
     Share: function Share() {
       this.share.title = '0元领福利';
       this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id + '&recommend=' + this.
       userinfo.id;
       this.share.imageUrl = '';
+    },
+    Help: function Help() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$userHelp, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (!
+                _this2.$mp.query.recommend) {_context2.next = 6;break;}_context2.next = 3;return (
+
+
+                  (0, _manage.userHelp)(_this2.$mp.query.recommend));case 3:_yield$userHelp = _context2.sent;data = _yield$userHelp.data;
+                console.log('助力活动返回结果：', data);case 6:case "end":return _context2.stop();}}}, _callee2);}))();
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -61,8 +61,7 @@ let urlManage = {
 	getShareDetail: 'api/activity/share_detail', //分享助力活动详情
 	getUserShare: 'api/user/share', //助力活动用户数据
 	getUserSharePrice: 'api/user/share_price', //领取助力奖励
-
-
+	userHelp:'api/user/help', //0元助力
 
 
 
@@ -390,7 +389,10 @@ const getUserShare = function() {
 //领取助力奖励
 const getUserSharePrice = function() {
 	return $http.get(urlManage.getUserSharePrice, {})
-
+}
+// 0元助力
+const userHelp = function(userid){
+	return $http.post(urlManage.userHelp,{id:userid})
 }
 export {
 	wxLogin,
@@ -440,4 +442,5 @@ export {
 	getShareDetail,
 	getUserShare,
 	getUserSharePrice,
+	userHelp
 }

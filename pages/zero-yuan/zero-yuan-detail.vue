@@ -53,7 +53,7 @@
 					ddadadad
 				</view>
 				<view class="help-btn">
-					<button class="btn" type="primary" size="default" @tap="Share()">分享领助力包</button>
+					<button class="btn" type="primary" size="default" @tap="Help()">分享领助力包</button>
 				</view>
 			</view>
 
@@ -96,7 +96,8 @@
 	import {
 		getShareDetail,
 		getUserShare,
-		getUserSharePrice
+		getUserSharePrice,
+		userHelp
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
@@ -123,16 +124,11 @@
 		},
 		methods: {
 			async initData() {
-				console.log('recommend:', this.$mp.query.recommend)
-				console.log('shareid:', this.$mp.query.id)
+				console.log('被助力用户id:', this.$mp.query.recommend)
 				this.userinfo = uni.getStorageSync('userinfo')
 				if (!this.userinfo) {
 					this.$api.msg('请先登录')
-					if (this.$mp.query.recommend) {
-						this.$api.href('../login/login?recommend=' + this.$mp.query.recommend)
-					} else {
-						this.$api.href('../login/login')
-					}
+					this.$api.href('../login/login')
 					return
 				}
 				const {
@@ -159,6 +155,14 @@
 				this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id + '&recommend=' + this
 					.userinfo.id
 				this.share.imageUrl = ''
+			},
+			async Help() {
+				if (this.$mp.query.recommend) {
+					const {
+						data
+					} = await userHelp(this.$mp.query.recommend)
+					console.log('助力活动返回结果：', data)
+				}
 			}
 		}
 	}
