@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<calendar ref="calendar" :pageSource="pageSource" :weekendActivity="weekendActivity"
-			:weekdaysActivity="weekdaysActivity" :orderDate="orderDate" @change="change"></calendar>
+			:weekdaysActivity="weekdaysActivity" :orderDate="orderDate" :assign="assign" @change="change"></calendar>
 	</view>
 </template>
 
@@ -20,6 +20,7 @@
 				weekendActivity: 0,
 				weekdaysActivity: 0,
 				orderDate: [],
+				assign:[],
 			};
 
 		},
@@ -34,6 +35,10 @@
 			if(this.$mp.query.orderDate){
 				this.orderDate = JSON.parse(this.$mp.query.orderDate)
 				console.log("this.orderDate", this.orderDate)
+			}
+			if(this.$mp.query.assign){
+				this.assign = JSON.parse(this.$mp.query.assign)
+				console.log("this.assign", this.assign)
 			}
 			
 		},

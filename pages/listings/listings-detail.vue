@@ -15,7 +15,7 @@
 				</uni-swiper-dot>
 				<view class="price">
 					<text
-						class="act">￥{{week===6 ||week===5?listingsDetail.hotel.weekendActivity:listingsDetail.hotel.weekdaysActivity}}</text>
+						class="act">￥{{unitPrice}}</text>
 					<text>/晚</text>
 				</view>
 			</view>
@@ -27,7 +27,7 @@
 					<view class="info">
 						<text class="txt">整套房源</text> ·
 						<text class="txt">{{listingsDetail.hotel.houseType}}</text> ·
-						<text class="txt">可住{{listingsDetail.hotel.bedNum}}人</text>
+						<text class="txt">可住{{listingsDetail.hotel.occupancy}}人</text>
 					</view>
 					<view class="char">
 						<text class="char-active" v-for="(bq ,key) in flag" :key="key" v-if="bq">{{bq|flag}}</text>
@@ -289,6 +289,7 @@
 	} from '@/utils/request/manage.js'
 	import gcoord from '@/common/gcoord.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
+	import moment from 'moment'
 	export default {
 		components: {
 			pageLoad
@@ -334,6 +335,9 @@
 				checkInYH: 0,
 				checkOutYH: 0,
 				dayCount: 1,
+				
+				unitPrice:0,
+				originalPrice:0,
 
 				brand: 0,
 				choiceDateArr: [],
@@ -346,6 +350,7 @@
 				freeTrialShow: false,
 
 				orderDate: [],
+				assign:[],
 
 				share: {
 					title: '眠库小程序',
@@ -477,17 +482,16 @@
 				// console.log("choiceDateArr",this.choiceDateArr)
 				this.listingsDetail = data.data
 				this.orderDate = data.data.onOrder
-				console.log("orderDate", this.orderDate)
+				this.assign = data.data.assign
+				// console.log("orderDate", this.orderDate)
 				this.getCollectionList(0)
-				if (this.dayCount == 1) {
-					if (this.week === 6 || this.week === 5) {
-						this.totalPice = this.listingsDetail.hotel.weekendActivity
-					} else {
-						this.totalPice = this.listingsDetail.hotel.weekdaysActivity
-					}
-				} else {
-					this.getTotalPice()
-				}
+				this.dealPrice()
+				this.getTotalPice()
+				// if (this.dayCount == 1) {
+				// 	this.totalPice = this.unitPrice
+				// } else {
+				// 	this.getTotalPice()
+				// }
 
 				this.flag = data.data.hotel.flag.split(',')
 				this.security = data.data.hotel.security.split(',')
@@ -528,6 +532,23 @@
 				uni.setStorageSync('history_list', historyList)
 
 			},
+			dealPrice(){
+				let day = moment().format("YYYY-MM-DD");
+				let assign = this.assign.find(item=>item.hDate == day)
+				if(assign){
+					this.unitPrice= assign.activityPrice
+					this.originalPrice = assign.originalCost
+				}else{
+						let d = moment().format("d");
+						if(d==5||d==6){
+							this.unitPrice= this.listingsDetail.hotel.weekendActivity
+							this.originalPrice = this.listingsDetail.hotel.weekendOriginal
+						}else{
+							this.unitPrice= this.listingsDetail.hotel.weekdaysActivity
+							this.originalPrice = this.listingsDetail.hotel.weekdaysOriginal
+						}
+				}
+			},
 			call_phone() {
 				uni.makePhoneCall({
 					// 手机号
@@ -554,11 +575,11 @@
 			selectDate() {
 
 				let orderDate = JSON.stringify(this.orderDate)
-				// let orderDate = JSON.stringify(this.orderDate)
+				let assign = JSON.stringify(this.assign)
 				uni.navigateTo({
 					url: '../select-date/select-date?pageSource=listingsDetail' + '&weekendActivity=' + this
 						.listingsDetail.hotel.weekendActivity + '&weekdaysActivity=' + this.listingsDetail.hotel
-						.weekdaysActivity + '&orderDate=' + orderDate
+						.weekdaysActivity + '&orderDate=' + orderDate + '&assign=' + assign
 				})
 			},
 			getTimeandWeek() {
@@ -589,24 +610,25 @@
 			},
 			getTotalPice() {
 				if (this.choiceDateArr.length > 0) {
-					for (var i = 0; i < this.choiceDateArr.length; i++) {
-						if (this.choiceDateArr[i].week == '五' || this.choiceDateArr[i].week == '六') {
-							this.choiceDateArr[i].price = this.listingsDetail.hotel.weekendActivity
-						} else {
-							this.choiceDateArr[i].price = this.listingsDetail.hotel.weekdaysActivity
+					this.choiceDateArr.forEach(item=>{
+						let assign = this.listingsDetail.assign.find(a=>a.hDate == item.re)
+						if(assign){
+							item.price = assign.activityPrice
+						}else{
+							if(item.week =="五"||item.week =="六"){
+								item.price=this.listingsDetail.hotel.weekendActivity
+							}else{
+								item.price = this.listingsDetail.hotel.weekdaysActivity
+							}
 						}
-					}
+					})
 					this.totalPice = null
 					for (var i = 0; i < this.choiceDateArr.length - 1; i++) {
 						this.totalPice += this.choiceDateArr[i].price
 					}
 					this.totalPice = this.totalPice.toFixed(2)
 				} else {
-					if (this.week === 6 || this.week === 5) {
-						this.totalPice = this.listingsDetail.hotel.weekendActivity
-					} else {
-						this.totalPice = this.listingsDetail.hotel.weekdaysActivity
-					}
+					this.totalPice = this.unitPrice
 				}
 				// console.log("price", this.totalPice)
 			},

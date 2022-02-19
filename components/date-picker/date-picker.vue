@@ -1,10 +1,10 @@
 <template>
 	<view class="content">
 		<view class="order-time" @tap="showCalendar()" v-if="!modal">
-			<view class="time-viewer" >
+			<view class="time-viewer">
 				<text class="goInHotel">入住</text>
 				<text class="date-wrappper">{{ choiceDate[0].month }}月{{ choiceDate[0].day }}日</text>
-					<text class="sumCount">{{ dayCount2 }}</text>
+				<text class="sumCount">{{ dayCount2 }}</text>
 				<text class="goInHotel">离店</text>
 				<text class="date-wrappper">{{ choiceDate[1].month }}月{{ choiceDate[1].day }}日</text>
 			</view>
@@ -27,7 +27,7 @@
 							<view class="month-content">
 								<view v-for="(data, index2) in monthData" :key="index2" class="day" :data-index="index"
 									:data-indexs="index2" :class="
-									data.re < today||data.act.dingdan
+									data.re < today
 										? 'disabled'
 										: data.selected
 										? 'active' + (data.date == choiceDate[0].date ? ' begin' : data.date == choiceDate[1].date ? ' end' : '')
@@ -43,9 +43,9 @@
 										<text class="day-subject" v-else>{{ getDayType(data) }}</text>
 
 										<text class="day-txt">{{ getDayName(monthData[0].year, data) }}</text>
-                                        <text class="day-price" v-if="pageSource">￥{{data.week==='六' ||data.week==='五'?weekendActivity:weekdaysActivity}}</text>
+										<text class="day-price"
+											v-if="pageSource">{{data.act.dingdan?"无房":"￥"+data.price}}</text>
 										<text class="day-price" v-else></text>
-										<!-- <text class="day-price" v-if="data.act.dingdan">{{data.act.dingdan}}</text> -->
 										<text class="day-tip" v-if="!singleDate">{{ data.act.tip }}</text>
 									</view>
 									<view class="beginTip" v-if="choice === false && !singleDate">请选择离店日期</view>
@@ -104,10 +104,13 @@
 			orderDate: {
 				type: Array,
 			},
-			
+			assign: {
+
+			},
+
 		},
 		components: {},
-		
+
 		data() {
 			return {
 				date: [],
@@ -225,14 +228,15 @@
 				bak_dayCount: 1,
 				isShow_H5: '', //用于表示H5平台显示隐藏状态
 				isShow_NoH5: false, //用于表示非H5平台显示隐藏状态
-				tmpWeekArr: {} ,//临时数组
-				
-				newArrDate:[],
+				tmpWeekArr: {}, //临时数组
+
+				newArrDate: [],
+				choiceDateArr222:[]
 			};
 		},
 		created() {
 			this.init();
-			
+
 		},
 		onLoad() {
 			this.init();
@@ -281,7 +285,7 @@
 			getDayType(data) {
 				return data.re != this.today && data.re != this.tomorrow && data.re != this.afterTomorrow ? data.act
 					.subject : '';
-					
+
 			},
 			getDayName(year, data) {
 				let name = data.day;
@@ -670,7 +674,7 @@
 
 				// console.log(dataAll2, weeks, this.today, this.tomorrow, this.afterTomorrow, this.choiceDate);
 				this.date = dataAll2;
-				console.log("dateData",this.date)
+				// console.log("dateData",this.date)
 				this.weeks = weeks;
 				this.choiceDate = this.choiceDate;
 				this.choiceDateArr = this.choiceDate;
@@ -719,6 +723,7 @@
 				let indexs = e.currentTarget.dataset.indexs;
 				let index = e.currentTarget.dataset.index;
 				// console.log('selectday ', indexs, index);
+				// console.log("that.newArrDate",this.newArrDate)
 				this.selectday(index, indexs, true);
 			},
 			selectday: function(index, indexs, isUserClick) {
@@ -739,22 +744,13 @@
 					//如果是用户点击今天之前的日期的话，就返回
 					if (isUserClick) return;
 				}
-				if (curDate.act.dingdan == true) {
-					//如果是用户点击今天之前的日期的话，就返回
-					uni.showToast({
-						icon: "none",
-						title: '当前日期无房不可选',
-						duration: 2000,
-						position: 'top'
-					})
-					 return;
-				}
 				// console.log("003", indexs)
 
 				curDate.selected = 1;
 				curDate.act.tip = '入住';
+
 				if (this.dateFlag.date && curDate.dateTime < this.dateFlag.date.dateTime) {
-					console.log('004');
+
 					var flagIndex = this.dateFlag.index;
 					var flagIndexs = this.dateFlag.indexs;
 					this.date[flagIndex][flagIndexs].selected = 0;
@@ -773,6 +769,7 @@
 					if (this.dateFlag.index == index && this.dateFlag.indexs == indexs) {
 						return;
 					}
+
 					curDate.act.tip = '离店';
 					//
 					// console.log("00555555")
@@ -786,34 +783,52 @@
 					var nonArr = [];
 					var count = 0;
 					//详情页过来 判断是否有房
-					if(this.pageSource && this.orderDate.length>0){
-						console.log("this.orderDate",this.orderDate)
-						
-						let orderDate =this.orderDate
+					if (this.pageSource && this.orderDate.length > 0) {
+						// console.log("this.orderDate",this.orderDate)
+
+						let orderDate = this.orderDate
 						let dateArr = []
-						let dateArr2=[]
-						orderDate.forEach(date=>{
-							dateArr.push({checkIn:date.checkIn,checkOut:date.checkOut})
+						let dateArr2 = []
+						orderDate.forEach(date => {
+							dateArr.push({
+								checkIn: date.checkIn,
+								checkOut: date.checkOut
+							})
 						})
-						dateArr.forEach(date2=>{
-							dateArr2 += this.getdiffdate(date2.checkIn,date2.checkOut)+","
+						dateArr.forEach(date2 => {
+							dateArr2 += this.getdiffdate(date2.checkIn, date2.checkOut) + ","
 						})
-					    if(dateArr2){
+						if (dateArr2) {
 							this.newArrDate = dateArr2.split(",")
 						}
-						
+
 						let that = this
 						this.date.forEach(function(dataItems) {
 							dataItems.forEach(function(dataItem) {
-								that.newArrDate.forEach(item=>{
-									if(item == dataItem.re){
+								that.newArrDate.forEach(item => {
+									if (item == dataItem.re) {
 										dataItem.act.dingdan = true
-									}else{}
+									} else {}
 								})
 							});
 						});
 					}
-				
+					let assign = this.assign
+					this.date.forEach(dataItems => {
+						dataItems.forEach(dataItem => {
+							let assign2 = assign.find(item => item.hDate == dataItem.re)
+							if (assign2) {
+								dataItem.price = assign2.activityPrice
+							} else {
+								if (dataItem.week == "五" || dataItem.week == "六") {
+									dataItem.price = this.weekendActivity
+								} else {
+									dataItem.price = this.weekdaysActivity
+								}
+							}
+						})
+					})
+
 					this.date.forEach(function(dataItems) {
 						dataItems.forEach(function(dataItem) {
 							if (dataItem.dateTime > dateFlagDateTime && dataItem.dateTime <
@@ -829,11 +844,25 @@
 						});
 					});
 					that.choiceDateArr.push(that.date[index][indexs]);
-					that.choiceDateArr.forEach(item=>{					if(item.act.dingdan == true){						uni.showToast({							icon: "none",							title: '日期无房不可选',							duration: 2000,							position: 'top'						})						return					}				})
+
+					// that.choiceDateArr.forEach(item => {
+					// 	// if (item.act.dingdan == true) {
+					// 	// 	uni.showToast({
+					// 	// 		icon: "none",
+					// 	// 		title: '日期无房不可选',
+					// 	// 		duration: 2000,
+					// 	// 		position: 'top'
+					// 	// 	})
+					// 	// 	return
+					// 	// }
+
+
+					// })
+
 					//设置开始和结果两个日期
 					this.choiceDate[0] = that.choiceDateArr[0];
-
 					this.choiceDate[1] = that.choiceDateArr[that.choiceDateArr.length - 1];
+
 					//
 					if (nonFlag) {
 						var that = this;
@@ -845,8 +874,8 @@
 								} else {
 									dataItem.act.tip = '入住';
 								}
-	
-								console.log("dataItems",dataItem)
+
+								console.log("dataItems", dataItem)
 							});
 						});
 						this.dateFlag = {
@@ -871,15 +900,13 @@
 					} else {
 						this.dateFlag = {};
 						this.choice = true;
-						// console.log('count', count);
 						this.dayCount = count + 1;
 						this.dayCount2 = '共' + (count + 1) + '晚';
 					}
 				} else {
-					// console.log("006")
 					var that = this;
 					this.date.forEach(function(dataItems) {
-						
+
 						dataItems.forEach(function(dataItem) {
 							dataItem.act.defaultStr = 0;
 							if (dataItem.dateTime != that.date[index][indexs].dateTime) {
@@ -897,10 +924,24 @@
 					};
 					this.choice = false;
 					this.dayCount = 1;
-					//
 					this.choiceDate[0] = curDate;
-					// console.log("this.choice ", this.choice)
 				}
+				console.log(" this.choiceDateArr1",this.choiceDateArr)
+				this.choiceDateArr222 = this.choiceDateArr.concat()
+				this.choiceDateArr222.pop()
+				console.log(" this.choiceDateArr1",this.choiceDateArr)
+				console.log(" this.choiceDateArr222",this.choiceDateArr222)
+				this.choiceDateArr222.forEach(item => {
+					let aaa = this.newArrDate.find(order => order == item.re)
+					if (aaa) {
+						uni.showToast({
+							icon: "none",
+							title: '日期无房不可选',
+							duration: 3000,
+							position: 'top'
+						})
+					}
+				})
 			},
 			submitbtn: function() {
 				this.choiceDate[0] = this.choiceDateArr[0];
@@ -914,46 +955,48 @@
 				this.$emit('change', {
 					choiceDate: this.singleDate ? this.choiceDate[0] : this.choiceDate, //如果是单个日期方式，则只导出数组第一个
 					dayCount: this.dayCount,
-					
+
 				});
 				var pages = getCurrentPages();
 				var prevPage = pages[pages.length - 2]
 				prevPage.brand = {
 					choiceDate: this.singleDate ? this.choiceDate[0] : this.choiceDate, //如果是单个日期方式，则只导出数组第一个
 					dayCount: this.dayCount,
-					choiceDateArr:this.choiceDateArr
-					
+					choiceDateArr: this.choiceDateArr
+
 				}
 				uni.navigateBack()
 			},
-			getdiffdate(stime,etime){
-			    //初始化日期列表，数组
-			    var diffdate = new Array();
-			    var i=0;
-			    //开始日期小于等于结束日期,并循环
-			    while(stime<=etime){
-			        diffdate[i] = stime;
-			        
-			        //获取开始日期时间戳
-			        var stime_ts = new Date(stime).getTime();
-			        // console.log('当前日期：'+stime   +'当前时间戳：'+stime_ts);
-			        
-			        //增加一天时间戳后的日期
-			        var next_date = stime_ts + (24*60*60*1000);
-			        
-			        //拼接年月日，这里的月份会返回（0-11），所以要+1
-			        var next_dates_y = new Date(next_date).getFullYear()+'-';
-			        var next_dates_m = (new Date(next_date).getMonth()+1 < 10)?'0'+(new Date(next_date).getMonth()+1)+'-':(new Date(next_date).getMonth()+1)+'-';
-			        var next_dates_d = (new Date(next_date).getDate() < 10)?'0'+new Date(next_date).getDate():new Date(next_date).getDate();
-			 
-			        stime = next_dates_y+next_dates_m+next_dates_d;
-			        
-			        //增加数组key
-			        i++;
-			    }
+			getdiffdate(stime, etime) {
+				//初始化日期列表，数组
+				var diffdate = new Array();
+				var i = 0;
+				//开始日期小于等于结束日期,并循环
+				while (stime <= etime) {
+					diffdate[i] = stime;
+
+					//获取开始日期时间戳
+					var stime_ts = new Date(stime).getTime();
+					// console.log('当前日期：'+stime   +'当前时间戳：'+stime_ts);
+
+					//增加一天时间戳后的日期
+					var next_date = stime_ts + (24 * 60 * 60 * 1000);
+
+					//拼接年月日，这里的月份会返回（0-11），所以要+1
+					var next_dates_y = new Date(next_date).getFullYear() + '-';
+					var next_dates_m = (new Date(next_date).getMonth() + 1 < 10) ? '0' + (new Date(next_date).getMonth() +
+						1) + '-' : (new Date(next_date).getMonth() + 1) + '-';
+					var next_dates_d = (new Date(next_date).getDate() < 10) ? '0' + new Date(next_date).getDate() :
+						new Date(next_date).getDate();
+
+					stime = next_dates_y + next_dates_m + next_dates_d;
+
+					//增加数组key
+					i++;
+				}
 				diffdate.pop();
-			    // console.log(diffdate);
-			    return diffdate;
+				// console.log(diffdate);
+				return diffdate;
 			}
 		}
 	};
@@ -1191,7 +1234,8 @@
 			font-size: 20rpx;
 			height: 1.2em;
 		}
-		.day-price{
+
+		.day-price {
 			font-size: 20rpx;
 			height: 1.2em;
 		}
@@ -1382,6 +1426,7 @@
 		font-size: 32rpx;
 		color: black;
 	}
+
 	.order-time .sumCount {
 		color: #ff941d;
 		font-size: 28rpx;
