@@ -4,7 +4,7 @@
 			<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/bishui-banner.png">
 			</image>
 			<view class="rule-link">
-				<text class="txt">必睡榜单评分标准</text>
+				<text class="txt" @tap="openSiteContent()">必睡榜单评分标准</text>
 				<view class="icon">
 					<uni-icons type="right" size="12" color="#666666"></uni-icons>
 				</view>
@@ -136,7 +136,12 @@
 						return
 					}
 				})
-			}
+			},
+			openSiteContent() {
+				uni.navigateTo({
+					url: '../site-content/site-content?id=7' 
+				})
+			},
 		}
 	}
 </script>

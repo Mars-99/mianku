@@ -11,15 +11,15 @@
 		<view class="homestay">
 			<view class="title">我报名的民宿</view>
 			<view class="list">
-				<view class="item">
+				<view class="item" v-for="(item ,key) in applyList" :key="key">
 					<view class="img-left" @tap="openListingsDetail()">
-						<image mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-01.jpg">
+						<image mode="widthFix" :src="item.thum">
 						</image>
 					</view>
 					
 					<view class="cont-right">
 						<view class="title">
-							【眠库·黑曼巴】五一广场·国金中心IFS·超级文和友·茶颜悦色·超好出片·免费寄存
+							{{item.hotelName}}
 						</view>
 						<view class="info">
 							<uni-icons type="home" size="16" color="#999999"></uni-icons>
@@ -67,14 +67,26 @@
 </template>
 
 <script>
+	import {
+		getEnrollList,
+	} from '@/utils/request/manage.js'
 	export default {
 		data() {
 			return {
-				
+				applyList:[]
 			}
 		},
+		onLoad() {
+			this.init()
+		},
 		methods: {
-			
+			async init() {
+				const {
+					data: res
+				} = await getEnrollList()
+				this.applyList = res.data.rs
+				console.log("this.applyList",this.applyList)
+			},
 		}
 	}
 </script>

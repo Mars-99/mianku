@@ -5,7 +5,7 @@
 				src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/privilege-banner.png">
 			</image>
 			<view class="rule-link">
-				<text class="txt">规则说明</text>
+				<text class="txt" @tap="openSiteContent()">规则说明</text>
 				<view class="icon">
 					<uni-icons type="right" size="12" color="#666666"></uni-icons>
 				</view>
@@ -54,35 +54,21 @@
 			<view class="title-h1">
 				眠库优惠包
 			</view>
-			<view class="aui-flex">
+			<view class="aui-flex" v-for="(item ,key) in couponList" :key="key">
 				<view class="aui-price-nub">
 					<view class="aui-digit">
-						<view class="h2">8.8</view>
+						<view class="h2">{{item.discount}}</view>
 						<view class="txt">折</view>
 					</view>
 				</view>
 				<view class="aui-flex-box">
-					<view class="h2">学生首单优惠</view>
-					<view class="txt">全场通用,首单最高立减60</view>
+					<view class="h2">{{item.title}}</view>
+					<view class="txt" v-if="item.title.indexOf('生日') != -1">生日专享券,可在生当月享用。</view>
+					<view class="txt" v-else>全场通用,首单最高立减60</view>
 				</view>
 				<view class="rzbtn">
-					<button class="btn" type="primary" size="default" @tap="openAuthenticate()">认证领取</button>
-				</view>
-			</view>
-
-			<view class="aui-flex">
-				<view class="aui-price-nub">
-					<view class="aui-digit">
-						<view class="h2">8.5</view>
-						<view class="txt">折</view>
-					</view>
-				</view>
-				<view class="aui-flex-box">
-					<view class="h2">生日专享折扣</view>
-					<view class="txt">生日当月使用,最高立减60</view>
-				</view>
-				<view class="rzbtn">
-					<button class="btn" type="primary" size="default" @tap="openAuthenticate">认证领取</button>
+				    <button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">已享有</button>
+					<button class="btn" type="primary" size="default" @tap="openAuthenticate()" v-else>认证领取</button>
 				</view>
 			</view>
 		</view>
@@ -92,12 +78,13 @@
 <script>
 	import {
 		userDetail,
-		privilegeCoupon
+		privilegeCoupon,
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
 			return {
-				userDetail:{}
+				userDetail:{},
+				couponList:[]
 			}
 		},
 		onLoad() {
@@ -138,10 +125,15 @@
 				if (res.code == 1) {
 					return this.$api.msg(res.msg)
 				} else {
-					
+					this.couponList = res.data
 					console.log("getPrivilegeCoupon",res)
 				}
 			
+			},
+			openSiteContent() {
+				uni.navigateTo({
+					url: '../site-content/site-content?id=5' 
+				})
 			},
 		},
 	}

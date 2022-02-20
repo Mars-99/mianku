@@ -46,13 +46,21 @@
 								<upload-img ref="gUpload" :mode="imgList" @chooseFile="chooseFile"
 									@imgDelete="imgDelete" :control="control"></upload-img>
 							</uni-forms-item>
+							<view class="foot-xieyi-wrapper flex-row-center">
+								<checkbox-group @change="checkboxChange">
+									<label>
+										<checkbox :value="isChoose" color="#ff941d" style="transform:scale(0.7)"/>
+									</label>
+								</checkbox-group>
+								<view class="txt" @tap="openSiteContent()">《学生认证协议》</view>
+							</view>
 
 						</uni-forms>
 						<button class="btn" @click="submit">提交认证</button>
 					</view>
 				</view>
 			</view>
-				<view v-if="current === 1">
+			<view v-if="current === 1">
 				<view class="gaokao-students">
 					<view class="form-cont">
 						<uni-forms ref="form" :modelValue="formData" :rules="rules">
@@ -73,6 +81,15 @@
 									@imgDelete="imgDelete" :control="control"></upload-img>
 							</uni-forms-item>
 						</uni-forms>
+						<view class="foot-xieyi-wrapper">
+							<checkbox-group @change="checkboxChange">
+								<label>
+									<checkbox :value="isChoose" color="#ff941d" style="transform:scale(0.7)"/>
+								</label>
+							</checkbox-group>
+							
+							<view class="txt" @tap="openSiteContent()">《学生认证协议》</view>
+						</view>
 						<button class="btn" @click="submit">提交认证</button>
 					</view>
 				</view>
@@ -157,7 +174,8 @@
 					education: '',
 					enrollmentYear: ''
 				},
-				licenseUrl: []
+				licenseUrl: [],
+				isChoose: false,
 			}
 		},
 		onLoad() {
@@ -203,36 +221,44 @@
 					return this.$api.msg(res.msg)
 				} else {
 					uni.showToast({
-					    icon: "none",
-					    title:'认证已提交，1-3个工作日完成认证审核',
-					        duration: 3000,
-					        position: 'top'
+						icon: "none",
+						title: '认证已提交，1-3个工作日完成认证审核',
+						duration: 3000,
+						position: 'top'
 					})
-                    uni.navigateBack({
-                    	success: function() {
-                    	        beforePage.onShow(); // 执行上一页的onLoad方法
-                    	    }
-                    })
+					uni.navigateBack({
+						success: function() {
+							beforePage.onShow(); // 执行上一页的onLoad方法
+						}
+					})
 				}
 
 			},
 			submit() {
-
-				this.$refs.form.validate().then(res => {
-					console.log('表单数据信息：', res);
-					this.getAuthenticationUpdateUrl()
-				}).catch(err => {
-					console.log('表单错误信息：', err);
-				})
+				if(this.isChoose){
+					this.$refs.form.validate().then(res => {
+						console.log('表单数据信息：', res);
+						this.getAuthenticationUpdateUrl()
+					}).catch(err => {
+						console.log('表单错误信息：', err);
+					})
+				}else{
+					uni.showToast({
+						icon: "none",
+						title: '请阅读并同意学生认证协议才可以完成认证流程',
+						duration: 3000,
+						position: 'top'
+					})
+				}
 			},
 			onClickItem(e) {
-				this.formData.name=''
-				this.formData.idCardNumber=''
+				this.formData.name = ''
+				this.formData.idCardNumber = ''
 				this.licenseUrl = ''
 				this.yearsIndex = 0
 				this.educationIndex = 0,
-				this.school= '0-0'
-				
+					this.school = '0-0'
+
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex
 				}
@@ -282,6 +308,14 @@
 				console.log("this.licenseUrl2222", this.licenseUrl)
 			},
 			onnodeclick(node) {},
+			checkboxChange(e) {
+				this.isChoose = e.detail.value[0] == false ? true : false
+			},
+			openSiteContent() {
+				uni.navigateTo({
+					url: '../site-content/site-content?id=8'
+				})
+			},
 		}
 	}
 </script>
@@ -317,7 +351,7 @@
 			padding-left: 10rpx;
 		}
 
-		
+
 
 		.choose-school {
 			line-height: 72rpx;
@@ -333,6 +367,16 @@
 		background-color: #333333;
 		color: #ffffff;
 		margin-top: 60rpx;
+	}
+	.foot-xieyi-wrapper{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 30rpx;
+		.txt{
+			font-size: 24rpx;
+			color: #ff941d;
+		}
 	}
 
 	/deep/ .is-input-border {

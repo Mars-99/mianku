@@ -264,7 +264,7 @@
 				</view>
 				<view class="r-part">
 					<button class="btn" type="primary" size="default"
-						@tap="freeTrialApply(listingsDetail.hotel.id)">去报名</button>
+						@tap="freeTrialApply(listingsDetail.hotel.id)" >{{isApply?"查看报名":"去报名"}}</button>
 					<view class="icon" @tap="freeTrialClose()">
 						<uni-icons type="closeempty" size="14" color="#cccccc"></uni-icons>
 					</view>
@@ -288,6 +288,7 @@
 		getCollectionList,
 		activityEnroll,
 		userDetail,
+		getEnrollList,
 	} from '@/utils/request/manage.js'
 	import gcoord from '@/common/gcoord.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
@@ -350,6 +351,7 @@
 
 				freeTrialPage: "",
 				freeTrialShow: false,
+				isApply:false,
 
 				orderDate: [],
 				newArrDate:[],
@@ -688,9 +690,15 @@
 					}
 				}
 			},
-			freeTrial() {
+			async freeTrial() {
 				if (this.freeTrialPage == "试睡") {
 					this.freeTrialShow = true
+					const {
+						data: res
+					} = await getEnrollList()
+					if(res.data.rs.length){
+						this.isApply = true
+					}
 				} else {
 					this.freeTrialShow = false
 				}
@@ -699,25 +707,30 @@
 				this.freeTrialShow = false
 			},
 			async freeTrialApply(hid) {
-				
-				const {
-					data:res2
-				} = await userDetail()
-				const {
-					data: res
-				} = await activityEnroll(hid, res2.data.userName, res2.data.phone)
-				if (res.code == 1) {
-					uni.showToast({
-						icon: "none",
-						title: res.msg,
-						duration: 2000,
-						position: 'top'
-					})
-
-				} else {
+				if(this.isApply){
 					uni.navigateTo({
 						url: "../free-trial/free-trial-result?id=" + this.listingsDetail.hotel.id
 					})
+				}else{
+					const {
+						data:res2
+					} = await userDetail()
+					const {
+						data: res
+					} = await activityEnroll(hid, res2.data.userName, res2.data.phone)
+					if (res.code == 1) {
+						uni.showToast({
+							icon: "none",
+							title: res.msg,
+							duration: 2000,
+							position: 'top'
+						})
+					
+					} else {
+						uni.navigateTo({
+							url: "../free-trial/free-trial-result?id=" + this.listingsDetail.hotel.id
+						})
+					}
 				}
 			},
 			Share(){
@@ -1322,7 +1335,7 @@
 		}
 
 		.c-part {
-			width: 50%;
+			width: 45%;
 
 			.t-txt {
 				font-size: 24rpx;
@@ -1337,7 +1350,7 @@
 		}
 
 		.r-part {
-			width: 20%;
+			width: 25%;
 			position: relative;
 
 			.btn {

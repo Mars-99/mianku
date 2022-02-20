@@ -32,7 +32,8 @@
     "pages/order/order-result",
     "components/djs/djs",
     "pages/free-trial/free-trial-result",
-    "pages/student-privilege/authenticate"
+    "pages/student-privilege/authenticate",
+    "pages/site-content/site-content"
   ],
   "subPackages": [],
   "window": {

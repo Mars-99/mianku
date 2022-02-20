@@ -96,16 +96,16 @@ var components
 try {
   components = {
     uniSwiperDot: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot */ "uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot.vue */ 423))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot */ "uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-swiper-dot/components/uni-swiper-dot/uni-swiper-dot.vue */ 431))
     },
     uniIcons: function() {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 465))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 473))
     },
     uniTitle: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-title/components/uni-title/uni-title */ "uni_modules/uni-title/components/uni-title/uni-title").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-title/components/uni-title/uni-title.vue */ 430))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-title/components/uni-title/uni-title */ "uni_modules/uni-title/components/uni-title/uni-title").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-title/components/uni-title/uni-title.vue */ 438))
     },
     uniPopup: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 515))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 523))
     }
   }
 } catch (e) {
@@ -486,9 +486,10 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);
 
 
 
+
 var _gcoord = _interopRequireDefault(__webpack_require__(/*! @/common/gcoord.js */ 267));
 
-var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var pageLoad = function pageLoad() {__webpack_require__.e(/*! require.ensure | components/pageLoad/pageLoad */ "components/pageLoad/pageLoad").then((function () {return resolve(__webpack_require__(/*! @/components/pageLoad/pageLoad */ 480));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var pageLoad = function pageLoad() {__webpack_require__.e(/*! require.ensure | components/pageLoad/pageLoad */ "components/pageLoad/pageLoad").then((function () {return resolve(__webpack_require__(/*! @/components/pageLoad/pageLoad */ 488));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
   components: {
     pageLoad: pageLoad },
@@ -547,6 +548,7 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
 
       freeTrialPage: "",
       freeTrialShow: false,
+      isApply: false,
 
       orderDate: [],
       newArrDate: [],
@@ -885,24 +887,34 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
 
 
     },
-    freeTrial: function freeTrial() {
-      if (this.freeTrialPage == "试睡") {
-        this.freeTrialShow = true;
-      } else {
-        this.freeTrialShow = false;
-      }
+    freeTrial: function freeTrial() {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$getEnrollList, res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:if (!(
+                _this7.freeTrialPage == "试睡")) {_context4.next = 9;break;}
+                _this7.freeTrialShow = true;_context4.next = 4;return (
+
+
+                  (0, _manage.getEnrollList)());case 4:_yield$getEnrollList = _context4.sent;res = _yield$getEnrollList.data;
+                if (res.data.rs.length) {
+                  _this7.isApply = true;
+                }_context4.next = 10;break;case 9:
+
+                _this7.freeTrialShow = false;case 10:case "end":return _context4.stop();}}}, _callee4);}))();
+
     },
     freeTrialClose: function freeTrialClose() {
       this.freeTrialShow = false;
     },
-    freeTrialApply: function freeTrialApply(hid) {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$userDetail, res2, _yield$activityEnroll, res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+    freeTrialApply: function freeTrialApply(hid) {var _this8 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var _yield$userDetail, res2, _yield$activityEnroll, res;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:if (!
+                _this8.isApply) {_context5.next = 4;break;}
+                uni.navigateTo({
+                  url: "../free-trial/free-trial-result?id=" + _this8.listingsDetail.hotel.id });_context5.next = 13;break;case 4:_context5.next = 6;return (
 
 
 
-                  (0, _manage.userDetail)());case 2:_yield$userDetail = _context4.sent;res2 = _yield$userDetail.data;_context4.next = 6;return (
+
+                  (0, _manage.userDetail)());case 6:_yield$userDetail = _context5.sent;res2 = _yield$userDetail.data;_context5.next = 10;return (
 
 
-                  (0, _manage.activityEnroll)(hid, res2.data.userName, res2.data.phone));case 6:_yield$activityEnroll = _context4.sent;res = _yield$activityEnroll.data;
+                  (0, _manage.activityEnroll)(hid, res2.data.userName, res2.data.phone));case 10:_yield$activityEnroll = _context5.sent;res = _yield$activityEnroll.data;
                 if (res.code == 1) {
                   uni.showToast({
                     icon: "none",
@@ -913,9 +925,10 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
 
                 } else {
                   uni.navigateTo({
-                    url: "../free-trial/free-trial-result?id=" + _this7.listingsDetail.hotel.id });
+                    url: "../free-trial/free-trial-result?id=" + _this8.listingsDetail.hotel.id });
 
-                }case 9:case "end":return _context4.stop();}}}, _callee4);}))();
+                }case 13:case "end":return _context5.stop();}}}, _callee5);}))();
+
     },
     Share: function Share() {
       this.share.title = this.listingsDetail.hotel.hotelName;
@@ -953,7 +966,7 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
       // console.log(diffdate);
       return diffdate;
     },
-    listingStatus: function listingStatus() {var _this8 = this;
+    listingStatus: function listingStatus() {var _this9 = this;
       if (this.orderDate.length > 0) {
         var orderDate = this.orderDate;
         var dateArr = [];
@@ -965,7 +978,7 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
 
         });
         dateArr.forEach(function (date2) {
-          dateArr2 += _this8.getdiffdate(date2.checkIn, date2.checkOut) + ",";
+          dateArr2 += _this9.getdiffdate(date2.checkIn, date2.checkOut) + ",";
         });
         if (dateArr2) {
           this.newArrDate = dateArr2.split(",");
@@ -973,12 +986,12 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
         var choiceDateArr222 = this.choiceDateArr.concat();
         choiceDateArr222.pop();
         choiceDateArr222.forEach(function (item) {
-          var aaa = _this8.newArrDate.find(function (order) {return order == item.re;});
+          var aaa = _this9.newArrDate.find(function (order) {return order == item.re;});
           if (aaa) {
-            _this8.wufang = true;
+            _this9.wufang = true;
           }
         });
-        var bbb = this.newArrDate.find(function (order) {return order == _this8.checkIn;});
+        var bbb = this.newArrDate.find(function (order) {return order == _this9.checkIn;});
         if (bbb) {
           this.wufang = true;
         }

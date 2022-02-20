@@ -27,6 +27,7 @@ let urlManage = {
 	reportListUrl: 'api/news/report_list', // 获取试睡报告列表
 	reportDetailUrl: 'api/news/report', // 获取试睡报告详情
 	activityEnrollUrl: 'api/user/activity_enroll', // 试睡活动报名
+	enrollListUrl: 'api/user/enroll_list', // 用户试睡列表
 
 
 	userMsgList: 'api/user/msg_list', // 消息列表(33)
@@ -62,6 +63,10 @@ let urlManage = {
 	getUserShare: 'api/user/share', //助力活动用户数据
 	getUserSharePrice: 'api/user/share_price', //领取助力奖励
 	userHelp:'api/user/help', //0元助力
+	
+	getSiteContentUrl:'api/home/site_content', //平台信息
+	
+	
 
 
 
@@ -218,6 +223,12 @@ const activityEnroll = function(hid, contacts, phone) {
 		hid: hid,
 		contacts: contacts,
 		phone: phone,
+	})
+}
+// 用户试睡列表
+const getEnrollList = function() {
+	return $http.post(urlManage.enrollListUrl, {
+		
 	})
 }
 
@@ -394,6 +405,13 @@ const getUserSharePrice = function() {
 const userHelp = function(userid){
 	return $http.post(urlManage.userHelp,{id:userid})
 }
+
+// 平台信息
+const siteContent = function(){
+	return $http.get(urlManage.getSiteContentUrl,{})
+}
+
+
 export {
 	wxLogin,
 	wxInfo,
@@ -413,6 +431,7 @@ export {
 	reportList,
 	reportDetail,
 	activityEnroll,
+	getEnrollList,
 
 	getUserMsgList,
 	getUserNewMsg,
@@ -442,5 +461,6 @@ export {
 	getShareDetail,
 	getUserShare,
 	getUserSharePrice,
-	userHelp
+	userHelp,
+	siteContent,
 }

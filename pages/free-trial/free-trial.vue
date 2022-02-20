@@ -5,7 +5,7 @@
 				src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/free-trial-banner.jpg">
 			</image>
 			<view class="rule-link">
-				<text class="txt">试住规则</text>
+				<text class="txt" @tap="openSiteContent()">试住规则</text>
 				<view class="icon">
 					<uni-icons type="right" size="12" color="#666666"></uni-icons>
 				</view>
@@ -13,8 +13,8 @@
 		</view>
 		<view class="winning-info">
 			<view class="winner-box">
-				<maoScroll v-if="prizeList.length>0" :data="data" :showNum="showNum" :lineHeight="lineHeight" :animationScroll="animationScroll"
-					:animation="animation">
+				<maoScroll v-if="prizeList.length>0" :data="data" :showNum="showNum" :lineHeight="lineHeight"
+					:animationScroll="animationScroll" :animation="animation">
 					<template v-slot="{line}">
 						<view class="line">
 							<view class="winner-info">
@@ -80,7 +80,8 @@
 								<view class="CP">￥{{listingsItem.weekdaysOriginal}}</view>
 								<view class="wan">/晚</view>
 							</view>
-							<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(listingsItem)">免费住</button>
+							<button class="btn-solid" type="default" size="mini"
+								@tap="openListingsDetail(listingsItem)">免费住</button>
 						</view>
 					</view>
 				</view>
@@ -106,7 +107,8 @@
 		<view class="feedback">
 			<uni-title type="h2" title="往期试住报告"></uni-title>
 			<scroll-view class="scroll-view_H" scroll-x="true" scroll-left="0">
-				<view id="demo1" class="scroll-view-item_H" v-for="(reportItem,index) in reportList" :key="index" @tap="openFreeTrial(reportItem.id)">
+				<view id="demo1" class="scroll-view-item_H" v-for="(reportItem,index) in reportList" :key="index"
+					@tap="openFreeTrial(reportItem.id)">
 					<view class="image-area">
 						<view class="left">
 							<image class="img" mode="aspectFill" :src="reportItem.pics[0].url">
@@ -198,7 +200,7 @@
 				],
 				current: 0,
 				btnnum: 0,
-				
+
 				cityId: 1, //当前城市id
 				pageIndex: 1, //当前页码
 				pageSize: 5, //每页条数
@@ -211,7 +213,7 @@
 				ranklist: [],
 
 				prizeList: [],
-				prizeTotal:0,
+				prizeTotal: 0,
 				count: 1,
 				limit: 5,
 
@@ -286,8 +288,8 @@
 					data
 				} = await activityPrizeList(this.count, this.limit)
 				this.prizeList = data.data.rs;
-				this.prizeTotal =  data.data.count
-				console.log("prizeList",this.prizeList)
+				this.prizeTotal = data.data.count
+				console.log("prizeList", this.prizeList)
 
 			},
 			async getReportList() {
@@ -326,14 +328,19 @@
 					this.loading = false
 
 			},
-			openFreeTrial(id){
+			openFreeTrial(id) {
 				uni.navigateTo({
-					url: '../free-trial/free-trial-report?id='+id
+					url: '../free-trial/free-trial-report?id=' + id
 				})
 			},
-			openListingsDetail(item){
+			openListingsDetail(item) {
 				uni.navigateTo({
-					url: '../listings/listings-detail?id=' + item.id+'&pageRoot=试睡'
+					url: '../listings/listings-detail?id=' + item.id + '&pageRoot=试睡'
+				})
+			},
+			openSiteContent() {
+				uni.navigateTo({
+					url: '../site-content/site-content?id=6' 
 				})
 			},
 		}
@@ -677,7 +684,7 @@
 					overflow: hidden;
 					height: 400rpx;
 					margin-right: 2%;
-					
+
 				}
 
 				.right {
@@ -764,6 +771,7 @@
 		}
 
 	}
+
 	/deep/ button::after {
 		border: none;
 	}

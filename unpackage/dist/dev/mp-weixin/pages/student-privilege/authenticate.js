@@ -96,22 +96,22 @@ var components
 try {
   components = {
     uniSegmentedControl: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control */ "uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control.vue */ 473))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control */ "uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control.vue */ 481))
     },
     uniForms: function() {
-      return Promise.all(/*! import() | uni_modules/uni-forms/components/uni-forms/uni-forms */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-forms/components/uni-forms/uni-forms")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-forms/components/uni-forms/uni-forms.vue */ 543))
+      return Promise.all(/*! import() | uni_modules/uni-forms/components/uni-forms/uni-forms */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-forms/components/uni-forms/uni-forms")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-forms/components/uni-forms/uni-forms.vue */ 551))
     },
     uniFormsItem: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-forms/components/uni-forms-item/uni-forms-item */ "uni_modules/uni-forms/components/uni-forms-item/uni-forms-item").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.vue */ 551))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-forms/components/uni-forms-item/uni-forms-item */ "uni_modules/uni-forms/components/uni-forms-item/uni-forms-item").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.vue */ 559))
     },
     uniEasyinput: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 458))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 466))
     },
     uniDataPicker: function() {
-      return Promise.all(/*! import() | uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker.vue */ 558))
+      return Promise.all(/*! import() | uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker.vue */ 566))
     },
     uploadImg: function() {
-      return Promise.all(/*! import() | components/upload-img/upload-img */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/upload-img/upload-img")]).then(__webpack_require__.bind(null, /*! @/components/upload-img/upload-img.vue */ 568))
+      return Promise.all(/*! import() | components/upload-img/upload-img */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/upload-img/upload-img")]).then(__webpack_require__.bind(null, /*! @/components/upload-img/upload-img.vue */ 576))
     }
   }
 } catch (e) {
@@ -169,6 +169,23 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 13));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -327,7 +344,8 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
         education: '',
         enrollmentYear: '' },
 
-      licenseUrl: [] };
+      licenseUrl: [],
+      isChoose: false };
 
   },
   onLoad: function onLoad() {
@@ -387,13 +405,21 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
     },
     submit: function submit() {var _this3 = this;
+      if (this.isChoose) {
+        this.$refs.form.validate().then(function (res) {
+          console.log('表单数据信息：', res);
+          _this3.getAuthenticationUpdateUrl();
+        }).catch(function (err) {
+          console.log('表单错误信息：', err);
+        });
+      } else {
+        uni.showToast({
+          icon: "none",
+          title: '请阅读并同意学生认证协议才可以完成认证流程',
+          duration: 3000,
+          position: 'top' });
 
-      this.$refs.form.validate().then(function (res) {
-        console.log('表单数据信息：', res);
-        _this3.getAuthenticationUpdateUrl();
-      }).catch(function (err) {
-        console.log('表单错误信息：', err);
-      });
+      }
     },
     onClickItem: function onClickItem(e) {
       this.formData.name = '';
@@ -451,7 +477,15 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
       this.licenseUrl = list.join(',');
       console.log("this.licenseUrl2222", this.licenseUrl);
     },
-    onnodeclick: function onnodeclick(node) {} } };exports.default = _default;
+    onnodeclick: function onnodeclick(node) {},
+    checkboxChange: function checkboxChange(e) {
+      this.isChoose = e.detail.value[0] == false ? true : false;
+    },
+    openSiteContent: function openSiteContent() {
+      uni.navigateTo({
+        url: '../site-content/site-content?id=8' });
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

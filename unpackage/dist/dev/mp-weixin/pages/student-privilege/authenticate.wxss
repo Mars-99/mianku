@@ -42,6 +42,16 @@
   color: #ffffff;
   margin-top: 60rpx;
 }
+.foot-xieyi-wrapper.data-v-ba1bcd04 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30rpx;
+}
+.foot-xieyi-wrapper .txt.data-v-ba1bcd04 {
+  font-size: 24rpx;
+  color: #ff941d;
+}
 .data-v-ba1bcd04 .is-input-border {
   border: 0px;
 }
