@@ -690,13 +690,14 @@
 					}
 				}
 			},
-			async freeTrial() {
+			 freeTrial() {
 				if (this.freeTrialPage == "试睡") {
 					this.freeTrialShow = true
-					const {
-						data: res
-					} = await getEnrollList()
-					if(res.data.rs.length){
+					// const {
+					// 	data: res
+					// } = await getEnrollList()
+					let state = this.$mp.query.state
+					if(state == 1){
 						this.isApply = true
 					}
 				} else {

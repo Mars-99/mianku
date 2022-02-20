@@ -22,7 +22,7 @@ let urlManage = {
 	// hotelDetailUrl: 'api/home/getCity', // 获取商圈
 
 
-	activityHotelListUrl: 'api/activity/hotel_list', // 获取试睡酒店列表
+	activityHotelListUrl: 'api/user/activity_hotel_list', // 获取试睡酒店列表
 	activityPrizeListUrl: 'api/activity/prize', // 获取试睡活动中奖列表
 	reportListUrl: 'api/news/report_list', // 获取试睡报告列表
 	reportDetailUrl: 'api/news/report', // 获取试睡报告详情

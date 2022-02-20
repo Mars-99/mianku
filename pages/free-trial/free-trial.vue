@@ -162,26 +162,6 @@
 				lineHeight: 80,
 				animationScroll: 800,
 				animation: 2000,
-				winningList: [{
-						avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-						name: '小小眠',
-						tel: '186****4310',
-						prize: '北欧风北欧风大床房北欧风大床房北欧风大床房北欧风大床房大床房',
-					},
-					{
-						avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-						name: '小小库',
-						tel: '186****4567',
-						prize: '波西米亚豪华套间',
-					},
-					{
-						avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-						name: '小小民',
-						tel: '186****8500',
-						prize: '日式桑拿房'
-					},
-
-				],
 				cityList: [{
 						cityName: '全国',
 					},
@@ -282,6 +262,7 @@
 					data
 				} = await activityHotelList(this.cityId, this.pageIndex, this.pageSize)
 				this.listingsList = data.data.rs;
+				this.ApplyState = data.data.state
 			},
 			async getActivityPrizeList() {
 				const {
@@ -335,7 +316,7 @@
 			},
 			openListingsDetail(item) {
 				uni.navigateTo({
-					url: '../listings/listings-detail?id=' + item.id + '&pageRoot=试睡'
+					url: '../listings/listings-detail?id=' + item.id + '&pageRoot=试睡'+'&state='+this.ApplyState
 				})
 			},
 			openSiteContent() {

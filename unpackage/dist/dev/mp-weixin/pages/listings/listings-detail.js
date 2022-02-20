@@ -887,34 +887,35 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
 
 
     },
-    freeTrial: function freeTrial() {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$getEnrollList, res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:if (!(
-                _this7.freeTrialPage == "试睡")) {_context4.next = 9;break;}
-                _this7.freeTrialShow = true;_context4.next = 4;return (
-
-
-                  (0, _manage.getEnrollList)());case 4:_yield$getEnrollList = _context4.sent;res = _yield$getEnrollList.data;
-                if (res.data.rs.length) {
-                  _this7.isApply = true;
-                }_context4.next = 10;break;case 9:
-
-                _this7.freeTrialShow = false;case 10:case "end":return _context4.stop();}}}, _callee4);}))();
-
+    freeTrial: function freeTrial() {
+      if (this.freeTrialPage == "试睡") {
+        this.freeTrialShow = true;
+        // const {
+        // 	data: res
+        // } = await getEnrollList()
+        var state = this.$mp.query.state;
+        if (state == 1) {
+          this.isApply = true;
+        }
+      } else {
+        this.freeTrialShow = false;
+      }
     },
     freeTrialClose: function freeTrialClose() {
       this.freeTrialShow = false;
     },
-    freeTrialApply: function freeTrialApply(hid) {var _this8 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var _yield$userDetail, res2, _yield$activityEnroll, res;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:if (!
-                _this8.isApply) {_context5.next = 4;break;}
+    freeTrialApply: function freeTrialApply(hid) {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$userDetail, res2, _yield$activityEnroll, res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:if (!
+                _this7.isApply) {_context4.next = 4;break;}
                 uni.navigateTo({
-                  url: "../free-trial/free-trial-result?id=" + _this8.listingsDetail.hotel.id });_context5.next = 13;break;case 4:_context5.next = 6;return (
+                  url: "../free-trial/free-trial-result?id=" + _this7.listingsDetail.hotel.id });_context4.next = 13;break;case 4:_context4.next = 6;return (
 
 
 
 
-                  (0, _manage.userDetail)());case 6:_yield$userDetail = _context5.sent;res2 = _yield$userDetail.data;_context5.next = 10;return (
+                  (0, _manage.userDetail)());case 6:_yield$userDetail = _context4.sent;res2 = _yield$userDetail.data;_context4.next = 10;return (
 
 
-                  (0, _manage.activityEnroll)(hid, res2.data.userName, res2.data.phone));case 10:_yield$activityEnroll = _context5.sent;res = _yield$activityEnroll.data;
+                  (0, _manage.activityEnroll)(hid, res2.data.userName, res2.data.phone));case 10:_yield$activityEnroll = _context4.sent;res = _yield$activityEnroll.data;
                 if (res.code == 1) {
                   uni.showToast({
                     icon: "none",
@@ -925,9 +926,9 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
 
                 } else {
                   uni.navigateTo({
-                    url: "../free-trial/free-trial-result?id=" + _this8.listingsDetail.hotel.id });
+                    url: "../free-trial/free-trial-result?id=" + _this7.listingsDetail.hotel.id });
 
-                }case 13:case "end":return _context5.stop();}}}, _callee5);}))();
+                }case 13:case "end":return _context4.stop();}}}, _callee4);}))();
 
     },
     Share: function Share() {
@@ -966,7 +967,7 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
       // console.log(diffdate);
       return diffdate;
     },
-    listingStatus: function listingStatus() {var _this9 = this;
+    listingStatus: function listingStatus() {var _this8 = this;
       if (this.orderDate.length > 0) {
         var orderDate = this.orderDate;
         var dateArr = [];
@@ -978,7 +979,7 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
 
         });
         dateArr.forEach(function (date2) {
-          dateArr2 += _this9.getdiffdate(date2.checkIn, date2.checkOut) + ",";
+          dateArr2 += _this8.getdiffdate(date2.checkIn, date2.checkOut) + ",";
         });
         if (dateArr2) {
           this.newArrDate = dateArr2.split(",");
@@ -986,12 +987,12 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
         var choiceDateArr222 = this.choiceDateArr.concat();
         choiceDateArr222.pop();
         choiceDateArr222.forEach(function (item) {
-          var aaa = _this9.newArrDate.find(function (order) {return order == item.re;});
+          var aaa = _this8.newArrDate.find(function (order) {return order == item.re;});
           if (aaa) {
-            _this9.wufang = true;
+            _this8.wufang = true;
           }
         });
-        var bbb = this.newArrDate.find(function (order) {return order == _this9.checkIn;});
+        var bbb = this.newArrDate.find(function (order) {return order == _this8.checkIn;});
         if (bbb) {
           this.wufang = true;
         }

@@ -320,26 +320,6 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
       lineHeight: 80,
       animationScroll: 800,
       animation: 2000,
-      winningList: [{
-        avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-        name: '小小眠',
-        tel: '186****4310',
-        prize: '北欧风北欧风大床房北欧风大床房北欧风大床房北欧风大床房大床房' },
-
-      {
-        avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-        name: '小小库',
-        tel: '186****4567',
-        prize: '波西米亚豪华套间' },
-
-      {
-        avatar: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar.jpg',
-        name: '小小民',
-        tel: '186****8500',
-        prize: '日式桑拿房' }],
-
-
-
       cityList: [{
         cityName: '全国' },
 
@@ -439,7 +419,8 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
 
                   (0, _manage.activityHotelList)(_this.cityId, _this.pageIndex, _this.pageSize));case 2:_yield$activityHotelL = _context.sent;data = _yield$activityHotelL.data;
-                _this.listingsList = data.data.rs;case 5:case "end":return _context.stop();}}}, _callee);}))();
+                _this.listingsList = data.data.rs;
+                _this.ApplyState = data.data.state;case 6:case "end":return _context.stop();}}}, _callee);}))();
     },
     getActivityPrizeList: function getActivityPrizeList() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$activityPrizeL, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
 
@@ -493,7 +474,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
     },
     openListingsDetail: function openListingsDetail(item) {
       uni.navigateTo({
-        url: '../listings/listings-detail?id=' + item.id + '&pageRoot=试睡' });
+        url: '../listings/listings-detail?id=' + item.id + '&pageRoot=试睡' + '&state=' + this.ApplyState });
 
     },
     openSiteContent: function openSiteContent() {

@@ -14,7 +14,7 @@
 				</view>
 				<view class="content">
 					<view class="order-list" v-if="orderListData.length>0">
-						<view class="order-item" v-for="(item ,index) in orderListData" :key="index">
+						<view class="order-item" v-for="(item ,index) in handleOrderList" :key="index">
 							<view class="head">
 								<view class="order-number">
 									<view class="icon">
@@ -47,25 +47,30 @@
 								</view>
 							</view>
 							<view class="footer" v-if="item.state===0">
-			
+
 								<view class="l-part">
 									<timer :endTime="item.createdAt"></timer>
 								</view>
 								<button class="btn-hollow" type="default" size="mini"
 									@tap="cancelOrder(item.id)">取消订单</button>
 								<button class="btn-solid" type="default" size="mini" @tap="payWX(item.id)">立即支付</button>
-								
+
 							</view>
 							<view class="footer" v-if="item.state===1">
-								<button class="btn-solid" type="default" size="mini" @tap="customerService()">联系客服</button>
+								<button class="btn-solid" type="default" size="mini"
+									@tap="customerService()">联系客服</button>
 							</view>
 							<view class="footer" v-if="item.state===3">
-								<button class="btn-hollow" type="default" size="mini" @tap="delOrder(item.id)">删除订单</button>
-								<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(item)">再次预定</button>
+								<button class="btn-hollow" type="default" size="mini"
+									@tap="delOrder(item.id)">删除订单</button>
+								<button class="btn-solid" type="default" size="mini"
+									@tap="openListingsDetail(item)">再次预定</button>
 							</view>
 							<view class="footer" v-if="item.state===9">
-								<button class="btn-hollow" type="default" size="mini" @tap="delOrder(item.id)">删除订单</button>
-								<button class="btn-solid" type="default" size="mini" @tap="openListingsDetail(item)">再次预定</button>
+								<button class="btn-hollow" type="default" size="mini"
+									@tap="delOrder(item.id)">删除订单</button>
+								<button class="btn-solid" type="default" size="mini"
+									@tap="openListingsDetail(item)">再次预定</button>
 							</view>
 						</view>
 					</view>
@@ -96,6 +101,7 @@
 	} from '@/utils/request/manage.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
 	import timer from '@/components/djs/djs'
+	import moment from 'moment'
 	export default {
 		components: {
 			pageLoad,
@@ -108,9 +114,12 @@
 				state: '',
 				btnnum: 0,
 				orderListData: [],
+				handleOrderList:[],
 				// show_lists: '',
 				pageshow: true,
-				current_user:null,
+				current_user: null,
+				totalPage:0,
+				page:1,
 			}
 		},
 		computed: {
@@ -118,10 +127,10 @@
 		},
 		mounted() {
 			// this.show_lists = this.orderListData
-			
+
 		},
 		onLoad() {
-		this.isLogin()	
+			this.isLogin()
 		},
 		onShow() {
 			this.getOrderList()
@@ -154,15 +163,16 @@
 						break;
 
 					default:
-						this.state = '';
+						this.state = null;
 						break;
 				}
+				this.page = 1
 				this.getOrderList(this.state)
 
 			},
 		},
 		methods: {
-			
+
 			onClickItem(e) {
 				this.btnnum = e
 				if (this.activeIndex !== e.currentIndex) {
@@ -172,13 +182,25 @@
 			async getOrderList(id) {
 				const {
 					data: res
-				} = await orderList(id)
+				} = await orderList(id,this.page,10)
 				if (res.code == 1) {
 					return this.$api.msg(res.msg)
 				} else {
-					this.orderListData = res.data.rs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+					this.totalPage = res.data.pages
+					if (this.page == 1) {
+						this.orderListData = res.data.rs
+						this.pageshow = false
+						this.orderListData = this.orderListData.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a
+							.createdAt).getTime())
+						this.handleOrder()
+					} else {
+						this.orderListData = this.orderListData.concat(res.data.rs)
+						this.pageshow = false
+						this.orderListData = this.orderListData.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a
+							.createdAt).getTime())
+						this.handleOrder()
+					}
 				}
-				this.pageshow = false
 			},
 			async delOrder(id) {
 				this.pageshow = true
@@ -187,8 +209,7 @@
 				} = await delOrder(id)
 				if (res.code == 1) {
 					return this.$api.msg(res.msg)
-				} else {
-				}
+				} else {}
 				this.getOrderList()
 				this.pageshow = false
 			},
@@ -207,7 +228,7 @@
 				this.getOrderList()
 				this.pageshow = false
 			},
-			
+
 			async payWX(id) {
 				const {
 					data: res
@@ -228,7 +249,7 @@
 								url: '../order/order-result?state=success'
 							})
 							console.log('success:' + JSON.stringify(res));
-							
+
 						},
 						fail(err) {
 							uni.navigateTo({
@@ -238,11 +259,11 @@
 						}
 					});
 				}
-			
+
 			},
 			openOrderDetail(id) {
 				uni.navigateTo({
-					url: '../order/order-detail?id='+id
+					url: '../order/order-detail?id=' + id
 				})
 			},
 			customerService() {
@@ -250,39 +271,90 @@
 					url: '../news/customer-service'
 				})
 			},
-			openListingsDetail(item){
+			openListingsDetail(item) {
 				uni.navigateTo({
 					url: '../listings/listings-detail?id=' + item.hid
 				})
 			},
-			isLogin(){
+			isLogin() {
 				this.current_user = uni.getStorageSync('userinfo')
 				if (!this.current_user) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
 				}
-			}
-	
+			},
+			handleOrder() {
+				let today = moment().format("YYYY-MM-DD")
+				let aaa = []
+				if(this.state == 9){
+					// this.handleOrderList= []
+					this.orderListData.find(item => {
+						if (item.checkOut < today && item.state == 1) {
+							item.state = 9
+							this.handleOrderList.push(item)
+							return
+						}
+					})
+					console.log("handleOrderList9", this.handleOrderList)
+				}else{
+					this.orderListData.find(item => {
+						if (item.checkOut < today && item.state == 1) {
+							item.state = 9
+						}
+					})
+					this.handleOrderList=this.orderListData
+				}
+				if (this.state == 1) {
+					this.handleOrderList= []
+					this.orderListData.find(item => {
+						if (item.checkOut >= today && item.state == 1 && item.state != 5) {
+							this.handleOrderList.push(item)
+							return
+						}
+					})
+					console.log("handleOrderList9", this.handleOrderList)
+				}else{
+					this.orderListData.find(item => {
+						if (item.checkOut < today && item.state == 1) {
+							item.state = 9
+						}
+					})
+					this.handleOrderList=this.orderListData
+				}
+			},
+			onReachBottom() {
+			
+				if (this.page >= this.totalPage) {
+					return
+				} else {
+					this.page += 1
+					this.getOrderList(this.state)
+				}
+			},
+
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	.login{
+	.login {
 		padding: 150rpx 50rpx;
 		text-align: center;
-		.txt{
+
+		.txt {
 			margin: 30rpx auto;
 		}
-		.btn{
-			background: linear-gradient(0deg, rgba(221,135,12,1) 0%, rgba(255,202,73,1) 100%);
+
+		.btn {
+			background: linear-gradient(0deg, rgba(221, 135, 12, 1) 0%, rgba(255, 202, 73, 1) 100%);
 			color: #ffffff;
 			border-radius: 40rpx;
 			width: 50%;
 			margin: 0 auto;
 		}
 	}
+
 	.order-list {
 		margin: 30rpx;
 
@@ -399,7 +471,8 @@
 					line-height: 60rpx;
 					font-size: 26rpx;
 				}
-				.l-part{
+
+				.l-part {
 					font-size: 24rpx;
 					color: #ed7961;
 					padding: 0 20rpx;
@@ -410,7 +483,7 @@
 	}
 
 	.none-data {
-		
+
 		border-radius: 8rpx;
 		padding: 20rpx;
 		margin: 30rpx 0;

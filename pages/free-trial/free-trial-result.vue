@@ -24,40 +24,16 @@
 						<view class="info">
 							<uni-icons type="home" size="16" color="#999999"></uni-icons>
 							<text class="txt">整套</text>·
-							<text class="txt">1室1厅</text>·
-							<text class="txt">可住2人</text>
+							<text class="txt">{{item.houseType}}</text>·
+							<text class="txt">可住{{item.occupancy}}人</text>
 						</view>
 						<view class="bottom-info">
 							<view class="price">
-								<view class="CP">￥188</view>
+								<view class="CP">￥{{week==5||week==6?item.weekendActivity:item.weekdaysActivity}}</view>
 								<view class="wan">/晚</view>
 							</view>
-							<button class="btn-solid" type="default" size="mini">待开奖</button>
-						</view>
-					</view>
-				</view>
-				<view class="item">
-					<view class="img-left" @tap="openListingsDetail()">
-						<image mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-01.jpg">
-						</image>
-					</view>
-					
-					<view class="cont-right">
-						<view class="title">
-							【眠库·黑曼巴】五一广场·国金中心IFS·超级文和友·茶颜悦色·超好出片·免费寄存
-						</view>
-						<view class="info">
-							<uni-icons type="home" size="16" color="#999999"></uni-icons>
-							<text class="txt">整套</text>·
-							<text class="txt">1室1厅</text>·
-							<text class="txt">可住2人</text>
-						</view>
-						<view class="bottom-info">
-							<view class="price">
-								<view class="CP">￥188</view>
-								<view class="wan">/晚</view>
-							</view>
-							<button class="btn-solid" type="default" size="mini">未中奖</button>
+							<button class="btn-solid" type="default" size="mini" v-if="item.state==0">{{item.state==0?"未开奖":"未中奖"}}</button>
+							<button class="btn-solid" type="default" size="mini"  v-else>{{item.state==1?"已中奖":"未中奖"}}</button>
 						</view>
 					</view>
 				</view>
@@ -70,14 +46,17 @@
 	import {
 		getEnrollList,
 	} from '@/utils/request/manage.js'
+	import moment from 'moment'
 	export default {
 		data() {
 			return {
-				applyList:[]
+				applyList:[],
+				week:0,
 			}
 		},
 		onLoad() {
 			this.init()
+			this.getWeek()
 		},
 		methods: {
 			async init() {
@@ -87,6 +66,10 @@
 				this.applyList = res.data.rs
 				console.log("this.applyList",this.applyList)
 			},
+			getWeek(){
+				this.week = moment().format("d")
+				console.log(this.week)
+			}
 		}
 	}
 </script>
