@@ -223,11 +223,28 @@
 					this.listingsDetail.hotel.coupon1
 					this.listingsDetail.hotel.coupon2
 					
-					// let available = this.couponList.find(item=>{
-					// 	if(item.cityId==0 || item.gids == ''){
-							
-					// 	}
-					// })
+					let can_use = [] //能用的优惠券列表
+					     this.couponList.forEach(item => {
+					      if (item.cityId === 0 || item.cityId === this.listingsDetail.hotel.cityId) {
+					       if ((item.type === 0 && this.listingsDetail.hotel.coupon0 === 1) || (item.type ===
+					         1 && this.listingsDetail.hotel.coupon1 === 1) || (item.type === 2 && this
+					         .listingsDetail.hotel.coupon2 === 2)) {
+					         let select_obj = null
+					         if(item.gids){
+					          let arr = item.gids.split(',')
+					          select_obj = arr.find(obj =>{
+					           return obj = this.listingsDetail.hotel.id
+					          })
+					         }
+					         if(item.gType === 0 || (item.gType===1 && select_obj)){
+					          if(item.restrict===0 || this.totalPice >= item.restrict ){
+					           can_use.push(item)
+					          }
+					         }
+					       }
+					      }
+					     })
+					     console.log('可用优惠券列表：',can_use)
 					console.log("couponList",this.couponList)
 				}
 			},

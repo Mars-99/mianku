@@ -224,6 +224,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -244,6 +251,8 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
       userinfo: {},
       helpuserlist: [],
+      type: 0, //0为分享1为助力
+      can_receive: 0, //是否可领取 0否 1是
       share: {
         title: '0元领福利',
         path: '/pages/index/index',
@@ -260,7 +269,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
   (0, _vuex.mapGetters)(['getUserinfo', 'getNeedAuth', 'getIsLogin'])),
 
   methods: {
-    initData: function initData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$getShareDetail, data, i, target, reward, prize, selectobj, _yield$getHelpUserLis, userlist;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+    initData: function initData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$getShareDetail, data, target, i, _target, reward, prize, selectobj, userlist, help_user_count;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 console.log('被助力用户id:', _this.$mp.query.recommend);
                 _this.userinfo = uni.getStorageSync('userinfo');if (
                 _this.userinfo) {_context.next = 6;break;}
@@ -272,24 +281,35 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
                   (0, _manage.getShareDetail)());case 8:_yield$getShareDetail = _context.sent;data = _yield$getShareDetail.data;
                 _this.detail_info.share = data.data.share;
+                target = 0; //目标
                 for (i = 1; i <= 10; i++) {
-                  target = 'target' + i;
+                  _target = 'target' + i;
                   reward = 'reward' + i;
                   prize = 'prize' + i;
-                  if (data.data.share[target] > 0 && data.data.share[reward] > 0) {
+                  if (data.data.share[_target] > 0 && data.data.share[reward] > 0) {
                     selectobj = data.data[prize].find(function (obj) {
                       return obj.id === Number(_this.$mp.query.id);
                     });
                     if (selectobj) {
                       _this.detail_info.prize = selectobj;
+                      _target = _this.detail_info.share[_target]; //目标数
                     }
                   }
                 }
+                if (_this.$mp.query.recommend) {
+                  _this.type = 1;
+                }
                 //获取助力用户信息列表
-                _context.next = 14;return (0, _manage.getHelpUserList)(1, 10);case 14:_yield$getHelpUserLis = _context.sent;userlist = _yield$getHelpUserLis.userlist;
+                _context.next = 16;return (0, _manage.getHelpUserList)(1, 10);case 16:userlist = _context.sent;
                 console.log('助力用户信息列表：', userlist);
-                _this.helpuserlist = userlist.data.rs;
-                _this.Share();case 19:case "end":return _context.stop();}}}, _callee);}))();
+                _this.helpuserlist = userlist.data.data.rs;
+
+                help_user_count = userlist.data.data.num; //总助力人数
+                if (help_user_count === target) {
+                  can_receive = 1;
+                }
+
+                _this.Share();case 22:case "end":return _context.stop();}}}, _callee);}))();
     },
     Share: function Share() {
       this.share.title = '0元领福利';
@@ -301,9 +321,16 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                 _this2.$mp.query.recommend) {_context2.next = 6;break;}_context2.next = 3;return (
 
 
-                  (0, _manage.userHelp)(_this2.$mp.query.recommend, 2));case 3:_yield$userHelp = _context2.sent;data = _yield$userHelp.data;
+                  (0, _manage.userHelp)(Number(_this2.$mp.query.recommend), 2));case 3:_yield$userHelp = _context2.sent;data = _yield$userHelp.data;
                 console.log('助力活动返回结果：', data);case 6:case "end":return _context2.stop();}}}, _callee2);}))();
 
+    },
+    share_price: function share_price() {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$getUserSharePr, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+
+
+
+                  (0, _manage.getUserSharePrice)());case 2:_yield$getUserSharePr = _context3.sent;data = _yield$getUserSharePr.data;
+                console.log('领取助力奖励返回结果：', data);case 5:case "end":return _context3.stop();}}}, _callee3);}))();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

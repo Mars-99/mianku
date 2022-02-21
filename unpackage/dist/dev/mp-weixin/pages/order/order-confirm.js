@@ -361,7 +361,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                 _this.getCoupon();case 21:case "end":return _context.stop();}}}, _callee);}))();
 
     },
-    getCoupon: function getCoupon() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$getCouponList, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+    getCoupon: function getCoupon() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$getCouponList, res, can_use;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
 
 
                   (0, _manage.getCouponList)(0));case 2:_yield$getCouponList = _context2.sent;res = _yield$getCouponList.data;if (!(
@@ -376,12 +376,29 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                 _this2.listingsDetail.hotel.coupon1;
                 _this2.listingsDetail.hotel.coupon2;
 
-                // let available = this.couponList.find(item=>{
-                // 	if(item.cityId==0 || item.gids == ''){
-
-                // 	}
-                // })
-                console.log("couponList", _this2.couponList);case 16:case "end":return _context2.stop();}}}, _callee2);}))();
+                can_use = []; //能用的优惠券列表
+                _this2.couponList.forEach(function (item) {
+                  if (item.cityId === 0 || item.cityId === _this2.listingsDetail.hotel.cityId) {
+                    if (item.type === 0 && _this2.listingsDetail.hotel.coupon0 === 1 || item.type ===
+                    1 && _this2.listingsDetail.hotel.coupon1 === 1 || item.type === 2 && _this2.
+                    listingsDetail.hotel.coupon2 === 2) {
+                      var select_obj = null;
+                      if (item.gids) {
+                        var arr = item.gids.split(',');
+                        select_obj = arr.find(function (obj) {
+                          return obj = _this2.listingsDetail.hotel.id;
+                        });
+                      }
+                      if (item.gType === 0 || item.gType === 1 && select_obj) {
+                        if (item.restrict === 0 || _this2.totalPice >= item.restrict) {
+                          can_use.push(item);
+                        }
+                      }
+                    }
+                  }
+                });
+                console.log('可用优惠券列表：', can_use);
+                console.log("couponList", _this2.couponList);case 19:case "end":return _context2.stop();}}}, _callee2);}))();
 
     },
     openLodgerPage: function openLodgerPage() {
