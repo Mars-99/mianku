@@ -113,6 +113,7 @@
 		booking,
 		payWX,
 		userDetail,
+		getCouponList,
 	} from '@/utils/request/manage.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
 	export default {
@@ -136,6 +137,7 @@
 				orderNumber: 0,
 				payPice: 0,
 				userDetail:{},
+				couponList:[],
 			}
 		},
 		onLoad() {
@@ -203,7 +205,31 @@
 						.listingsDetail.hotel.firstReduce)
 				    this.payPice = this.payPice.toFixed(2)
 				}
+				this.getCoupon()
 				
+			},
+			async getCoupon(){
+				const {
+					data: res
+				} = await getCouponList(0)
+				if (res.code == 1) {
+					return this.$api.msg(res.msg)
+				} else {
+					this.couponList = res.data.rs //我的优惠券列表
+					this.listingsDetail.hotel.cityId   //订单房源城市id
+					this.listingsDetail.hotel.id    //订单房源id
+					this.totalPice  //订单房源总价
+					this.listingsDetail.hotel.coupon0
+					this.listingsDetail.hotel.coupon1
+					this.listingsDetail.hotel.coupon2
+					
+					// let available = this.couponList.find(item=>{
+					// 	if(item.cityId==0 || item.gids == ''){
+							
+					// 	}
+					// })
+					console.log("couponList",this.couponList)
+				}
 			},
 			openLodgerPage() {
 				uni.navigateTo({

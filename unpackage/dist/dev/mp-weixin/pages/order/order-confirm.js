@@ -268,6 +268,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
 
 
+
 {
   components: {
     pageLoad: pageLoad },
@@ -288,7 +289,8 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
       couponId: 0, //优惠券id
       orderNumber: 0,
       payPice: 0,
-      userDetail: {} };
+      userDetail: {},
+      couponList: [] };
 
   },
   onLoad: function onLoad() {
@@ -355,7 +357,31 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                   _this.payPice = Number(_this.totalPice) + Number(_this.listingsDetail.hotel.cleaningFee) - Number(_this.
                   listingsDetail.hotel.firstReduce);
                   _this.payPice = _this.payPice.toFixed(2);
-                }case 20:case "end":return _context.stop();}}}, _callee);}))();
+                }
+                _this.getCoupon();case 21:case "end":return _context.stop();}}}, _callee);}))();
+
+    },
+    getCoupon: function getCoupon() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$getCouponList, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+
+
+                  (0, _manage.getCouponList)(0));case 2:_yield$getCouponList = _context2.sent;res = _yield$getCouponList.data;if (!(
+                res.code == 1)) {_context2.next = 8;break;}return _context2.abrupt("return",
+                _this2.$api.msg(res.msg));case 8:
+
+                _this2.couponList = res.data.rs; //我的优惠券列表
+                _this2.listingsDetail.hotel.cityId; //订单房源城市id
+                _this2.listingsDetail.hotel.id; //订单房源id
+                _this2.totalPice; //订单房源总价
+                _this2.listingsDetail.hotel.coupon0;
+                _this2.listingsDetail.hotel.coupon1;
+                _this2.listingsDetail.hotel.coupon2;
+
+                // let available = this.couponList.find(item=>{
+                // 	if(item.cityId==0 || item.gids == ''){
+
+                // 	}
+                // })
+                console.log("couponList", _this2.couponList);case 16:case "end":return _context2.stop();}}}, _callee2);}))();
 
     },
     openLodgerPage: function openLodgerPage() {
@@ -365,30 +391,30 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
 
     },
 
-    booking: function booking() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_booking, res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+    booking: function booking() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_booking, res;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
 
 
-                  (0, _manage.booking)(_this2.listingsDetail.hotel.id, _this2.couponId, _this2.listingsDetail.hotel.bedNum, _this2.
-                  checkedLodgerList[0].contacts, _this2.checkedLodgerList[0].phone, _this2.checkIn, _this2.checkOut,
-                  _this2.checkIn, _this2.checkedLodgerList));case 2:_yield$_booking = _context2.sent;res = _yield$_booking.data;if (!(
-                res.code == 1)) {_context2.next = 8;break;}return _context2.abrupt("return",
-                _this2.$api.msg(res.msg));case 8:
+                  (0, _manage.booking)(_this3.listingsDetail.hotel.id, _this3.couponId, _this3.listingsDetail.hotel.bedNum, _this3.
+                  checkedLodgerList[0].contacts, _this3.checkedLodgerList[0].phone, _this3.checkIn, _this3.checkOut,
+                  _this3.checkIn, _this3.checkedLodgerList));case 2:_yield$_booking = _context3.sent;res = _yield$_booking.data;if (!(
+                res.code == 1)) {_context3.next = 8;break;}return _context3.abrupt("return",
+                _this3.$api.msg(res.msg));case 8:
 
-                _this2.orderNumber = res.data.id;
-                console.log("this.orderNumber", _this2.orderNumber);
+                _this3.orderNumber = res.data.id;
+                console.log("this.orderNumber", _this3.orderNumber);
 
-                _this2.payWX(_this2.orderNumber);
-                console.log("res", res);case 12:case "end":return _context2.stop();}}}, _callee2);}))();
+                _this3.payWX(_this3.orderNumber);
+                console.log("res", res);case 12:case "end":return _context3.stop();}}}, _callee3);}))();
 
 
     },
 
-    payWX: function payWX(id) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_payWX, res;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+    payWX: function payWX(id) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$_payWX, res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
 
 
-                  (0, _manage.payWX)(id));case 2:_yield$_payWX = _context3.sent;res = _yield$_payWX.data;if (!(
-                res.code == 1)) {_context3.next = 8;break;}return _context3.abrupt("return",
-                _this3.$api.msg(res.msg));case 8:
+                  (0, _manage.payWX)(id));case 2:_yield$_payWX = _context4.sent;res = _yield$_payWX.data;if (!(
+                res.code == 1)) {_context4.next = 8;break;}return _context4.abrupt("return",
+                _this4.$api.msg(res.msg));case 8:
 
                 // this.orderNumber= res
                 uni.requestPayment({
@@ -410,7 +436,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                       url: '../order/order-result?state=fail' });
 
                     console.log('fail:' + JSON.stringify(err));
-                  } });case 9:case "end":return _context3.stop();}}}, _callee3);}))();
+                  } });case 9:case "end":return _context4.stop();}}}, _callee4);}))();
 
 
 
