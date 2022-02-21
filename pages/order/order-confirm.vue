@@ -85,7 +85,8 @@
 					<view class="item">
 						<view class="left">优惠券</view>
 						<view class="right">
-							<text class="grey-txt">无可用优惠</text>
+							<text class="act-txt" v-if="canUseCoupon.length>0" @tap="openCoupon()">选择优惠券</text>
+							<text class="grey-txt" v-else>无可用优惠</text>
 						</view>
 					</view>
 					<view class="total">
@@ -104,6 +105,39 @@
 				</view>
 			</view>
 		</view>
+		<uni-popup ref="popup" type="bottom">
+			<view class="coupon-list">
+				<view class="title">可用优惠券</view>
+				<view class="coupon-item" v-for="(coupon ,index) in canUseCoupon" :key="index">
+					<view class="l-part">
+						<image class="img" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+						</image>
+						<view class="cont" v-if="coupon.type == 2">
+							<view class="t-txt">{{coupon.discount}}</view>
+							<view class="b-txt">享房源{{coupon.discount}}折</view>
+						</view>
+						<view class="cont" v-else>
+							<view class="t-txt"><text class="txt">￥</text>{{coupon.deduct}}</view>
+							<view class="b-txt">满{{coupon.restrict}}-{{coupon.deduct}}</view>
+						</view>
+					</view>
+					<view class="r-part">
+						<view class="title">{{coupon.title}}</view>
+						<view class="b-cont">
+							<view class="l-txt">
+								<text class="txt" v-if="coupon.invalidAt">有效期:{{coupon.invalidAt}}</text>
+								<text class="txt" v-else>永久有效</text>
+							</view>
+							<view class="r-btn">
+								<button :class="[isCoupon==index ? 'btn-act' : 'btn']" type="primary" size="default"
+									@tap="selectCoupon(coupon,index)">使用</button>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -133,11 +167,14 @@
 				lodger: [],
 				checkedLodgerList: [],
 				arriveAt: '',
-				couponId: 0, //优惠券id
+				couponId: -1, //优惠券id
 				orderNumber: 0,
 				payPice: 0,
-				userDetail:{},
-				couponList:[],
+				userDetail: {},
+				couponList: [],
+				canUseCoupon: [],
+				isCoupon: -1,
+				couponPice: null,
 			}
 		},
 		onLoad() {
@@ -189,26 +226,52 @@
 				this.pageshow = false
 
 				const {
-					data:res
+					data: res
 				} = await userDetail()
 				this.userDetail = res.data
-				console.log("this.userDetail",this.userDetail)
-				if(this.userDetail.isFirst == 0){
+				console.log("this.userDetail", this.userDetail)
+				this.countPice()
+				this.getCoupon()
+
+			},
+			countPice() {
+				//判断是不是首单，不是首单的话首单价格设置为0
+				if (this.userDetail.isFirst == 0) {
 					this.listingsDetail.hotel.firstReduce = 0
 				}
-				if(this.userDetail.examine == 1){
-					this.payPice = Number(this.totalPice) *0.95 + Number(this.listingsDetail.hotel.cleaningFee) - Number(this
-						.listingsDetail.hotel.firstReduce)
+				//判断是不是学生认证
+				if (this.userDetail.examine == 1) {
+					//判断优惠券是不是整数，整数为满减或抵扣，直接减数值
+					if (this.couponPice % 1 === 0) {
+						this.payPice = (Number(this.totalPice) - Number(this.couponPice) + Number(this.listingsDetail.hotel.cleaningFee) -
+							Number(this
+								.listingsDetail.hotel.firstReduce))* 0.95
 						this.payPice = this.payPice.toFixed(2)
-				}else{
-					this.payPice = Number(this.totalPice) + Number(this.listingsDetail.hotel.cleaningFee) - Number(this
-						.listingsDetail.hotel.firstReduce)
-				    this.payPice = this.payPice.toFixed(2)
+					} else {//不是整数为小数说明是折扣，总价乘以折扣
+						this.payPice = (Number(this.totalPice) * Number(this.couponPice) + Number(this.listingsDetail
+								.hotel
+								.cleaningFee) -
+							Number(this
+								.listingsDetail.hotel.firstReduce)) * 0.95
+						this.payPice = this.payPice.toFixed(2)
+					}
+				} else {//不是学生认证用户价格计算
+					if (this.couponPice % 1 === 0) {//同上，判断是不是整数，获得是折扣优惠还是满减或抵扣
+						this.payPice = Number(this.totalPice) + Number(this.listingsDetail.hotel.cleaningFee) -
+							Number(this
+								.listingsDetail.hotel.firstReduce) - Number(this.couponPice)
+						this.payPice = this.payPice.toFixed(2)
+					} else {
+						this.payPice = Number(this.totalPice) * Number(this.couponPice) + Number(this.listingsDetail.hotel
+								.cleaningFee) -
+							Number(this
+								.listingsDetail.hotel.firstReduce)
+						this.payPice = this.payPice.toFixed(2)
+					}
 				}
-				this.getCoupon()
-				
+				console.log("aaa", this.couponPice)
 			},
-			async getCoupon(){
+			async getCoupon() {
 				const {
 					data: res
 				} = await getCouponList(0)
@@ -216,37 +279,54 @@
 					return this.$api.msg(res.msg)
 				} else {
 					this.couponList = res.data.rs //我的优惠券列表
-					this.listingsDetail.hotel.cityId   //订单房源城市id
-					this.listingsDetail.hotel.id    //订单房源id
-					this.totalPice  //订单房源总价
-					this.listingsDetail.hotel.coupon0
-					this.listingsDetail.hotel.coupon1
-					this.listingsDetail.hotel.coupon2
-					
+					// this.listingsDetail.hotel.cityId   //订单房源城市id
+					// this.listingsDetail.hotel.id    //订单房源id
+					// this.totalPice  //订单房源总价
+					// this.listingsDetail.hotel.coupon0
+					// this.listingsDetail.hotel.coupon1
+					// this.listingsDetail.hotel.coupon2
+
 					let can_use = [] //能用的优惠券列表
-					     this.couponList.forEach(item => {
-					      if (item.cityId === 0 || item.cityId === this.listingsDetail.hotel.cityId) {
-					       if ((item.type === 0 && this.listingsDetail.hotel.coupon0 === 1) || (item.type ===
-					         1 && this.listingsDetail.hotel.coupon1 === 1) || (item.type === 2 && this
-					         .listingsDetail.hotel.coupon2 === 2)) {
-					         let select_obj = null
-					         if(item.gids){
-					          let arr = item.gids.split(',')
-					          select_obj = arr.find(obj =>{
-					           return obj = this.listingsDetail.hotel.id
-					          })
-					         }
-					         if(item.gType === 0 || (item.gType===1 && select_obj)){
-					          if(item.restrict===0 || this.totalPice >= item.restrict ){
-					           can_use.push(item)
-					          }
-					         }
-					       }
-					      }
-					     })
-					     console.log('可用优惠券列表：',can_use)
-					console.log("couponList",this.couponList)
+					this.couponList.forEach(item => {
+						if (item.cityId === 0 || item.cityId === this.listingsDetail.hotel.cityId) {
+							if ((item.type === 0 && this.listingsDetail.hotel.coupon0 === 1) || (item.type ===
+									1 && this.listingsDetail.hotel.coupon1 === 1) || (item.type === 2 && this
+									.listingsDetail.hotel.coupon2 === 1)) {
+								let select_obj = null
+								if (item.gids) {
+									let arr = item.gids.split(',')
+									select_obj = arr.find(obj => {
+										return obj = this.listingsDetail.hotel.id
+									})
+								}
+								if (item.gType === 0 || (item.gType === 1 && select_obj)) {
+									if (item.restrict === 0 || this.totalPice >= item.restrict) {
+										can_use.push(item)
+									}
+								}
+							}
+						}
+					})
+					this.canUseCoupon = can_use
+					console.log("this.canUseCoupon", this.canUseCoupon)
 				}
+			},
+			openCoupon() {
+				this.$refs.popup.open('bottom')
+			},
+			selectCoupon(item, index) {
+				this.isCoupon = index
+				this.couponId = item.id
+				if (item.type == 2) {
+					this.couponPice = item.discount / 10
+					console.log("this.couponPice1", this.couponPice)
+				} else {
+					this.couponPice = item.deduct
+					console.log("this.couponPice2", this.couponPice)
+				}
+				this.countPice()
+				this.$refs.popup.close()
+
 			},
 			openLodgerPage() {
 				uni.navigateTo({
@@ -517,6 +597,119 @@
 				color: #fffff;
 				margin-right: 20rpx;
 				line-height: 90rpx;
+			}
+		}
+	}
+
+	.coupon-list {
+		border-radius: 50rpx 50rpx 0 0;
+		background-color: #ffffff;
+		padding: 30rpx;
+		overflow-y: scroll;
+		background-color: #ffffff;
+
+		.title {
+			font-size: 32rpx;
+			font-weight: bold;
+			text-align: center;
+			padding: 30rpx 0;
+		}
+
+		.coupon-item {
+			background-color: #f5f5f5;
+			border-radius: 8rpx;
+			padding: 20rpx;
+			width: 90%;
+			margin: 20rpx auto;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			text-align: left;
+
+			.l-part {
+				width: 35%;
+				position: relative;
+
+				.img {
+					width: 100%;
+					display: block;
+				}
+
+				.cont {
+					position: absolute;
+					top: 15%;
+					left: 60rpx;
+					text-align: center;
+
+					.t-txt {
+						font-size: 40rpx;
+						color: #ffffff;
+						font-weight: bold;
+
+
+						.txt {
+							font-size: 24rpx;
+							font-weight: 100;
+						}
+					}
+
+					.b-txt {
+						background-color: #e93f41;
+						border-radius: 8rpx;
+						font-size: 24rpx;
+						color: #ffffff;
+						padding: 5rpx 10rpx;
+					}
+				}
+			}
+
+			.r-part {
+				width: 60%;
+
+				.title {
+					font-weight: bold;
+					color: #333333;
+					font-size: 28rpx;
+					text-align: left;
+					padding: 10rpx;
+				}
+
+				.b-cont {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+
+					.l-txt {
+						font-weight: bold;
+						color: #ed5454;
+						font-size: 28rpx;
+
+						.txt {
+							font-weight: 100;
+							color: #999999;
+							font-size: 24rpx;
+						}
+					}
+
+					.btn {
+						border-radius: 40rpx;
+						border: none;
+						border: 2rpx #ed5454 solid;
+						line-height: 50rpx;
+						font-size: 24rpx;
+						color: #ed5454;
+						background-color: #ffffff;
+					}
+
+					.btn-act {
+						border-radius: 40rpx;
+						border: none;
+						background-color: #ed5454;
+						color: #ffffff;
+						line-height: 50rpx;
+						font-size: 24rpx;
+					}
+				}
 			}
 		}
 	}

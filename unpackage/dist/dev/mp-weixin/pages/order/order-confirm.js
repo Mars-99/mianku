@@ -93,6 +93,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    uniPopup: function() {
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 523))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -261,6 +284,40 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var pageLoad = function pageLoad() {__webpack_require__.e(/*! require.ensure | components/pageLoad/pageLoad */ "components/pageLoad/pageLoad").then((function () {return resolve(__webpack_require__(/*! @/components/pageLoad/pageLoad */ 488));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
@@ -286,11 +343,14 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
       lodger: [],
       checkedLodgerList: [],
       arriveAt: '',
-      couponId: 0, //优惠券id
+      couponId: -1, //优惠券id
       orderNumber: 0,
       payPice: 0,
       userDetail: {},
-      couponList: [] };
+      couponList: [],
+      canUseCoupon: [],
+      isCoupon: -1,
+      couponPice: null };
 
   },
   onLoad: function onLoad() {
@@ -346,20 +406,46 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                   (0, _manage.userDetail)());case 14:_yield$userDetail = _context.sent;res = _yield$userDetail.data;
                 _this.userDetail = res.data;
                 console.log("this.userDetail", _this.userDetail);
-                if (_this.userDetail.isFirst == 0) {
-                  _this.listingsDetail.hotel.firstReduce = 0;
-                }
-                if (_this.userDetail.examine == 1) {
-                  _this.payPice = Number(_this.totalPice) * 0.95 + Number(_this.listingsDetail.hotel.cleaningFee) - Number(_this.
-                  listingsDetail.hotel.firstReduce);
-                  _this.payPice = _this.payPice.toFixed(2);
-                } else {
-                  _this.payPice = Number(_this.totalPice) + Number(_this.listingsDetail.hotel.cleaningFee) - Number(_this.
-                  listingsDetail.hotel.firstReduce);
-                  _this.payPice = _this.payPice.toFixed(2);
-                }
-                _this.getCoupon();case 21:case "end":return _context.stop();}}}, _callee);}))();
+                _this.countPice();
+                _this.getCoupon();case 20:case "end":return _context.stop();}}}, _callee);}))();
 
+    },
+    countPice: function countPice() {
+      //判断是不是首单，不是首单的话首单价格设置为0
+      if (this.userDetail.isFirst == 0) {
+        this.listingsDetail.hotel.firstReduce = 0;
+      }
+      //判断是不是学生认证
+      if (this.userDetail.examine == 1) {
+        //判断优惠券是不是整数，整数为满减或抵扣，直接减数值
+        if (this.couponPice % 1 === 0) {
+          this.payPice = (Number(this.totalPice) - Number(this.couponPice) + Number(this.listingsDetail.hotel.cleaningFee) -
+          Number(this.
+          listingsDetail.hotel.firstReduce)) * 0.95;
+          this.payPice = this.payPice.toFixed(2);
+        } else {//不是整数为小数说明是折扣，总价乘以折扣
+          this.payPice = (Number(this.totalPice) * Number(this.couponPice) + Number(this.listingsDetail.
+          hotel.
+          cleaningFee) -
+          Number(this.
+          listingsDetail.hotel.firstReduce)) * 0.95;
+          this.payPice = this.payPice.toFixed(2);
+        }
+      } else {//不是学生认证用户价格计算
+        if (this.couponPice % 1 === 0) {//同上，判断是不是整数，获得是折扣优惠还是满减或抵扣
+          this.payPice = Number(this.totalPice) + Number(this.listingsDetail.hotel.cleaningFee) -
+          Number(this.
+          listingsDetail.hotel.firstReduce) - Number(this.couponPice);
+          this.payPice = this.payPice.toFixed(2);
+        } else {
+          this.payPice = Number(this.totalPice) * Number(this.couponPice) + Number(this.listingsDetail.hotel.
+          cleaningFee) -
+          Number(this.
+          listingsDetail.hotel.firstReduce);
+          this.payPice = this.payPice.toFixed(2);
+        }
+      }
+      console.log("aaa", this.couponPice);
     },
     getCoupon: function getCoupon() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$getCouponList, res, can_use;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
 
@@ -369,19 +455,19 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                 _this2.$api.msg(res.msg));case 8:
 
                 _this2.couponList = res.data.rs; //我的优惠券列表
-                _this2.listingsDetail.hotel.cityId; //订单房源城市id
-                _this2.listingsDetail.hotel.id; //订单房源id
-                _this2.totalPice; //订单房源总价
-                _this2.listingsDetail.hotel.coupon0;
-                _this2.listingsDetail.hotel.coupon1;
-                _this2.listingsDetail.hotel.coupon2;
+                // this.listingsDetail.hotel.cityId   //订单房源城市id
+                // this.listingsDetail.hotel.id    //订单房源id
+                // this.totalPice  //订单房源总价
+                // this.listingsDetail.hotel.coupon0
+                // this.listingsDetail.hotel.coupon1
+                // this.listingsDetail.hotel.coupon2
 
                 can_use = []; //能用的优惠券列表
                 _this2.couponList.forEach(function (item) {
                   if (item.cityId === 0 || item.cityId === _this2.listingsDetail.hotel.cityId) {
                     if (item.type === 0 && _this2.listingsDetail.hotel.coupon0 === 1 || item.type ===
                     1 && _this2.listingsDetail.hotel.coupon1 === 1 || item.type === 2 && _this2.
-                    listingsDetail.hotel.coupon2 === 2) {
+                    listingsDetail.hotel.coupon2 === 1) {
                       var select_obj = null;
                       if (item.gids) {
                         var arr = item.gids.split(',');
@@ -397,8 +483,25 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 17);function 
                     }
                   }
                 });
-                console.log('可用优惠券列表：', can_use);
-                console.log("couponList", _this2.couponList);case 19:case "end":return _context2.stop();}}}, _callee2);}))();
+                _this2.canUseCoupon = can_use;
+                console.log("this.canUseCoupon", _this2.canUseCoupon);case 13:case "end":return _context2.stop();}}}, _callee2);}))();
+
+    },
+    openCoupon: function openCoupon() {
+      this.$refs.popup.open('bottom');
+    },
+    selectCoupon: function selectCoupon(item, index) {
+      this.isCoupon = index;
+      this.couponId = item.id;
+      if (item.type == 2) {
+        this.couponPice = item.discount / 10;
+        console.log("this.couponPice1", this.couponPice);
+      } else {
+        this.couponPice = item.deduct;
+        console.log("this.couponPice2", this.couponPice);
+      }
+      this.countPice();
+      this.$refs.popup.close();
 
     },
     openLodgerPage: function openLodgerPage() {
