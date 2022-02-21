@@ -33,7 +33,8 @@
     "components/djs/djs",
     "pages/free-trial/free-trial-result",
     "pages/student-privilege/authenticate",
-    "pages/site-content/site-content"
+    "pages/site-content/site-content",
+    "pages/user/my-coupon"
   ],
   "subPackages": [],
   "window": {

@@ -30,7 +30,8 @@
         "showES6CompileOption": false,
         "useCompilerPlugins": false,
         "ignoreUploadUnusedFiles": true,
-        "minifyWXML": true
+        "minifyWXML": true,
+        "useStaticServer": true
     },
     "condition": {
         "miniprogram": {
@@ -122,6 +123,20 @@
                     "query": "",
                     "launchMode": "default",
                     "scene": null
+                },
+                {
+                    "name": "我的优惠券",
+                    "pathName": "pages/user/my-coupon",
+                    "query": "",
+                    "scene": null,
+                    "launchMode": "default"
+                },
+                {
+                    "name": "我的优惠券",
+                    "pathName": "pages/user/my-coupon",
+                    "query": "",
+                    "scene": null,
+                    "launchMode": "default"
                 }
             ]
         }

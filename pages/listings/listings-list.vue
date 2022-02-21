@@ -24,7 +24,13 @@
 				<listingsItem :listingsList="listingsList" :checkIn="checkIn" :checkOut="checkOut"
 					:choiceDateArr="choiceDateArr" :dayCount="dayCount"></listingsItem>
 			</view>
-			<view v-else>暂无房源</view>
+			<view class="none-data" v-else>
+				<view class="img-signal">
+					<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wufangyuan.png">
+					</image>
+					<text>暂无房源</text>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -158,11 +164,15 @@
 				this.keywords = this.$mp.query.keywords
 				this.label = this.$mp.query.label
 				this.flag = this.$mp.query.flag
-				this.choiceDateArr = JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
+				if(this.$mp.query.choiceDateArr){
+					this.choiceDateArr = JSON.parse(decodeURIComponent(this.$mp.query.choiceDateArr))
+				}
 				// console.log("this.choiceDateArraaaaa",this.choiceDateArr)
-
-				this.checkInYH = this.checkIn.slice(5)
-				this.checkOutYH = this.checkOut.slice(5)
+                 if(this.checkIn || this.checkOut){
+					this.checkInYH = this.checkIn.slice(5)
+					this.checkOutYH = this.checkOut.slice(5) 
+				 }
+				
 				this.page = 1
 				this.gethotelList()
 			},
@@ -361,5 +371,27 @@
 			padding: 30rpx;
 
 		}
+	}
+	.none-data {
+	
+		border-radius: 8rpx;
+		padding: 20rpx;
+		margin: 30rpx 0;
+		text-align: center;
+	
+		.img-signal {
+			width: 300rpx;
+			height: 300rpx;
+			margin: 0 auto;
+	
+			.img {
+				width: 100%;
+			}
+		}
+	
+	}
+	
+	/deep/ button::after {
+		border: none;
 	}
 </style>

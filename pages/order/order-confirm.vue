@@ -197,9 +197,11 @@
 				if(this.userDetail.examine == 1){
 					this.payPice = Number(this.totalPice) *0.95 + Number(this.listingsDetail.hotel.cleaningFee) - Number(this
 						.listingsDetail.hotel.firstReduce)
+						this.payPice = this.payPice.toFixed(2)
 				}else{
 					this.payPice = Number(this.totalPice) + Number(this.listingsDetail.hotel.cleaningFee) - Number(this
 						.listingsDetail.hotel.firstReduce)
+				    this.payPice = this.payPice.toFixed(2)
 				}
 				
 			},

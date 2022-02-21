@@ -65,6 +65,11 @@ let urlManage = {
 	userHelp:'api/user/help', //0元助力
 	
 	getSiteContentUrl:'api/home/site_content', //平台信息
+	getCouponUrl:'api/user/get_coupon', //领取优惠券
+	couponListUrl:'api/user/coupon_list', //我的优惠券列表
+	
+	
+	
 	
 	
 
@@ -410,6 +415,19 @@ const userHelp = function(userid){
 const siteContent = function(){
 	return $http.get(urlManage.getSiteContentUrl,{})
 }
+// 领取优惠券
+const getCoupon = function(id){
+	return $http.post(urlManage.getCouponUrl,{
+		id:id
+	})
+}
+// 我的优惠券列表
+const getCouponList= function(state){
+	return $http.post(urlManage.couponListUrl,{
+		state:state
+	})
+}
+
 
 
 export {
@@ -463,4 +481,6 @@ export {
 	getUserSharePrice,
 	userHelp,
 	siteContent,
+	getCoupon,
+	getCouponList,
 }

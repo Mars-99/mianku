@@ -14,8 +14,7 @@
 					</swiper>
 				</uni-swiper-dot>
 				<view class="price">
-					<text
-						class="act">￥{{unitPrice}}</text>
+					<text class="act">￥{{unitPrice}}</text>
 					<text>/晚</text>
 				</view>
 			</view>
@@ -35,6 +34,17 @@
 						<view class="txt" v-if="listingsDetail.hotel.tag.indexOf('近地铁') != -1">近地铁</view>
 						<view class="txt" v-if="listingsDetail.hotel.service.indexOf('自主入住') != -1">自主入住</view>
 						<view class="txt" v-if="listingsDetail.hotel.rules.indexOf('允许聚会') != -1">允许聚会</view>
+					</view>
+					<view class="coupon" v-if="couponList.length>0">
+						<view class="coupon-item" v-for="(coupon ,key) in couponList" :key="key">
+							<view class='l-part'>
+								<text class='txt'>{{coupon.type==0?"满减":coupon.type==1?"抵扣":"打折"}}</text>
+								<text class='txt'>{{coupon.restrict}}减{{coupon.deduct}}</text>
+							</view>
+							<view class='r-part'>
+								<button class="btn" type="default" size="mini" @tap="receiveCoupon(coupon.id)">领取</button>
+							</view>
+						</view>
 					</view>
 					<view class="date">
 						<view class="reveal">
@@ -247,7 +257,8 @@
 					</view>
 				</view>
 				<view class="right">
-					<button class="btn" type="primary" size="default" v-if="wufang" @tap="selectDate()">选择日期暂无房源</button>
+					<button class="btn" type="primary" size="default" v-if="wufang"
+						@tap="selectDate()">选择日期暂无房源</button>
 					<button class="btn" type="primary" size="default" v-else @tap="openOrderConfirm()">立即预定</button>
 				</view>
 			</view>
@@ -264,7 +275,7 @@
 				</view>
 				<view class="r-part">
 					<button class="btn" type="primary" size="default"
-						@tap="freeTrialApply(listingsDetail.hotel.id)" >{{isApply?"查看报名":"去报名"}}</button>
+						@tap="freeTrialApply(listingsDetail.hotel.id)">{{isApply?"查看报名":"去报名"}}</button>
 					<view class="icon" @tap="freeTrialClose()">
 						<uni-icons type="closeempty" size="14" color="#cccccc"></uni-icons>
 					</view>
@@ -289,6 +300,7 @@
 		activityEnroll,
 		userDetail,
 		getEnrollList,
+		getCoupon,
 	} from '@/utils/request/manage.js'
 	import gcoord from '@/common/gcoord.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
@@ -338,9 +350,9 @@
 				checkInYH: 0,
 				checkOutYH: 0,
 				dayCount: 1,
-				
-				unitPrice:0,
-				originalPrice:0,
+
+				unitPrice: 0,
+				originalPrice: 0,
 
 				brand: 0,
 				choiceDateArr: [],
@@ -351,12 +363,13 @@
 
 				freeTrialPage: "",
 				freeTrialShow: false,
-				isApply:false,
+				isApply: false,
 
 				orderDate: [],
-				newArrDate:[],
-				assign:[],
-				wufang:false,
+				newArrDate: [],
+				assign: [],
+				wufang: false,
+				couponList:[],
 
 				share: {
 					title: '眠库小程序',
@@ -426,19 +439,19 @@
 		},
 		methods: {
 			async getHotelDetail() {
-				
+
 				const {
 					data
 				} = await hotelDetail(Number(this.$mp.query.id))
 				this.checkIn = this.$mp.query.checkIn
 				this.checkOut = this.$mp.query.checkOut
-				if(this.$mp.query.dayCount){
+				if (this.$mp.query.dayCount) {
 					this.dayCount = this.$mp.query.dayCount
 				}
-				if(this.checkOut || this.checkIn){
+				if (this.checkOut || this.checkIn) {
 					this.checkInYH = this.checkIn.slice(5)
 					this.checkOutYH = this.checkOut.slice(5)
-				}else{
+				} else {
 					this.getTimeandWeek()
 				}
 				this.freeTrialPage = this.$mp.query.pageRoot
@@ -450,6 +463,7 @@
 				this.listingsDetail = data.data
 				this.orderDate = data.data.onOrder
 				this.assign = data.data.assign
+				this.couponList = data.data.beforeCoupon
 				// console.log("orderDate", this.orderDate)
 				this.getCollectionList(0)
 				this.dealPrice()
@@ -459,7 +473,7 @@
 				// } else {
 				// 	this.getTotalPice()
 				// }
-			
+
 				this.flag = data.data.hotel.flag.split(',')
 				this.security = data.data.hotel.security.split(',')
 				this.service = data.data.hotel.service.split(',')
@@ -476,7 +490,7 @@
 				this.markers[0].latitude = result[1]
 				this.markers[0].longitude = result[0];
 				this.markers[0].callout.content = data.data.hotel.address
-			
+
 				this.pageshow = false
 				//历史浏览记录
 				let historyList = uni.getStorageSync('history_list')
@@ -541,21 +555,21 @@
 				// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
 				this.$refs.popup.open('bottom')
 			},
-			dealPrice(){
+			dealPrice() {
 				let day = moment().format("YYYY-MM-DD");
-				let assign = this.assign.find(item=>item.hDate == day)
-				if(assign){
-					this.unitPrice= assign.activityPrice
+				let assign = this.assign.find(item => item.hDate == day)
+				if (assign) {
+					this.unitPrice = assign.activityPrice
 					this.originalPrice = assign.originalCost
-				}else{
-						let d = moment().format("d");
-						if(d==5||d==6){
-							this.unitPrice= this.listingsDetail.hotel.weekendActivity
-							this.originalPrice = this.listingsDetail.hotel.weekendOriginal
-						}else{
-							this.unitPrice= this.listingsDetail.hotel.weekdaysActivity
-							this.originalPrice = this.listingsDetail.hotel.weekdaysOriginal
-						}
+				} else {
+					let d = moment().format("d");
+					if (d == 5 || d == 6) {
+						this.unitPrice = this.listingsDetail.hotel.weekendActivity
+						this.originalPrice = this.listingsDetail.hotel.weekendOriginal
+					} else {
+						this.unitPrice = this.listingsDetail.hotel.weekdaysActivity
+						this.originalPrice = this.listingsDetail.hotel.weekdaysOriginal
+					}
 				}
 			},
 			call_phone() {
@@ -619,14 +633,14 @@
 			},
 			getTotalPice() {
 				if (this.choiceDateArr.length > 0) {
-					this.choiceDateArr.forEach(item=>{
-						let assign = this.listingsDetail.assign.find(a=>a.hDate == item.re)
-						if(assign){
+					this.choiceDateArr.forEach(item => {
+						let assign = this.listingsDetail.assign.find(a => a.hDate == item.re)
+						if (assign) {
 							item.price = assign.activityPrice
-						}else{
-							if(item.week =="五"||item.week =="六"){
-								item.price=this.listingsDetail.hotel.weekendActivity
-							}else{
+						} else {
+							if (item.week == "五" || item.week == "六") {
+								item.price = this.listingsDetail.hotel.weekendActivity
+							} else {
 								item.price = this.listingsDetail.hotel.weekdaysActivity
 							}
 						}
@@ -667,7 +681,7 @@
 			},
 			async getCollectionList(type) {
 				let current_user = uni.getStorageSync('userinfo')
-				if(current_user){
+				if (current_user) {
 					const {
 						data: res
 					} = await getCollectionList(type)
@@ -690,14 +704,14 @@
 					}
 				}
 			},
-			 freeTrial() {
+			freeTrial() {
 				if (this.freeTrialPage == "试睡") {
 					this.freeTrialShow = true
 					// const {
 					// 	data: res
 					// } = await getEnrollList()
 					let state = this.$mp.query.state
-					if(state == 1){
+					if (state == 1) {
 						this.isApply = true
 					}
 				} else {
@@ -708,13 +722,13 @@
 				this.freeTrialShow = false
 			},
 			async freeTrialApply(hid) {
-				if(this.isApply){
+				if (this.isApply) {
 					uni.navigateTo({
 						url: "../free-trial/free-trial-result?id=" + this.listingsDetail.hotel.id
 					})
-				}else{
+				} else {
 					const {
-						data:res2
+						data: res2
 					} = await userDetail()
 					const {
 						data: res
@@ -726,7 +740,7 @@
 							duration: 2000,
 							position: 'top'
 						})
-					
+
 					} else {
 						uni.navigateTo({
 							url: "../free-trial/free-trial-result?id=" + this.listingsDetail.hotel.id
@@ -734,7 +748,7 @@
 					}
 				}
 			},
-			Share(){
+			Share() {
 				this.share.title = this.listingsDetail.hotel.hotelName
 				this.share.path = '@/listings/listings-detail?id=' + this.listingsDetail.hotel.id
 				this.share.imageUrl = this.listingsDetail.hotel.thum
@@ -746,23 +760,23 @@
 				//开始日期小于等于结束日期,并循环
 				while (stime <= etime) {
 					diffdate[i] = stime;
-			
+
 					//获取开始日期时间戳
 					var stime_ts = new Date(stime).getTime();
 					// console.log('当前日期：'+stime   +'当前时间戳：'+stime_ts);
-			
+
 					//增加一天时间戳后的日期
 					var next_date = stime_ts + (24 * 60 * 60 * 1000);
-			
+
 					//拼接年月日，这里的月份会返回（0-11），所以要+1
 					var next_dates_y = new Date(next_date).getFullYear() + '-';
 					var next_dates_m = (new Date(next_date).getMonth() + 1 < 10) ? '0' + (new Date(next_date).getMonth() +
 						1) + '-' : (new Date(next_date).getMonth() + 1) + '-';
 					var next_dates_d = (new Date(next_date).getDate() < 10) ? '0' + new Date(next_date).getDate() :
 						new Date(next_date).getDate();
-			
+
 					stime = next_dates_y + next_dates_m + next_dates_d;
-			
+
 					//增加数组key
 					i++;
 				}
@@ -770,8 +784,8 @@
 				// console.log(diffdate);
 				return diffdate;
 			},
-			listingStatus(){
-				if(this.orderDate.length>0){
+			listingStatus() {
+				if (this.orderDate.length > 0) {
 					let orderDate = this.orderDate
 					let dateArr = []
 					let dateArr2 = []
@@ -796,9 +810,30 @@
 						}
 					})
 					let bbb = this.newArrDate.find(order => order == this.checkIn)
-					if(bbb){
+					if (bbb) {
 						this.wufang = true
 					}
+				}
+			},
+			async receiveCoupon(id){
+				const {
+					data
+				} = await getCoupon(id)
+				if (data.code == 1) {
+					this.$api.msg(data.code.msg)
+					uni.showToast({
+						icon: "none",
+						title: data.msg,
+						duration: 2000,
+						position: 'top'
+					})
+				} else{
+					uni.showToast({
+						icon: "none",
+						title: "领取成功",
+						duration: 2000,
+						position: 'top'
+					})
 				}
 			}
 		}
@@ -912,6 +947,41 @@
 					display: inline-block;
 					margin-bottom: 10rpx;
 					user-select: none;
+				}
+			}
+
+			.coupon {
+				background-color: #faf4f4;
+				padding: 10rpx 20rpx;
+				border-radius: 8rpx;
+				.coupon-item{
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin: 10rpx 0;
+					.l-part{
+						.txt{
+							border: 2rpx #ea7156 solid;
+							margin-right: 10rpx;
+							font-size: 20rpx;
+							padding: 2rpx 10rpx;
+							color: #ea7156;
+							border-radius: 6rpx;
+							
+						}
+					}
+					.r-part{
+						.btn{
+							border-radius: 30rpx;
+							border: none;
+							background-color: #ea7156;
+							color: #ffffff;
+							margin: 0 10rpx;
+							font-size: 24rpx;
+							padding: 0rpx 20rpx;
+							line-height: 40rpx;
+						}
+					}
 				}
 			}
 

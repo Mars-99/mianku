@@ -88,7 +88,7 @@
 								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_discount.png">
 							</image>
 						</view>
-						<view class="txt">我的优惠券</view>
+						<view class="txt" @tap="openCoupon()">我的优惠券</view>
 					</view>
 					<view class="column-item">
 						<view class="icon">
@@ -158,6 +158,11 @@
 					url: '../news/customer-service'
 				})
 			},
+			openCoupon(){
+				uni.navigateTo({
+					url: '../user/my-coupon'
+				})
+			}
 		}
 	}
 </script>
