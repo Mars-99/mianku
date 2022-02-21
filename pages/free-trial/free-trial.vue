@@ -98,7 +98,7 @@
 			</view>
 			<view class="none-data" v-else>
 				<view class="img-signal">
-					<image class="img" mode="widthFix" src="../../static/image/no-data.png">
+					<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/no-data.png">
 					</image>
 					<text>没有试睡房源</text>
 				</view>

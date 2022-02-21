@@ -5,7 +5,6 @@
     "pages/order/order",
     "pages/news/news",
     "pages/user/user",
-    "components/swiper/swiper",
     "components/listings-filter/listings-filter",
     "pages/ctiy/ctiy",
     "pages/select-date/select-date",

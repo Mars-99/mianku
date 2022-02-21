@@ -9,7 +9,7 @@
 			<view class="news-type">
 				<view class="item" @tap="openSystemNews()">
 					<view class="l-part">
-						<image class="img" mode="widthFix" src="../../static/image/news-xt-icon.png">
+						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/news-xt-icon.png">
 						</image>
 					</view>
 					<view class="c-part">
@@ -25,7 +25,7 @@
 				</view>
 				<view class="item" @tap="openCustomerService()">
 					<view class="l-part">
-						<image class="img" mode="widthFix" src="../../static/image/news-kf-icon.png">
+						<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/news-kf-icon.png">
 						</image>
 					</view>
 					<view class="c-part">

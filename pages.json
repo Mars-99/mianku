@@ -36,15 +36,6 @@
 			}
 
 		}
-	    ,{
-            "path" : "components/swiper/swiper",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
         ,{
             "path" : "components/listings-filter/listings-filter",
             "style" :                                                                                    
