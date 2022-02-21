@@ -50,7 +50,10 @@
 					已有0个助力包,再邀请16人可得32个助力包
 				</view>
 				<view class="help-mian">
-					ddadadad
+					<view v-for="(item,index) in helpuserlist" :key="item.userName">
+					<image class="img" mode="widthFix" :src="item.face"></image>
+					<text class="txt">{{item.userName}}</text>
+					</view>
 				</view>
 				<view class="help-btn">
 					<button class="btn" type="primary" size="default" @tap="Help()">分享领助力包</button>
@@ -97,7 +100,8 @@
 		getShareDetail,
 		getUserShare,
 		getUserSharePrice,
-		userHelp
+		userHelp,
+		getHelpUserList
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
@@ -107,6 +111,7 @@
 					prize: {}
 				},
 				userinfo: {},
+				helpuserlist:[],
 				share: {
 					title: '0元领福利',
 					path: '/pages/index/index',
@@ -148,7 +153,11 @@
 						}
 					}
 				}
-				this.Share()
+				//获取助力用户信息列表
+				const {userlist}  = await getHelpUserList(1,10)
+				console.log('助力用户信息列表：',userlist)
+				this.helpuserlist = userlist.data.rs 
+				this.Share() 
 			},
 			Share() {
 				this.share.title = '0元领福利'
@@ -160,7 +169,7 @@
 				if (this.$mp.query.recommend) {
 					const {
 						data
-					} = await userHelp(this.$mp.query.recommend)
+					} = await userHelp(this.$mp.query.recommend,2)
 					console.log('助力活动返回结果：', data)
 				}
 			}

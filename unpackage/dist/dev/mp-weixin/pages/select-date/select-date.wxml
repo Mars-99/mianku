@@ -1,1 +1,0 @@
-<view class="content"><calendar class="vue-ref" vue-id="5df6f600-1" pageSource="{{pageSource}}" weekendActivity="{{weekendActivity}}" weekdaysActivity="{{weekdaysActivity}}" orderDate="{{orderDate}}" assign="{{assign}}" data-ref="calendar" data-event-opts="{{[['^change',[['change']]]]}}" bind:change="__e" bind:__l="__l"></calendar></view>
