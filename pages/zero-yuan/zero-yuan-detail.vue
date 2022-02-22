@@ -37,23 +37,33 @@
 								<text class="txt">享所有房源</text>
 								{{detail_info.prize.discount}}折
 							</view>
-							<view class="l-txt" v-else>
+							<view class="l-txtK" v-else>
 								<text class="txt">价值</text>
 								￥{{detail_info.prize.deduct}}
+							</view>
+							<view class="r-btn" v-if="can_receive===1">
+								<button class="btn" type="primary" size="default" @tap="share_price()">领取</button>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 			<view class="help-box">
-				<view class="title">
+				<!-- <view class="title">
 					已有0个助力包,再邀请16人可得32个助力包
-				</view>
+				</view> -->
 				<view class="help-mian">
-					ddadadad
+					<view v-for="item in helpuserlist" :key="item.userName">
+						<view class="avatar">
+							<image class="img" mode="widthFix" :src="item.face" style="width:40px; height: 40px;">
+							</image>
+							<text class="name">{{item.userName}}</text>
+						</view>
+					</view>
 				</view>
 				<view class="help-btn">
-					<button class="btn" type="primary" size="default" @tap="Help()">分享领助力包</button>
+					<button class="btn" type="primary" size="default" @tap="Help()" v-if="type===0"></button>
+					<button class="btn" type="primary" size="default" @tap="Share()" v-else>分享领助力包</button>
 				</view>
 			</view>
 
@@ -97,7 +107,8 @@
 		getShareDetail,
 		getUserShare,
 		getUserSharePrice,
-		userHelp
+		userHelp,
+		getHelpUserList
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
@@ -107,6 +118,9 @@
 					prize: {}
 				},
 				userinfo: {},
+				helpuserlist: [],
+				type: 0, //0为分享1为助力
+				can_receive: 0, //是否可领取 0否 1是
 				share: {
 					title: '0元领福利',
 					path: '/pages/index/index',
@@ -135,6 +149,7 @@
 					data
 				} = await getShareDetail()
 				this.detail_info.share = data.data.share
+				let target = 0 //目标
 				for (let i = 1; i <= 10; i++) {
 					let target = 'target' + i
 					let reward = 'reward' + i
@@ -145,9 +160,23 @@
 						})
 						if (selectobj) {
 							this.detail_info.prize = selectobj
+							target = this.detail_info.share[target] //目标数
 						}
 					}
 				}
+				if (this.$mp.query.recommend) {
+					this.type = 1
+				}
+				//获取助力用户信息列表
+				let userlist = await getHelpUserList(1, 10)
+				console.log('助力用户信息列表：', userlist)
+				this.helpuserlist = userlist.data.data.rs
+
+				let help_user_count = userlist.data.data.num //总助力人数
+				if (help_user_count === target) {
+					can_receive = 1
+				}
+
 				this.Share()
 			},
 			Share() {
@@ -160,9 +189,16 @@
 				if (this.$mp.query.recommend) {
 					const {
 						data
-					} = await userHelp(this.$mp.query.recommend)
+					} = await userHelp(Number(this.$mp.query.recommend), 2)
 					console.log('助力活动返回结果：', data)
 				}
+			},
+			async share_price() {
+				//领取助力奖励
+				const {
+					data
+				} = await getUserSharePrice()
+				console.log('领取助力奖励返回结果：', data)
 			}
 		}
 	}

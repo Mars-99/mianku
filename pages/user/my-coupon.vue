@@ -11,9 +11,13 @@
 					<image class="img" mode="widthFix"
 						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
 					</image>
-					<view class="cont">
-						<view class="t-txt"><text class="txt">￥</text>{{coupon.discount}}</view>
-						<view class="b-txt">满{{coupon.restrict}}-{{coupon.discount}}</view>
+					<view class="cont" v-if="coupon.type == 2">
+						<view class="t-txt">{{coupon.discount}}</view>
+						<view class="b-txt">享房源{{coupon.discount}}折</view>
+					</view>
+					<view class="cont" v-else>
+						<view class="t-txt"><text class="txt">￥</text>{{coupon.deduct}}</view>
+						<view class="b-txt">满{{coupon.restrict}}-{{coupon.deduct}}</view>
 					</view>
 				</view>
 				<view class="r-part">

@@ -1,1 +1,0 @@
-<view class="data-v-18c54940"><block wx:if="{{isCounttime}}"><text class="data-v-18c54940">{{cancelTime}}</text></block></view>

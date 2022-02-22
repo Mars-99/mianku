@@ -92,7 +92,7 @@
 					</view>
 					<view class="column-item">
 						<view class="icon">
-							<image class="img" mode="widthFix" src="../../static/image/user_icon_connect.png">
+							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_connect.png">
 							</image>
 						</view>
 						<view class="txt" @tap="customerService()">联系客服</view>

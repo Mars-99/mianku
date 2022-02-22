@@ -63,6 +63,7 @@ let urlManage = {
 	getUserShare: 'api/user/share', //助力活动用户数据
 	getUserSharePrice: 'api/user/share_price', //领取助力奖励
 	userHelp:'api/user/help', //0元助力
+	getHelpUserList:'api/user/help_user',//助力用户列表
 	
 	getSiteContentUrl:'api/home/site_content', //平台信息
 	getCouponUrl:'api/user/get_coupon', //领取优惠券
@@ -428,7 +429,13 @@ const getCouponList= function(state){
 	})
 }
 
-
+//助力用户信息列表
+const getHelpUserList = function(page,limit){
+	return $http.post(urlManage.getHelpUserList,{
+		page:page,
+		limit:limit
+	})
+}
 
 export {
 	wxLogin,
@@ -483,4 +490,5 @@ export {
 	siteContent,
 	getCoupon,
 	getCouponList,
+	getHelpUserList,
 }
