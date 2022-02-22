@@ -96,7 +96,7 @@ var components
 try {
   components = {
     loadMore: function() {
-      return __webpack_require__.e(/*! import() | components/load-more/load-more */ "components/load-more/load-more").then(__webpack_require__.bind(null, /*! @/components/load-more/load-more.vue */ 544))
+      return __webpack_require__.e(/*! import() | components/load-more/load-more */ "components/load-more/load-more").then(__webpack_require__.bind(null, /*! @/components/load-more/load-more.vue */ 552))
     }
   }
 } catch (e) {
