@@ -243,11 +243,12 @@
 				if (this.userDetail.examine == 1) {
 					//判断优惠券是不是整数，整数为满减或抵扣，直接减数值
 					if (this.couponPice % 1 === 0) {
-						this.payPice = (Number(this.totalPice) - Number(this.couponPice) + Number(this.listingsDetail.hotel.cleaningFee) -
+						this.payPice = (Number(this.totalPice) - Number(this.couponPice) + Number(this.listingsDetail.hotel
+								.cleaningFee) -
 							Number(this
-								.listingsDetail.hotel.firstReduce))* 0.95
+								.listingsDetail.hotel.firstReduce)) * 0.95
 						this.payPice = this.payPice.toFixed(2)
-					} else {//不是整数为小数说明是折扣，总价乘以折扣
+					} else { //不是整数为小数说明是折扣，总价乘以折扣
 						this.payPice = (Number(this.totalPice) * Number(this.couponPice) + Number(this.listingsDetail
 								.hotel
 								.cleaningFee) -
@@ -255,8 +256,8 @@
 								.listingsDetail.hotel.firstReduce)) * 0.95
 						this.payPice = this.payPice.toFixed(2)
 					}
-				} else {//不是学生认证用户价格计算
-					if (this.couponPice % 1 === 0) {//同上，判断是不是整数，获得是折扣优惠还是满减或抵扣
+				} else { //不是学生认证用户价格计算
+					if (this.couponPice % 1 === 0) { //同上，判断是不是整数，获得是折扣优惠还是满减或抵扣
 						this.payPice = Number(this.totalPice) + Number(this.listingsDetail.hotel.cleaningFee) -
 							Number(this
 								.listingsDetail.hotel.firstReduce) - Number(this.couponPice)
@@ -296,8 +297,13 @@
 								if (item.gids) {
 									let arr = item.gids.split(',')
 									select_obj = arr.find(obj => {
-										return obj = this.listingsDetail.hotel.id
+										return Number(obj) === this.listingsDetail.hotel.id
 									})
+
+
+									console.log("arr", arr)
+									console.log("select_obj", select_obj)
+									console.log("hotel.id", this.listingsDetail.hotel.id)
 								}
 								if (item.gType === 0 || (item.gType === 1 && select_obj)) {
 									if (item.restrict === 0 || this.totalPice >= item.restrict) {
