@@ -36,51 +36,53 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
-		login(context) {
-			return new Promise((resolve,reject) =>{
-				let _self = this
-				uni.login({
-					provider: 'weixin',
-					success: async (wxloginRes) => {
-						const {
-							data: res
-						} = await wxLogin(wxloginRes.code)
+		// login(context) {
+		// 	return new Promise((resolve,reject) =>{
+		// 		let _self = this
+		// 		uni.login({
+		// 			provider: 'weixin',
+		// 			success: async (wxloginRes) => {
+		// 				const {
+		// 					data: res
+		// 				} = await wxLogin(wxloginRes.code)
 						
-						if (res.code == 1) {
-							return _self.$api.msg('登录失败!' + res.msg)
-							context.commit('setIsLogin',false)
-							context.commit('setNeedAuth',true)
-						}
-						uni.setStorageSync('token', res.data.token)	
-						//当前登录的用户信息存在storage里
-						const{data:user_data} = await userDetail()
-						uni.setStorageSync('userinfo', user_data.data)
+		// 				if (res.code == 1) {
+		// 					return _self.$api.msg('登录失败!' + res.msg)
+		// 					context.commit('setIsLogin',false)
+		// 					context.commit('setNeedAuth',true)
+		// 				}else{
+		// 					uni.setStorageSync('token', res.data.token)
+		// 					//当前登录的用户信息存在storage里
+		// 					const{data:user_data} = await userDetail()
+		// 					uni.setStorageSync('userinfo', user_data.data)
+							
+		// 					context.commit('setUserinfo',user_data.data)
+		// 					context.commit('setIsLogin',true)
+		// 				}
 						
-						context.commit('setUserinfo',user_data.data)
-						context.commit('setIsLogin',true)
-					},
-					fail: (wxloginRes) => {
-						console.log("获取code失败")
-					}
-				})
-			})
-		},
-		authUserInfo(context){
-			return new Promise((resolve,reject) =>{
-				uni.getUserProfile({
-					desc: '注册',
-					lang: 'zh_CN',
-					success: async res => {
-						// console.log("a",context.state.userinfo)
-						// console.log("b",res)
-						let encryptedData = res.encryptedData
-						let iv = res.iv
-						const {data: userinfo} = await wxInfo(context.state.userinfo.token, context.state.userinfo.sessionKey, encryptedData, iv)
-						// console.log("userinfo",userinfo)
-					},
-				});
-			})
-		},
+		// 			},
+		// 			fail: (wxloginRes) => {
+		// 				console.log("获取code失败")
+		// 			}
+		// 		})
+		// 	})
+		// },
+		// authUserInfo(context){
+		// 	return new Promise((resolve,reject) =>{
+		// 		uni.getUserProfile({
+		// 			desc: '注册',
+		// 			lang: 'zh_CN',
+		// 			success: async res => {
+		// 				// console.log("a",context.state.userinfo)
+		// 				// console.log("b",res)
+		// 				let encryptedData = res.encryptedData
+		// 				let iv = res.iv
+		// 				const {data: userinfo} = await wxInfo(context.state.userinfo.token, context.state.userinfo.sessionKey, encryptedData, iv)
+		// 				// console.log("userinfo",userinfo)
+		// 			},
+		// 		});
+		// 	})
+		// },
 		
 		
 		// getPhoneNumber(e){

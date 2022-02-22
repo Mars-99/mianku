@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="login" v-if="!current_user">
+		<view class="login" v-if="!loginAuth">
 			<uni-icons type="contact" size="100" color="#dddddd"></uni-icons>
 			<view class="txt">您尚未登录，请登录后查看</view>
 			<button class="btn" type="primary" size="default" @tap="isLogin">登录/注册</button>
@@ -78,7 +78,7 @@
 				pages: [{currentPage: 1,totalPage: 1,loadingType: 0}],
 				isLoading:false,
 				historyList:[],
-				current_user:null,
+				loginAuth:null,
 			}
 		},
 		onLoad(){
@@ -144,8 +144,8 @@
 				})
 			},
 			isLogin(){
-				this.current_user = uni.getStorageSync('userinfo')
-				if (!this.current_user) {
+				this.loginAuth = uni.getStorageSync('loginAuth')
+				if (!this.loginAuth) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return

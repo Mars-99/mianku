@@ -209,8 +209,8 @@
 				console.log('领取助力奖励:',data2)
 			},
 			openZeroYuanDetailPage(id){
-				let current_user = uni.getStorageSync('userinfo')
-				if (!current_user) {
+				let loginAuth = uni.getStorageSync('loginAuth')
+				if (!loginAuth) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
