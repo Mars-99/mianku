@@ -62,10 +62,12 @@
 							<view class="name">{{item.userName}}</view>
 						</view>
 					</view>
-					<view class="txt">
-						{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位
+					<view class="txt" v-if="remain===0">
+						已助力完成
 					</view>
-					
+					<view class="txt" v-else>
+						{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位
+					</view>					
 					<view class="help-btn" v-if="type===0">
 						<button class="btn" type="primary" size="default" @tap="Help()">帮ta助力</button>
 					</view>
@@ -137,7 +139,8 @@
 					desc: '',
 					content: ''
 				},
-				target:0
+				target:0,//目标数
+				remain:0 //剩余助力人数
 			}
 		},
 		onLoad() {
@@ -161,7 +164,6 @@
 					data
 				} = await getShareDetail()
 				this.detail_info.share = data.data.share
-				let target = 0 //目标
 				for (let i = 1; i <= 10; i++) {
 					let target = 'target' + i
 					let reward = 'reward' + i
@@ -172,8 +174,7 @@
 						})
 						if (selectobj) {
 							this.detail_info.prize = selectobj
-							target = this.detail_info.share[target] //目标数
-							this.target = target
+							this.target = this.detail_info.share[target] //目标数
 						}
 					}
 				}
@@ -186,8 +187,11 @@
 				this.helpuserlist = userlist.data.data.rs
 
 				let help_user_count = userlist.data.data.num //总助力人数
-				if (help_user_count === target) {
-					can_receive = 1
+				console.log('助力数：',help_user_count)
+				if (help_user_count === this.target) {
+					this.can_receive = 1
+				}else{
+					this.remain = this.target - help_user_count
 				}
 
 				this.Share()
