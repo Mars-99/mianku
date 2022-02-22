@@ -294,6 +294,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
                   _this.pageshow = false;
 
                 } else {
+
                   _this.listingsList = _this.listingsList.concat(data.data.hotels);
                   _this.pageshow = false;
                 }
@@ -455,6 +456,10 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
   onReachBottom: function onReachBottom() {
 
     if (this.page >= this.totalPage) {
+      wx.showToast({
+        title: '没有更多数据了!',
+        icon: 'none' });
+
       return;
     } else {
       this.page += 1;

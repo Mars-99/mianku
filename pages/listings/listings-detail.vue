@@ -55,7 +55,7 @@
 						<view class="select" @tap="selectDate()">修改日期</view>
 					</view>
 					<view class="location">
-						<view class="wz">
+						<view class="wz" @tap="openLocation()">
 							<uni-icons type="location-filled" size="34" color="#ff941d"></uni-icons>
 							<text>{{listingsDetail.hotel.address}}</text>
 						</view>
@@ -835,7 +835,33 @@
 						position: 'top'
 					})
 				}
-			}
+			},
+			openMap () {
+			      // 选择地图
+			      const self = this
+			      uni.chooseLocation({
+			        success: function (res) {
+			          const { address, latitude, longitude, name } = res
+			          self.markers = {
+			            address, latitude, longitude, name
+			          }
+			        }
+			      })
+			    },
+				openLocation () {
+				      const { latitude, longitude, name } = this.markers
+				      // 打开地图并导航
+				      uni.openLocation({
+				        latitude,
+				        longitude,
+				        name,
+				        fail: () => {
+				          uni.showModal({
+				            content: '打开地图失败,请重'
+				          })
+				        }
+				      })
+				    }
 		}
 	}
 </script>

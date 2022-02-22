@@ -131,7 +131,7 @@
 						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon.png">
 					</image>
 				</view>
-				今日免单
+				今日优惠券
 			</view>
 			<view class="nav-item" @tap="openWDMD()">
 				<view class="icon">
@@ -142,7 +142,7 @@
 						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon-act.png">
 					</image>
 				</view>
-				我的免单
+				我的优惠券
 			</view>
 		</view>
 

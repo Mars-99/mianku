@@ -3,7 +3,7 @@
 		<!-- 首页轮播图 -->
 		<view>
 			<uni-swiper-dot :info="listingsBanner" :current="current" field="content" :mode="mode">
-				<swiper class="swiper-box">
+				<swiper class="swiper-box" :autoplay="true" :interval="3000">
 					<swiper-item v-for="(item ,index) in listingsBanner" :key="index">
 						<view class="swiper-item">
 							<image mode="widthFix" :v-if="item.thum" :src="item.thum">

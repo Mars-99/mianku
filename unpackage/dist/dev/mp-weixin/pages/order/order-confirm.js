@@ -475,11 +475,6 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
                         select_obj = arr.find(function (obj) {
                           return Number(obj) === _this2.listingsDetail.hotel.id;
                         });
-
-
-                        console.log("arr", arr);
-                        console.log("select_obj", select_obj);
-                        console.log("hotel.id", _this2.listingsDetail.hotel.id);
                       }
                       if (item.gType === 0 || item.gType === 1 && select_obj) {
                         if (item.restrict === 0 || _this2.totalPice >= item.restrict) {
@@ -489,8 +484,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
                     }
                   }
                 });
-                _this2.canUseCoupon = can_use;
-                console.log("this.canUseCoupon", _this2.canUseCoupon);case 13:case "end":return _context2.stop();}}}, _callee2);}))();
+                _this2.canUseCoupon = can_use;case 12:case "end":return _context2.stop();}}}, _callee2);}))();
 
     },
     openCoupon: function openCoupon() {

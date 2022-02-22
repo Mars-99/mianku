@@ -1032,6 +1032,32 @@ var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ 65));func
                     position: 'top' });
 
                 }case 5:case "end":return _context5.stop();}}}, _callee5);}))();
+    },
+    openMap: function openMap() {
+      // 选择地图
+      var self = this;
+      uni.chooseLocation({
+        success: function success(res) {var
+          address = res.address,latitude = res.latitude,longitude = res.longitude,name = res.name;
+          self.markers = {
+            address: address, latitude: latitude, longitude: longitude, name: name };
+
+        } });
+
+    },
+    openLocation: function openLocation() {var _this$markers =
+      this.markers,latitude = _this$markers.latitude,longitude = _this$markers.longitude,name = _this$markers.name;
+      // 打开地图并导航
+      uni.openLocation({
+        latitude: latitude,
+        longitude: longitude,
+        name: name,
+        fail: function fail() {
+          uni.showModal({
+            content: '打开地图失败,请重' });
+
+        } });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

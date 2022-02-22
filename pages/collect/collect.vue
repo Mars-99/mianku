@@ -13,7 +13,7 @@
 				</view>
 				<view class="content">
 					<view v-show="current === 0">
-						<view class="collect-list">
+						<view class="collect-list" v-if="collectionList.length">
 							<uni-title type="h4" :title="collectionLength+'个房源' "></uni-title>
 							<view v-for="item in collectionList" :key="item.cid" class="collect-item" @tap="openListingsDetail(item)">
 								<view class="img-left">
@@ -40,6 +40,13 @@
 										</view>
 									</view>
 								</view>
+							</view>
+						</view>
+						<view class="none-data" v-else>
+							<view class="img-signal">
+								<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wufangyuan.png">
+								</image>
+								<text>暂无收藏</text>
 							</view>
 						</view>
 					</view>
@@ -258,6 +265,24 @@
 			}
 		}
 
+	}
+	.none-data {
+	
+		border-radius: 8rpx;
+		padding: 20rpx;
+		margin: 30rpx 0;
+		text-align: center;
+	
+		.img-signal {
+			width: 300rpx;
+			height: 300rpx;
+			margin: 0 auto;
+	
+			.img {
+				width: 100%;
+			}
+		}
+	
 	}
 
 	.listings-area {

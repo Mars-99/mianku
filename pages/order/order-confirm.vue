@@ -299,11 +299,6 @@
 									select_obj = arr.find(obj => {
 										return Number(obj) === this.listingsDetail.hotel.id
 									})
-
-
-									console.log("arr", arr)
-									console.log("select_obj", select_obj)
-									console.log("hotel.id", this.listingsDetail.hotel.id)
 								}
 								if (item.gType === 0 || (item.gType === 1 && select_obj)) {
 									if (item.restrict === 0 || this.totalPice >= item.restrict) {
@@ -314,7 +309,6 @@
 						}
 					})
 					this.canUseCoupon = can_use
-					console.log("this.canUseCoupon", this.canUseCoupon)
 				}
 			},
 			openCoupon() {

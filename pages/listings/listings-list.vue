@@ -11,8 +11,8 @@
 					</view>
 					<!-- <view class="enter">搜索房源名称/商圈</view> -->
 					<!-- <input class="enter" type="text" v-model="keywords" placeholder="核心商圈/房源名/地址" @input="input" /> -->
-					<uni-easyinput class="enter" styles="border: none; float:right;" :suffixIcon="closeempty"
-						:clearable="false" v-model="keywords" placeholder="核心商圈/房源名/地址" @input="input">
+					<uni-easyinput class="enter" styles="border: none; float:right;" suffixIcon="search"
+						:clearable="false" v-model="keywords" placeholder="核心商圈/房源名/地址" @iconClick="gethotelList">
 					</uni-easyinput>
 				</view>
 				<filterArea :CBDlist="CBDlist" :hotCBD="hotCBD" :week="week" @districtId="getDistrictId" @flag="getFlag"
@@ -139,6 +139,7 @@
 					this.pageshow = false
 
 				} else {
+					
 					this.listingsList = this.listingsList.concat(data.data.hotels)
 					this.pageshow = false
 				}
@@ -300,6 +301,10 @@
 		onReachBottom() {
 
 			if (this.page >= this.totalPage) {
+				wx.showToast({
+					title: '没有更多数据了!',
+					icon: 'none',
+				})
 				return
 			} else {
 				this.page += 1
@@ -331,15 +336,17 @@
 			display: flex;
 			align-items: center;
 			padding: 0 20rpx;
+			
 
 			.city {
+				width: 15%;
 				color: #ff941d;
-				padding-right: 50rpx;
 				border-right: 2rpx #f0f0f1 solid;
 				line-height: 80rpx;
 			}
 
 			.data {
+				width: 23%;
 				padding: 0 20rpx 0 20rpx;
 				border-right: 2rpx #f0f0f1 solid;
 				line-height: 80rpx;
@@ -360,6 +367,7 @@
 			}
 
 			.enter {
+				width: 57%;
 				padding: 0 20rpx 0 20rpx;
 				color: #7d7e80;
 			}
