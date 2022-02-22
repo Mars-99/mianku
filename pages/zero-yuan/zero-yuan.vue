@@ -202,11 +202,11 @@
 						this.prizelist = this.prizelist.concat(data.data[prize])
 					}
 				}
-				const {data1} = await getUserShare()
+				//const {data1} = await getUserShare()
 				// this.myPrizeList = data1.data
-				console.log('助力活动用户数据:',this.data1)
-				const {data2} = await getUserSharePrice()
-				console.log('领取助力奖励:',data2)
+				//console.log('助力活动用户数据:',this.data1)
+				//const {data2} = await getUserSharePrice()
+				//console.log('领取助力奖励:',data2)
 			},
 			openZeroYuanDetailPage(id){
 				let loginAuth = uni.getStorageSync('loginAuth')
@@ -218,7 +218,7 @@
 				uni.navigateTo({
 					url: '../zero-yuan/zero-yuan-detail?id='+id
 				})
-			},
+			}, 
 		}
 	}
 </script>
