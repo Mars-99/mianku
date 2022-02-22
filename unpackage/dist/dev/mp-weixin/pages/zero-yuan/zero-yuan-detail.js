@@ -231,11 +231,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 13);
 
 
 
 var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+
 
 
 
@@ -258,8 +267,9 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
         path: '/pages/index/index',
         imageUrl: '',
         desc: '',
-        content: '' } };
+        content: '' },
 
+      target: 0 };
 
   },
   onLoad: function onLoad() {
@@ -269,17 +279,19 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
   (0, _vuex.mapGetters)(['getUserinfo', 'getNeedAuth', 'getIsLogin'])),
 
   methods: {
-    initData: function initData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$getShareDetail, data, target, i, _target, reward, prize, selectobj, userlist, help_user_count;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+    initData: function initData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$userDetail, user_data, _yield$getShareDetail, data, target, i, _target, reward, prize, selectobj, userlist, help_user_count;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 console.log('被助力用户id:', _this.$mp.query.recommend);
-                _this.userinfo = uni.getStorageSync('userinfo');if (
-                _this.userinfo) {_context.next = 6;break;}
+                _this.loginAuth = uni.getStorageSync('loginAuth');if (
+                _this.loginAuth) {_context.next = 6;break;}
                 _this.$api.msg('请先登录');
                 _this.$api.href('../login/login');return _context.abrupt("return");case 6:_context.next = 8;return (
 
 
+                  (0, _manage.userDetail)());case 8:_yield$userDetail = _context.sent;user_data = _yield$userDetail.data;
+                _this.userinfo = user_data.data;_context.next = 13;return (
 
 
-                  (0, _manage.getShareDetail)());case 8:_yield$getShareDetail = _context.sent;data = _yield$getShareDetail.data;
+                  (0, _manage.getShareDetail)());case 13:_yield$getShareDetail = _context.sent;data = _yield$getShareDetail.data;
                 _this.detail_info.share = data.data.share;
                 target = 0; //目标
                 for (i = 1; i <= 10; i++) {
@@ -293,6 +305,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
                     if (selectobj) {
                       _this.detail_info.prize = selectobj;
                       _target = _this.detail_info.share[_target]; //目标数
+                      _this.target = _target;
                     }
                   }
                 }
@@ -300,7 +313,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
                   _this.type = 1;
                 }
                 //获取助力用户信息列表
-                _context.next = 16;return (0, _manage.getHelpUserList)(1, 10);case 16:userlist = _context.sent;
+                _context.next = 21;return (0, _manage.getHelpUserList)(1, 10);case 21:userlist = _context.sent;
                 console.log('助力用户信息列表：', userlist);
                 _this.helpuserlist = userlist.data.data.rs;
 
@@ -309,7 +322,7 @@ var _manage = __webpack_require__(/*! @/utils/request/manage.js */ 14);function 
                   can_receive = 1;
                 }
 
-                _this.Share();case 22:case "end":return _context.stop();}}}, _callee);}))();
+                _this.Share();case 27:case "end":return _context.stop();}}}, _callee);}))();
     },
     Share: function Share() {
       this.share.title = '0元领福利';

@@ -265,4 +265,7 @@
 
 		.listings-list {}
 	}
+	/deep/ button::after {
+		border: none;
+	}
 </style>

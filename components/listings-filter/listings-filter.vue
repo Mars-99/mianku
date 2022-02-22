@@ -2,7 +2,7 @@
 	<view class="listings-filter-area">
 		<uni-card>
 			<view class="select-city">
-				<view class="current-city" @click="openCtiy(cityid)">{{cityname}}</view>
+				<view class="current-city" @click="openCtiy(cityid)">{{cityname}} [切换]</view>
 				<!-- <view class="location" @tap="getLocation()">
 					<uni-icons type="location" size="16" color="#ff941d"></uni-icons>重新定位
 				</view> -->
@@ -200,5 +200,8 @@
 			padding: 20rpx 0;
 			font-size: 24rpx;
 		}
+	}
+	/deep/ button::after {
+		border: none;
 	}
 </style>

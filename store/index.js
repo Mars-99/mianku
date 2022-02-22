@@ -36,6 +36,9 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
+		
+		
+		
 		// login(context) {
 		// 	return new Promise((resolve,reject) =>{
 		// 		let _self = this

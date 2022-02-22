@@ -6,7 +6,7 @@
 			</image>
 			<view class="user-cont">
 				<view class="avatar">
-					<image class="img" mode="aspectFill" :src="userinfo.face">
+					<image class="img" mode="widthFix" :src="userinfo.face">
 					</image>
 				</view>
 				<view class="name">{{userinfo.userName}}</view>
@@ -49,21 +49,29 @@
 				</view>
 			</view>
 			<view class="help-box">
-				<!-- <view class="title">
-					已有0个助力包,再邀请16人可得32个助力包
-				</view> -->
+				<view class="title">
+					{{target}}人完成助力可领优惠券
+				</view>
 				<view class="help-mian">
-					<view v-for="item in helpuserlist" :key="item.userName">
-						<view class="avatar">
-							<image class="img" mode="widthFix" :src="item.face" style="width:40px; height: 40px;">
-							</image>
-							<text class="name">{{item.userName}}</text>
+					<view class="help-list">
+						<view class="help-item" v-for="item in helpuserlist" :key="item.userName">
+							<view class="avatar">
+								<image class="img" mode="widthFix" :src="item.face">
+								</image>
+							</view>
+							<view class="name">{{item.userName}}</view>
 						</view>
 					</view>
-				</view>
-				<view class="help-btn">
-					<button class="btn" type="primary" size="default" @tap="Help()" v-if="type===0"></button>
-					<button class="btn" type="primary" size="default" @tap="Share()" v-else>分享领助力包</button>
+					<view class="txt">
+						{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位
+					</view>
+					
+					<view class="help-btn" v-if="type===0">
+						<button class="btn" type="primary" size="default" @tap="Help()">帮ta助力</button>
+					</view>
+					<view class="help-btn" v-else>
+						<button class="btn" type="primary" size="default" @tap="Share()">分享领助力包</button>
+					</view>
 				</view>
 			</view>
 
@@ -108,7 +116,8 @@
 		getUserShare,
 		getUserSharePrice,
 		userHelp,
-		getHelpUserList
+		getHelpUserList,
+		userDetail
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
@@ -127,7 +136,8 @@
 					imageUrl: '',
 					desc: '',
 					content: ''
-				}
+				},
+				target:0
 			}
 		},
 		onLoad() {
@@ -139,12 +149,14 @@
 		methods: {
 			async initData() {
 				console.log('被助力用户id:', this.$mp.query.recommend)
-				this.userinfo = uni.getStorageSync('userinfo')
-				if (!this.userinfo) {
+				this.loginAuth = uni.getStorageSync('loginAuth')
+				if (!this.loginAuth) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
 				}
+			   const{data:user_data} = await userDetail()
+			   this.userinfo = user_data.data
 				const {
 					data
 				} = await getShareDetail()
@@ -161,6 +173,7 @@
 						if (selectobj) {
 							this.detail_info.prize = selectobj
 							target = this.detail_info.share[target] //目标数
+							this.target = target
 						}
 					}
 				}
@@ -372,11 +385,43 @@
 
 				.help-mian {
 					margin: 30rpx 0;
-					height: 80rpx;
+					.help-list{
+						display: flex;
+						justify-content: center;
+						
+						.help-item{
+							width: 20%;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							flex-direction: column;
+							.avatar {
+								width: 80rpx;
+								height: 80rpx;
+								margin: 0 10rpx;
+								overflow: hidden;
+								border-radius: 80rpx;
+							
+								.img {
+									width: 100%;
+								}
+							}
+							
+							.name {
+								font-size: 24rpx;
+								color: #E09014;
+							}
+						}
+					}
+					.txt{
+						font-size: 24rpx;
+						color:#e13c3c;
+						margin: 20rpx 0;
+					}
 				}
 
 				.help-btn {
-					margin: 0 auto -60rpx auto;
+					margin: 0 auto -90rpx auto;
 
 					.btn {
 						border-radius: 80rpx;
@@ -415,5 +460,8 @@
 				color: #ffe0cd;
 			}
 		}
+	}
+	/deep/ button::after {
+		border: none;
 	}
 </style>

@@ -193,4 +193,7 @@
 			}
 		}
 	}
+	/deep/ button::after {
+		border: none;
+	}
 </style>
