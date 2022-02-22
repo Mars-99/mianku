@@ -91,11 +91,11 @@ const wxLogin = function(code, recommend) {
 
 }
 // 获取用户信息(1-2)
-const wxInfo = function(token, sessionKey, encryptedData, iv) {
+const wxInfo = function(sessionKey, encryptedData, iv) {
 	return $http.post(urlManage.wxInfoUrl, {
+		sessionKey: sessionKey,
 		encryptedData: encryptedData,
 		iv: iv,
-		sessionKey: sessionKey,
 	})
 }
 

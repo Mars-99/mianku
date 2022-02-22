@@ -113,10 +113,14 @@
 				swiperheight: 0,
 				bg: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user-bg.png',
 				avatarUser: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar-user.jpg',
-				userinfo: {}
+				userinfo: {},
+				loginAuth:null,
 			}
 		},
 		onLoad() {
+			// this.getUserDetail()
+		},
+		onShow() {
 			this.getUserDetail()
 		},
 		mounted() {
@@ -132,11 +136,13 @@
 			async getUserDetail() {
 				// this.token = uni.getStorageSync('token')
 				// console.log(this.token)
-				const {
-					data
-				} = await userDetail()
-				this.userinfo = data.data
-				console.log(data.data)
+				this.loginAuth = uni.getStorageSync('loginAuth')
+				if (this.loginAuth) {
+					const {
+						data
+					} = await userDetail()
+					this.userinfo = data.data
+				}
 			},
 			openLogin() {
 				uni.navigateTo({

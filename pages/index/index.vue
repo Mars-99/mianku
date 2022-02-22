@@ -510,7 +510,7 @@
 				position: absolute;
 				width: 100%;
 				bottom: 10rpx;
-				color: #ffffff;
+				color: #333333;
 				z-index: 1;
 				left: 10rpx;
 				padding-bottom: 20rpx;

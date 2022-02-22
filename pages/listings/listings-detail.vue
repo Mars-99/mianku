@@ -35,7 +35,7 @@
 						<view class="txt" v-if="listingsDetail.hotel.service.indexOf('自主入住') != -1">自主入住</view>
 						<view class="txt" v-if="listingsDetail.hotel.rules.indexOf('允许聚会') != -1">允许聚会</view>
 					</view>
-					<view class="coupon" v-if="couponList.length>0">
+					<!-- <view class="coupon" v-if="couponList.length>0">
 						<view class="coupon-item" v-for="(coupon ,key) in couponList" :key="key">
 							<view class='l-part'>
 								<text class='txt'>{{coupon.type==0?"满减":coupon.type==1?"抵扣":"打折"}}</text>
@@ -45,7 +45,7 @@
 								<button class="btn" type="default" size="mini" @tap="receiveCoupon(coupon.id)">领取</button>
 							</view>
 						</view>
-					</view>
+					</view> -->
 					<view class="date">
 						<view class="reveal">
 							<text class="txt check-in">入住{{checkInYH}}</text>
@@ -536,8 +536,8 @@
 				})
 			},
 			openOrderConfirm() {
-				let current_user = uni.getStorageSync('userinfo')
-				if (!current_user) {
+				let loginAuth = uni.getStorageSync('loginAuth')
+				if (!loginAuth) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
@@ -658,8 +658,8 @@
 			// 收藏点击事件 刘慧
 			async getUserCollection() {
 				this.isCollect
-				let current_user = uni.getStorageSync('userinfo')
-				if (!current_user) {
+				let loginAuth = uni.getStorageSync('loginAuth')
+				if (!loginAuth) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
@@ -680,8 +680,8 @@
 				//根据data的返回值来判断收藏样式变更
 			},
 			async getCollectionList(type) {
-				let current_user = uni.getStorageSync('userinfo')
-				if (current_user) {
+				let loginAuth = uni.getStorageSync('loginAuth')
+				if (loginAuth) {
 					const {
 						data: res
 					} = await getCollectionList(type)
