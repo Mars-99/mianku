@@ -41,7 +41,7 @@
 								<text class="txt">价值</text>
 								￥{{detail_info.prize.deduct}}
 							</view>
-							<view class="r-btn" v-if="can_receive===1">
+							<view class="r-btn" v-if="can_receive">
 								<button class="btn" type="primary" size="default" @tap="share_price()">领取</button>
 							</view>
 						</view>
@@ -131,7 +131,7 @@
 				userinfo: {},
 				helpuserlist: [],
 				type: 0, //0为分享1为助力
-				can_receive: 0, //是否可领取 0否 1是
+				can_receive: false, //是否可领取
 				share: {
 					title: '0元领福利',
 					path: '/pages/index/index',
@@ -162,36 +162,25 @@
 			   this.userinfo = user_data.data
 				const {
 					data
-				} = await getShareDetail()
-				this.detail_info.share = data.data.share
-				for (let i = 1; i <= 10; i++) {
-					let target = 'target' + i
-					let reward = 'reward' + i
-					let prize = 'prize' + i
-					if (data.data.share[target] > 0 && data.data.share[reward] > 0) {
-						let selectobj = data.data[prize].find(obj => {
-							return obj.id === Number(this.$mp.query.id)
-						})
-						if (selectobj) {
-							this.detail_info.prize = selectobj
-							this.target = this.detail_info.share[target] //目标数
-						}
-					}
-				}
+				} = await getShareDetail() //助力活动详情				
+				let user_share_list = await getUserShare() // 助力活动用户数据
+				let userdata = user_share_list.data.data;
+				
+				this.detail_info.share = data.data.share		
+				this.detail_info.prize = data.data['prize'+(userdata.rewards+1)][0]
+				this.target = this.detail_info.share['target'+(userdata.rewards+1)]
+				console.log('detailinfo:',this.detail_info)
 				if (this.$mp.query.recommend) {
 					this.type = 1
 				}
 				//获取助力用户信息列表
-				let userlist = await getHelpUserList(1, 10)
-				console.log('助力用户信息列表：', userlist)
+				let userlist = await getHelpUserList(1, 999)
 				this.helpuserlist = userlist.data.data.rs
-
-				let help_user_count = userlist.data.data.num //总助力人数
-				console.log('助力数：',help_user_count)
-				if (help_user_count === this.target) {
-					this.can_receive = 1
+				
+				if(this.detail_info.share["target"+(userdata.rewards+1)]<=userdata.shareNum){
+					this.can_receive=true
 				}else{
-					this.remain = this.target - help_user_count
+					this.remain = this.target - userdata.shareNum
 				}
 
 				this.Share()

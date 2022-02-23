@@ -33,7 +33,9 @@
 									￥{{item.deduct}}
 								</view>
 								<view class="r-btn">
-									<button class="btn" type="primary" size="default" @tap="openZeroYuanDetailPage(item.id)">免费拿</button>
+									<button class="btn" type="primary" size="default"
+										@tap="openZeroYuanDetailPage(item.id)" v-if="item.can_recevie">免费拿</button>
+									<button class="btn" type="primary" size="default" v-if="!item.can_recevie">未开始</button>
 								</view>
 							</view>
 						</view>
@@ -113,7 +115,7 @@
 								￥100
 							</view>
 							<view class="r-btn">
-								<button class="btn" type="primary" size="default" >免费拿</button>
+								<button class="btn" type="primary" size="default" v-if="can_recevie">免费拿</button>
 							</view>
 						</view>
 					</view>
@@ -164,8 +166,7 @@
 			return {
 				swiperheight: 0,
 				isPage: true,
-				prizelist: [],
-				myPrizeList:[]
+				prizelist: []
 			}
 		},
 		mounted() {
@@ -193,22 +194,26 @@
 			async initData() {
 				const {
 					data
-				} = await getShareDetail()
+				} = await getShareDetail() //助力活动详情
+				let user_share_list = await getUserShare() // 助力活动用户数据
+				let userdata = user_share_list.data.data;
 				for (let i = 1; i <= 10; i++) {
+					let prize_obj = null
 					let target = 'target' + i
 					let reward = 'reward' + i
 					let prize = 'prize' + i
 					if (data.data.share[target] > 0 && data.data.share[reward] > 0) {
-						this.prizelist = this.prizelist.concat(data.data[prize])
+						prize_obj = data.data[prize][0]
+						if((userdata.rewards+1)===i){
+							prize_obj.can_recevie = true
+						}else{
+							prize_obj.can_recevie=false
+						}
+						this.prizelist.push(prize_obj)
 					}
 				}
-				//const {data1} = await getUserShare()
-				// this.myPrizeList = data1.data
-				//console.log('助力活动用户数据:',this.data1)
-				//const {data2} = await getUserSharePrice()
-				//console.log('领取助力奖励:',data2)
 			},
-			openZeroYuanDetailPage(id){
+			openZeroYuanDetailPage(id) {
 				let loginAuth = uni.getStorageSync('loginAuth')
 				if (!loginAuth) {
 					this.$api.msg('请先登录')
@@ -216,9 +221,9 @@
 					return
 				}
 				uni.navigateTo({
-					url: '../zero-yuan/zero-yuan-detail?id='+id
+					url: '../zero-yuan/zero-yuan-detail?id=' + id
 				})
-			}, 
+			},
 		}
 	}
 </script>
