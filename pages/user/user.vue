@@ -95,7 +95,7 @@
 							<image class="img" mode="widthFix" src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/user_icon_connect.png">
 							</image>
 						</view>
-						<view class="txt" @tap="customerService()">联系客服</view>
+						<view class="txt" @tap="call_phone()">联系电话客服</view>
 					</view>
 				</uni-card>
 			</view>
@@ -163,6 +163,22 @@
 				uni.navigateTo({
 					url: '../news/customer-service'
 				})
+			},
+			call_phone(){
+			 uni.makePhoneCall({
+			 	
+			 // 手机号
+			    phoneNumber: '15364037300', 
+			// 成功回调
+			success: (res) => {
+			console.log('调用成功!')	
+			},
+			// 失败回调
+			fail: (res) => {
+			console.log('调用失败!')
+			}
+				
+			  });
 			},
 			openCoupon(){
 				uni.navigateTo({

@@ -35,281 +35,225 @@
 				// "enablePullDownRefresh": false
 			}
 
-		}
-        ,{
-            "path" : "components/listings-filter/listings-filter",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/ctiy/ctiy",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "选择城市",
-                "enablePullDownRefresh": false
-				
-            }
-            
-        }
-        ,{
-            "path" : "pages/select-date/select-date",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "选择日期",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/listings/listings-list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "眠库民宿",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/listings/listings-detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "房源详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "components/filter-area/filter-area",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "components/listings-item/listings-item",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/find/find-list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "逛一逛",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/find/find-detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "逛一逛详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/listings/detail-map",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "房屋地图",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/order/order-confirm",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "确认订单",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/order/order-detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "订单详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/free-trial/free-trial",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "民宿免费住",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/free-trial/free-trial-report",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "试睡报告",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        
-        ,{
-            "path" : "pages/login/login",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "微信登录",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/must-sleep/must-sleep",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "必睡榜单",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student-privilege/student-privilege",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "学生特权",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/news/news-system",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "系统消息",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/news/customer-service",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+		}, {
+			"path": "components/listings-filter/listings-filter",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 
-            }
-            
-        }
-        ,{
-            "path" : "pages/order/lodger-list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "常用入住人",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/order/lodger-add",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "添加入住人",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zero-yuan/zero-yuan",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "0元领福利",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/zero-yuan/zero-yuan-detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "助力详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/order/order-result",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "支付结果",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "components/djs/djs",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/free-trial/free-trial-result",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "报名结果",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/student-privilege/authenticate",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "学生认证",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/site-content/site-content",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/my-coupon",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的优惠券",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/listings/navigation-map",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+		}, {
+			"path": "pages/ctiy/ctiy",
+			"style": {
+				"navigationBarTitleText": "选择城市",
+				"enablePullDownRefresh": false
+
+			}
+
+		}, {
+			"path": "pages/select-date/select-date",
+			"style": {
+				"navigationBarTitleText": "选择日期",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/listings/listings-list",
+			"style": {
+				"navigationBarTitleText": "眠库民宿",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/listings/listings-detail",
+			"style": {
+				"navigationBarTitleText": "房源详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "components/filter-area/filter-area",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "components/listings-item/listings-item",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/find/find-list",
+			"style": {
+				"navigationBarTitleText": "逛一逛",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/find/find-detail",
+			"style": {
+				"navigationBarTitleText": "逛一逛详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/listings/detail-map",
+			"style": {
+				"navigationBarTitleText": "房屋地图",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/order/order-confirm",
+			"style": {
+				"navigationBarTitleText": "确认订单",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/order/order-detail",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/free-trial/free-trial",
+			"style": {
+				"navigationBarTitleText": "民宿免费住",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/free-trial/free-trial-report",
+			"style": {
+				"navigationBarTitleText": "试睡报告",
+				"enablePullDownRefresh": false
+			}
+
+		}
+
+		, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "微信登录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/must-sleep/must-sleep",
+			"style": {
+				"navigationBarTitleText": "必睡榜单",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student-privilege/student-privilege",
+			"style": {
+				"navigationBarTitleText": "学生特权",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/news/news-system",
+			"style": {
+				"navigationBarTitleText": "系统消息",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/news/customer-service",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				}
+
+			}
+
+		}, {
+			"path": "pages/order/lodger-list",
+			"style": {
+				"navigationBarTitleText": "常用入住人",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/order/lodger-add",
+			"style": {
+				"navigationBarTitleText": "添加入住人",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zero-yuan/zero-yuan",
+			"style": {
+				"navigationBarTitleText": "0元领福利",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/zero-yuan/zero-yuan-detail",
+			"style": {
+				"navigationBarTitleText": "助力详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/order/order-result",
+			"style": {
+				"navigationBarTitleText": "支付结果",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "components/djs/djs",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/free-trial/free-trial-result",
+			"style": {
+				"navigationBarTitleText": "报名结果",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/student-privilege/authenticate",
+			"style": {
+				"navigationBarTitleText": "学生认证",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/site-content/site-content",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/my-coupon",
+			"style": {
+				"navigationBarTitleText": "我的优惠券",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/listings/navigation-map",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "眠库民宿",

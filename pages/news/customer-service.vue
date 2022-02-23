@@ -23,8 +23,8 @@
 						</view>
 					</view>
 				</view>
-				<view v-if="inputBottom == 0" :style="{'height': 'calc(' + inputBottom + 80 + 'px)'}"></view>
-				<view :style="{'height': 'calc('+ inputBottom +'px + 80px)'}"></view>
+				<!-- <view v-if="inputBottom == 0" :style="{'height': 'calc(' + inputBottom + 80 + 'px)'}"></view> -->
+				<view :style="{'height': 'calc(0px + 70px)'}"></view>
 			</scroll-view>
 		</view>
 		<!-- 聊天信息框 end -->
@@ -86,7 +86,7 @@
 			uni.onKeyboardHeightChange(res => {
 				console.log("aaaaa", res.height)
 				if (res.height > 0) {
-					this.inputBottom = res.height - 80
+					this.inputBottom = res.height - 40
 				} else {
 					this.inputBottom = 0
 				}
@@ -113,16 +113,16 @@
 						id: 99998,
 						uid: 1,
 						face: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/logo-jxw.png',
-						userName: '太子山',
-						msg: '您好,请问有什么可以帮您？',
+						userName: '眠库客服',
+						msg: '你可以通过联系客服电话15364037300、15580819506与我们联系。添加客服微信获取专属服务 VX：123456789',
 						createdAt: createdAt
 					})
 					let array = [{
 						id: 99998,
 						uid: 1,
 						face: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/logo-jxw.png',
-						userName: '太子山',
-						msg: '您好,请问有什么可以帮您？',
+						userName: '眠库客服',
+						msg: '你可以通过联系客服电话15364037300、15580819506与我们联系。添加客服微信获取专属服务 VX：123456789',
 						createdAt: createdAt
 					}]
 					uni.setStorage({
@@ -206,7 +206,7 @@
 			},
 			inputFocus(e) {
 				if (e.detail.height > 0) {
-					this.inputBottom = e.detail.height - 77
+					this.inputBottom = e.detail.height - 40
 				} else {
 					this.inputBottom = 0
 				}
@@ -230,7 +230,7 @@
 				let obj = {
 					id: res.data.id,
 					uid: this.userId,
-					face: this.face,
+					face: this.userinfo.face,
 					msg: this.inputmsg,
 					createdAt: handTime()
 				}
@@ -247,17 +247,21 @@
 				query.select('.chat-scroll').boundingClientRect();
 				query.exec((res) => {
 					_self.mitemHeight = 0
-					res[0].forEach((rect) => _self.mitemHeight = _self.mitemHeight + rect.height +
-						80) //获取所有内部子元素的高度
+					console.log("res",res)
+					res[0].forEach((rect) => _self.mitemHeight = _self.mitemHeight + rect.height +60) //获取所有内部子元素的高度
 					console.log('inputBottom', _self.inputBottom)
-					_self.mitemHeight = _self.mitemHeight + _self.inputBottom
+					// _self.mitemHeight = _self.mitemHeight + _self.inputBottom
 					console.log('mitemHeight', _self.mitemHeight)
 					console.log('contentViewHeight', _self.contentViewHeight)
 					// 因为vue的虚拟DOM 每次生成的新消息都是之前的，所以采用异步setTimeout
 					setTimeout(() => {
-				    if (_self.mitemHeight > (_self.contentViewHeight)) { //判断子元素高度是否大于显示高度
+				    if (_self.mitemHeight > _self.contentViewHeight) { //判断子元素高度是否大于显示高度
+					console.log("_self.scrollTop1",_self.scrollTop)
 							_self.scrollTop = _self.mitemHeight - _self
 								.contentViewHeight //用子元素的高度减去显示的高度就获益获得序言滚动的高度
+						console.log("_self.scrollTop2",_self.scrollTop)
+						}else{
+							console.log("_self.scrollTop3",_self.scrollTop)
 						}
 					}, 100)
 				})
@@ -324,6 +328,7 @@
 					width: 84rpx;
 					height: 84rpx;
 					border-radius: 42rpx;
+					overflow: hidden;
 
 					.user-img {
 						border-radius: 42rpx;
@@ -401,17 +406,17 @@
 		left: 0;
 		bottom: 0;
 		width: 92%;
-		height: 80rpx;
+		height: 40px;
 		background-color: #FFF;
-		padding: 20rpx 4%;
+		padding: 10px 4%;
 		z-index: 999;
 
 		.input {
-			height: 80rpx;
+			height: 40px;
 			font-size: 32rpx;
 			color: #333;
 			background-color: #F6F7FB;
-			border-radius: 40rpx;
+			border-radius: 20px;
 			padding-right: 150rpx;
 			padding-left: 40rpx;
 		}
@@ -425,11 +430,11 @@
 			position: absolute;
 			top: 20rpx;
 			right: 20rpx;
-			height: 80rpx;
+			height: 40px;
 			padding: 0 40rpx;
 			text-align: center;
-			line-height: 80rpx;
-			border-radius: 40rpx;
+			line-height: 40px;
+			border-radius: 20px;
 			background-color: #0F6EFF;
 			font-size: 32rpx;
 			font-weight: 700;

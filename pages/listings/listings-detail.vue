@@ -595,18 +595,19 @@
 			},
 			call_phone() {
 				uni.makePhoneCall({
-					// 手机号
-					phoneNumber: '18684764310',
-					// 成功回调
-					success: (res) => {
-						console.log('调用成功!')
-					},
-					// 失败回调
-					fail: (res) => {
-						console.log('调用失败!')
-						this.call_phone(); //重复调用一次
-					}
-				});
+				 	
+				 // 手机号
+				    phoneNumber: '15364037300', 
+				// 成功回调
+				success: (res) => {
+				console.log('调用成功!')	
+				},
+				// 失败回调
+				fail: (res) => {
+				console.log('调用失败!')
+				}
+					
+				  });
 			},
 			moveStop() {
 				return
