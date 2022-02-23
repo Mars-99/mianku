@@ -30,7 +30,7 @@
 			</view>
 			<view class="article-cont">
 				<!-- 	{{articleInfo.content}} -->
-				<rich-text :nodes="articleInfo.content"></rich-text>
+				<rich-text :nodes="showaticle"></rich-text>
 			</view>
 		</view>
 		<view class="mention">
@@ -123,6 +123,7 @@
 		getUserCollection,
 		getCollectionList,
 	} from '@/utils/request/manage.js'
+	import {formatRichText} from '@/utils/richText.js'
 	export default {
 		data() {
 			return {
@@ -183,6 +184,7 @@
 				recommendList:[],
 				isCollect: -1,
 				collectionList: [],
+				showaticle:'',
 			}
 		},
 		computed: {
@@ -211,6 +213,7 @@
 				this.aboutHotel = data.data.about_hotel
 				this.aboutHotelID = data.data.about_hotel[0].id
 				this.recommendList=data.data.recommend
+				this.showaticle=formatRichText(this.articleInfo.content);
 				this.getCollectionList(0)
 			},
 			async getUserCollection() {

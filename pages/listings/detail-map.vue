@@ -43,6 +43,9 @@
 	}
 </script>
 
-<style>
+<style scoped lang="scss">
+	.cont-map{
+		height: calc(100% -300rpx);
+	}
 
 </style>

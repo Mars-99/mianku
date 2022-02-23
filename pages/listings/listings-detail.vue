@@ -35,7 +35,8 @@
 						<view class="txt" v-if="listingsDetail.hotel.service.indexOf('自主入住') != -1">自主入住</view>
 						<view class="txt" v-if="listingsDetail.hotel.rules.indexOf('允许聚会') != -1">允许聚会</view>
 					</view>
-					<view class="coupon" v-if="couponList.length>0">
+					<!-- 优惠券领取功能，暂时不需要 -->
+					<!-- <view class="coupon" v-if="couponList.length>0">
 						<view class="coupon-item" v-for="(coupon ,key) in couponList" :key="key">
 							<view class='l-part'>
 								<text class='txt'>{{coupon.type==0?"满减":coupon.type==1?"抵扣":"打折"}}</text>
@@ -45,7 +46,7 @@
 								<button class="btn" type="default" size="mini" @tap="receiveCoupon(coupon.id)">领取</button>
 							</view>
 						</view>
-					</view>
+					</view> -->
 					<view class="date">
 						<view class="reveal">
 							<text class="txt check-in">入住{{checkInYH}}</text>
@@ -55,7 +56,7 @@
 						<view class="select" @tap="selectDate()">修改日期</view>
 					</view>
 					<view class="location">
-						<view class="wz" @tap="openLocation()">
+						<view class="wz" @tap="openNavigationMap()">
 							<uni-icons type="location-filled" size="34" color="#ff941d"></uni-icons>
 							<text>{{listingsDetail.hotel.address}}</text>
 						</view>
@@ -316,6 +317,7 @@
 				mode: 'round',
 				choicCurrentIndex: 0,
 				title: 'map',
+				key:'46ABZ-J7NCF-F4HJ4-N2TB6-T5636-7OBA3',
 				latitude: 0,
 				longitude: 0,
 				markers: [{
@@ -464,6 +466,19 @@
 				this.orderDate = data.data.onOrder
 				this.assign = data.data.assign
 				this.couponList = data.data.beforeCoupon
+				//根据名称转换坐标，数据传得坐标值需要做转换，就直接获取新得坐标更方便
+				uni.request({
+					url:'https://apis.map.qq.com/ws/geocoder/v1/?address='+this.listingsDetail.hotel.address +'&key='+ this.key,
+					success: res=>{
+						console.log("res",res)
+						this.latitude = res.data.result.location.lat;
+						this.longitude = res.data.result.location.lng;
+						this.markers[0].latitude = this.latitude
+						this.markers[0].longitude = this.longitude;
+						
+					}
+				})
+				this.markers[0].callout.content = data.data.hotel.address
 				// console.log("orderDate", this.orderDate)
 				this.getCollectionList(0)
 				this.dealPrice()
@@ -480,16 +495,16 @@
 				this.tag = data.data.hotel.tag.split(',')
 				this.infrastructure = data.data.hotel.infrastructure.split(',')
 				//百度坐标转高德坐标
-				let result = gcoord.transform(
-					[data.data.hotel.mapLng, data.data.hotel.mapLat], // 经纬度坐标
-					gcoord.BD09, // 当前坐标系
-					gcoord.GCJ02 // 目标坐标系
-				);
-				this.latitude = result[1];
-				this.longitude = result[0];
-				this.markers[0].latitude = result[1]
-				this.markers[0].longitude = result[0];
-				this.markers[0].callout.content = data.data.hotel.address
+				// let result = gcoord.transform(
+				// 	[data.data.hotel.mapLng, data.data.hotel.mapLat], // 经纬度坐标
+				// 	gcoord.BD09, // 当前坐标系
+				// 	gcoord.GCJ02 // 目标坐标系
+				// );
+				// this.latitude = result[1];
+				// this.longitude = result[0];
+				// this.markers[0].latitude = result[1]
+				// this.markers[0].longitude = result[0];
+				// this.markers[0].callout.content = data.data.hotel.address
 
 				this.pageshow = false
 				//历史浏览记录
@@ -533,6 +548,12 @@
 				let markers = JSON.stringify(this.markers)
 				uni.navigateTo({
 					url: '../listings/detail-map?markers=' + markers
+				})
+			},
+			openNavigationMap() {
+				let markers = JSON.stringify(this.markers)
+				uni.navigateTo({
+					url: '../listings/navigation-map?markers=' + markers
 				})
 			},
 			openOrderConfirm() {
@@ -836,18 +857,18 @@
 					})
 				}
 			},
-			openMap () {
-			      // 选择地图
-			      const self = this
-			      uni.chooseLocation({
-			        success: function (res) {
-			          const { address, latitude, longitude, name } = res
-			          self.markers = {
-			            address, latitude, longitude, name
-			          }
-			        }
-			      })
-			    },
+			// openMap () {
+			//       // 选择地图
+			//       const self = this
+			//       uni.chooseLocation({
+			//         success: function (res) {
+			//           const { address, latitude, longitude, name } = res
+			//           self.markers = {
+			//             address, latitude, longitude, name
+			//           }
+			//         }
+			//       })
+			//     },
 				openLocation () {
 				      const { latitude, longitude, name } = this.markers
 				      // 打开地图并导航
