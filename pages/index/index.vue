@@ -285,6 +285,7 @@
 			},
 			// 当点击后 当前索引等于点击的index
 			clickTba(index) {
+				this.keywords = ''
 				let choiceDateArr = encodeURIComponent(JSON.stringify(this.choiceDateArr))
 				this.choicCurrentIndex = index;
 				this.choicURL = this.choicData[index].url + this.curCityId
@@ -348,6 +349,7 @@
 				this.checkOut = this.check[1].date
 			},
 			openListingsTopPage() {
+				this.keywords = ''
 				let choiceDateArr = encodeURIComponent(JSON.stringify(this.choiceDateArr))
 				uni.navigateTo({
 					url: '../listings/listings-list?cityId=' + this.curCityId + '&checkIn=' + this.checkIn +
@@ -357,6 +359,7 @@
 				})
 			},
 			openListingsDiscountPage(flag) {
+				this.keywords = ''
 				let choiceDateArr = encodeURIComponent(JSON.stringify(this.choiceDateArr))
 				uni.navigateTo({
 					url: '../listings/listings-list?cityId=' + this.curCityId + '&checkIn=' + this.checkIn +

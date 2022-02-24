@@ -12,7 +12,7 @@
 					<!-- <view class="enter">搜索房源名称/商圈</view> -->
 					<!-- <input class="enter" type="text" v-model="keywords" placeholder="核心商圈/房源名/地址" @input="input" /> -->
 					<uni-easyinput class="enter" styles="border: none; float:right;" suffixIcon="search"
-						:clearable="false" v-model="keywords" placeholder="核心商圈/房源名/地址" @iconClick="gethotelList">
+						:clearable="false" v-model="keywords" placeholder="五一广场、黄兴路、IFS" @iconClick="gethotelList">
 					</uni-easyinput>
 				</view>
 				<filterArea :CBDlist="CBDlist" :hotCBD="hotCBD" :week="week" @districtId="getDistrictId" @flag="getFlag"

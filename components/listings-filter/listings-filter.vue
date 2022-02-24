@@ -13,7 +13,7 @@
 				<view class="check-out" @tap="selectDate()">{{checkOut}}</view>
 			</view>
 			<view class="search-key">
-				<uni-easyinput suffixIcon="closeempty" v-model="keywords" placeholder="核心商圈/房源名/地址" @input="input"
+				<uni-easyinput suffixIcon="closeempty" v-model="keywords" placeholder="试一试搜索五一广场、黄兴路、IFS" @input="input"
 					@iconClick="iconClick">
 				</uni-easyinput>
 			</view>

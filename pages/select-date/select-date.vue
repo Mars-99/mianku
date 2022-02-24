@@ -25,8 +25,7 @@
 
 		},
 		onLoad() {
-
-
+			this.pageSource = this.$mp.query.pageSource
 		},
 		onShow() {
 			this.pageSource = this.$mp.query.pageSource
@@ -34,11 +33,9 @@
 			this.weekdaysActivity = this.$mp.query.weekdaysActivity
 			if(this.$mp.query.orderDate){
 				this.orderDate = JSON.parse(this.$mp.query.orderDate)
-				console.log("this.orderDate", this.orderDate)
 			}
 			if(this.$mp.query.assign){
 				this.assign = JSON.parse(this.$mp.query.assign)
-				console.log("this.assign", this.assign)
 			}
 			
 		},
