@@ -287,12 +287,12 @@
 			yearsChange(e) {
 				this.yearsIndex = e.detail.value;
 				this.parameter.enrollmentYear = this.years[e.detail.value].name
-				console.log("this.parameter.enrollmentYear", this.parameter.enrollmentYear)
+				// console.log("this.parameter.enrollmentYear", this.parameter.enrollmentYear)
 			},
 			educationChange(e) {
 				this.educationIndex = e.detail.value;
 				this.parameter.education = this.education[e.detail.value].name
-				console.log("this.parameter.education", this.parameter.education)
+				// console.log("this.parameter.education", this.parameter.education)
 			},
 			schoolChange(e) {
 				const value = e.detail.value
@@ -301,15 +301,24 @@
 			chooseFile(list, v) {
 				this.licenseUrl = list.join(',')
 				this.parameter.frontView = this.licenseUrl
-				console.log("this.licenseUrl1111", this.licenseUrl)
+				// console.log("this.licenseUrl1111", this.licenseUrl)
 			},
 			imgDelete(list, eq) {
 				this.licenseUrl = list.join(',')
-				console.log("this.licenseUrl2222", this.licenseUrl)
+				// console.log("this.licenseUrl2222", this.licenseUrl)
 			},
 			onnodeclick(node) {},
 			checkboxChange(e) {
-				this.isChoose = e.detail.value[0] == false ? true : false
+				// this.isChoose = Boolean(e.detail.value[0])
+				// Boolean(this.isChoose)
+				if(e.detail.value[0] == "false"){
+					this.isChoose =true
+				}else{
+					this.isChoose =false
+				}
+				
+				
+				
 			},
 			openSiteContent() {
 				uni.navigateTo({

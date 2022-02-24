@@ -84,8 +84,8 @@
       },
       // 上传图片
       uploadImg() {
-				let current_user = uni.getStorageSync('userinfo')
-				if (!current_user) {
+				let loginAuth = uni.getStorageSync('loginAuth')
+				if (!loginAuth) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return

@@ -167,7 +167,7 @@
 				lodger: [],
 				checkedLodgerList: [],
 				arriveAt: '',
-				couponId: -1, //优惠券id
+				couponId: 0, //优惠券id
 				orderNumber: 0,
 				payPice: 0,
 				userDetail: {},

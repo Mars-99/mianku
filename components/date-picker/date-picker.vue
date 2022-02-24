@@ -240,6 +240,7 @@
 		},
 		onLoad() {
 			this.init();
+			this.dayClick()
 		},
 		onShow() {
 			this.dayClick()
@@ -274,6 +275,7 @@
 				//#endif
 
 				this.dateData();
+				// this.dayClick()
 				if (this.modal) {
 					//如果是弹窗模式，那么初始时就派发change事件
 					this.$emit('change', {
@@ -722,8 +724,8 @@
 			dayClick: function(e) {
 				let indexs = e.currentTarget.dataset.indexs;
 				let index = e.currentTarget.dataset.index;
-				// console.log('selectday ', indexs, index);
-				// console.log("that.newArrDate",this.newArrDate)
+				console.log('selectday ', indexs, index);
+				console.log("that.newArrDate",this.newArrDate)
 				this.selectday(index, indexs, true);
 			},
 			selectday: function(index, indexs, isUserClick) {
@@ -782,53 +784,6 @@
 					var nonFlag = false;
 					var nonArr = [];
 					var count = 0;
-					//详情页过来 判断是否有房
-					if (this.pageSource && this.orderDate.length > 0) {
-						// console.log("this.orderDate",this.orderDate)
-
-						let orderDate = this.orderDate
-						let dateArr = []
-						let dateArr2 = []
-						orderDate.forEach(date => {
-							dateArr.push({
-								checkIn: date.checkIn,
-								checkOut: date.checkOut
-							})
-						})
-						dateArr.forEach(date2 => {
-							dateArr2 += this.getdiffdate(date2.checkIn, date2.checkOut) + ","
-						})
-						if (dateArr2) {
-							this.newArrDate = dateArr2.split(",")
-						}
-
-						let that = this
-						this.date.forEach(function(dataItems) {
-							dataItems.forEach(function(dataItem) {
-								that.newArrDate.forEach(item => {
-									if (item == dataItem.re) {
-										dataItem.act.dingdan = true
-									} else {}
-								})
-							});
-						});
-					}
-					let assign = this.assign
-					this.date.forEach(dataItems => {
-						dataItems.forEach(dataItem => {
-							let assign2 = assign.find(item => item.hDate == dataItem.re)
-							if (assign2) {
-								dataItem.price = assign2.activityPrice
-							} else {
-								if (dataItem.week == "五" || dataItem.week == "六") {
-									dataItem.price = this.weekendActivity
-								} else {
-									dataItem.price = this.weekdaysActivity
-								}
-							}
-						})
-					})
-
 					this.date.forEach(function(dataItems) {
 						dataItems.forEach(function(dataItem) {
 							if (dataItem.dateTime > dateFlagDateTime && dataItem.dateTime <
@@ -911,6 +866,52 @@
 					this.dayCount = 1;
 					this.choiceDate[0] = curDate;
 				}
+				//详情页过来 判断是否有房
+				if (this.pageSource && this.orderDate.length > 0) {
+					// console.log("this.orderDate",this.orderDate)
+				
+					let orderDate = this.orderDate
+					let dateArr = []
+					let dateArr2 = []
+					orderDate.forEach(date => {
+						dateArr.push({
+							checkIn: date.checkIn,
+							checkOut: date.checkOut
+						})
+					})
+					dateArr.forEach(date2 => {
+						dateArr2 += this.getdiffdate(date2.checkIn, date2.checkOut) + ","
+					})
+					if (dateArr2) {
+						this.newArrDate = dateArr2.split(",")
+					}
+				
+					let that = this
+					this.date.forEach(function(dataItems) {
+						dataItems.forEach(function(dataItem) {
+							that.newArrDate.forEach(item => {
+								if (item == dataItem.re) {
+									dataItem.act.dingdan = true
+								} else {}
+							})
+						});
+					});
+				}
+				let assign = this.assign
+				this.date.forEach(dataItems => {
+					dataItems.forEach(dataItem => {
+						let assign2 = assign.find(item => item.hDate == dataItem.re)
+						if (assign2) {
+							dataItem.price = assign2.activityPrice
+						} else {
+							if (dataItem.week == "五" || dataItem.week == "六") {
+								dataItem.price = this.weekendActivity
+							} else {
+								dataItem.price = this.weekdaysActivity
+							}
+						}
+					})
+				})
 				this.choiceDateArr222 = this.choiceDateArr.concat()
 				this.choiceDateArr222.pop()
 				this.choiceDateArr222.forEach(item => {
