@@ -169,13 +169,14 @@
 				this.detail_info.share = data.data.share		
 				this.detail_info.prize = data.data['prize'+(userdata.rewards+1)][0]
 				this.target = this.detail_info.share['target'+(userdata.rewards+1)]
-				console.log('detailinfo:',this.detail_info)
 				if (this.$mp.query.recommend) {
 					this.type = 1
 				}
 				//获取助力用户信息列表
 				let userlist = await getHelpUserList(1, 999)
-				this.helpuserlist = userlist.data.data.rs
+				let start = userdata.rewards === 0 ? 0 : this.detail_info.share['target'+userdata.rewards]
+				let end =  this.detail_info.share['target'+(userdata.rewards+1)]
+				this.helpuserlist = userlist.data.data.rs.slice(start,end) //获取显示的用户列表
 				
 				if(this.detail_info.share["target"+(userdata.rewards+1)]<=userdata.shareNum){
 					this.can_receive=true

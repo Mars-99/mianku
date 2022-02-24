@@ -51,76 +51,38 @@
 		</view>
 		<view class="WDMD-box" v-else>
 			<view class="coupon-list">
-				<view class="coupon-item">
+				<view class="coupon-item" v-for="item in myPrizeList" :key="item.id">
 					<view class="l-part">
 						<image class="img" mode="widthFix"
 							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
 						</image>
-						<view class="cont">
-							<view class="t-txt"><text class="txt">￥</text>100</view>
-							<view class="b-txt">满200-100</view>
+						<view class="cont" v-if="item.type == 2">
+							<view class="t-txt">{{item.discount}}</view>
+							<view class="b-txt">全场通用</view>
+						</view>
+						<view class="cont" v-else>
+							<view class="t-txt"><text class="txt">￥</text>{{item.deduct}}</view>
+							<view class="b-txt">满{{item.restrict}}-{{item.deduct}}</view>
 						</view>
 					</view>
 					<view class="r-part">
-						<view class="title">【民宿券】满200返100 新老客均可使用</view>
+						<view class="title">{{item.title}}</view>
 						<view class="b-cont">
-							<view class="l-txt">
+							<view class="l-txt" v-if="item.type == 2">
+								<text class="txt">享所有房源</text>
+								{{item.discount}}折
+							</view>
+							<view class="l-txt" v-else>
 								<text class="txt">价值</text>
-								￥100
+								￥{{item.deduct}}
 							</view>
 							<view class="r-btn">
-								<button class="btn" type="primary" size="default" @tap="">免费拿</button>
+								<button class="btn" type="primary" size="default"
+									@tap="openZeroYuanDetailPage(item.id)">{{item.botton_text}}</button>
 							</view>
 						</view>
 					</view>
 				</view>
-				<view class="coupon-item">
-					<view class="l-part">
-						<image class="img" mode="widthFix"
-							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
-						</image>
-						<view class="cont">
-							<view class="t-txt"><text class="txt">￥</text>100</view>
-							<view class="b-txt">满200-100</view>
-						</view>
-					</view>
-					<view class="r-part">
-						<view class="title">【民宿券】满200返100 新老客均可使用</view>
-						<view class="b-cont">
-							<view class="l-txt">
-								<text class="txt">价值</text>
-								￥100
-							</view>
-							<view class="r-btn">
-								<button class="btn" type="primary" size="default" @tap="">免费拿</button>
-							</view>
-						</view>
-					</view>
-				</view>
-				<view class="coupon-item">
-					<view class="l-part">
-						<image class="img" mode="widthFix"
-							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
-						</image>
-						<view class="cont">
-							<view class="t-txt"><text class="txt">￥</text>100</view>
-							<view class="b-txt">满200-100</view>
-						</view>
-					</view>
-					<view class="r-part">
-						<view class="title">【民宿券】满200返100 新老客均可使用</view>
-						<view class="b-cont">
-							<view class="l-txt">
-								<text class="txt">价值</text>
-								￥100
-							</view>
-							<view class="r-btn">
-								<button class="btn" type="primary" size="default" v-if="can_recevie">免费拿</button>
-							</view>
-						</view>
-					</view>
-				</view>
-
 			</view>
 		</view>
 		<view class="botton-nav">
@@ -166,7 +128,8 @@
 			return {
 				swiperheight: 0,
 				isPage: true,
-				prizelist: []
+				prizelist: [], //今日优惠券
+				myPrizeList:[] //我的优惠券
 			}
 		},
 		mounted() {
@@ -192,34 +155,43 @@
 				this.isPage = false;
 			},
 			async initData() {
-				const {
-					data
-				} = await getShareDetail() //助力活动详情
-				let user_share_list = await getUserShare() // 助力活动用户数据
-				let userdata = user_share_list.data.data;
-				for (let i = 1; i <= 10; i++) {
-					let prize_obj = null
-					let target = 'target' + i
-					let reward = 'reward' + i
-					let prize = 'prize' + i
-					if (data.data.share[target] > 0 && data.data.share[reward] > 0) {
-						prize_obj = data.data[prize][0]
-						if((userdata.rewards+1)===i){
-							prize_obj.can_recevie = true
-						}else{
-							prize_obj.can_recevie=false
-						}
-						this.prizelist.push(prize_obj)
-					}
-				}
-			},
-			openZeroYuanDetailPage(id) {
 				let loginAuth = uni.getStorageSync('loginAuth')
 				if (!loginAuth) {
 					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
 				}
+				const {
+					data
+				} = await getShareDetail() //助力活动详情
+				let user_share_list = await getUserShare() // 助力活动用户数据
+				let userdata = user_share_list.data.data;
+				for (let i = 1; i <= 10; i++) {
+					let prize_obj = null //今日
+					let my_obj = null //我的
+					if (data.data.share['target'+i] > 0 && data.data.share['reward'+i] > 0) {
+						prize_obj = data.data['prize'+i][0]
+						if((userdata.rewards+1)===i){
+							prize_obj.can_recevie = true
+							my_obj = data.data['prize'+i][0]
+							console.log('aaaa:',data.data.share["target"+(userdata.rewards+1)])
+							console.log('bbb:',userdata.shareNum)
+							if(data.data.share["target"+(userdata.rewards+1)]<=userdata.shareNum){								
+								my_obj.botton_text = '去领取'
+							}else {
+								my_obj.botton_text = '助力进行中'
+							}
+							this.myPrizeList.push(my_obj)
+						}else{
+							prize_obj.can_recevie=false
+						}
+						this.prizelist.push(prize_obj)
+					}
+				}
+				console.log('myPrizeList:',this.myPrizeList)
+			},
+			openZeroYuanDetailPage(id) {
+				
 				uni.navigateTo({
 					url: '../zero-yuan/zero-yuan-detail?id=' + id
 				})
