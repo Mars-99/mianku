@@ -7,7 +7,6 @@
 
 <script>
 	import calendar from '../../components/date-picker/date-picker';
-
 	export default {
 		components: {
 			calendar
@@ -37,6 +36,7 @@
 			if(this.$mp.query.assign){
 				this.assign = JSON.parse(this.$mp.query.assign)
 			}
+			// this.pageshow = false
 			
 		},
 		methods: {

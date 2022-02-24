@@ -1,71 +1,73 @@
 <template>
 	<view class="content">
-		<view class="order-time" @tap="showCalendar()" v-if="!modal">
-			<view class="time-viewer">
-				<text class="goInHotel">入住</text>
-				<text class="date-wrappper">{{ choiceDate[0].month }}月{{ choiceDate[0].day }}日</text>
-				<text class="sumCount">{{ dayCount2 }}</text>
-				<text class="goInHotel">离店</text>
-				<text class="date-wrappper">{{ choiceDate[1].month }}月{{ choiceDate[1].day }}日</text>
+		<page-load v-if="pageshow"></page-load>
+		<view v-else>
+			<view class="order-time" @tap="showCalendar()" v-if="!modal">
+				<view class="time-viewer">
+					<text class="goInHotel">入住</text>
+					<text class="date-wrappper">{{ choiceDate[0].month }}月{{ choiceDate[0].day }}日</text>
+					<text class="sumCount">{{ dayCount2 }}</text>
+					<text class="goInHotel">离店</text>
+					<text class="date-wrappper">{{ choiceDate[1].month }}月{{ choiceDate[1].day }}日</text>
+				</view>
 			</view>
-		</view>
-		<view class="calendar-layer" :animation="animationData" :class="isShow_H5 ? 'show' : 'hide'">
-			<view class="layer-content" :class="{ choiceDate: choice === true || singleDate }">
-				<!--  -->
-				<view class="layer-body">
-					<view class="week-box">
-						<text class="week-box-item" v-for="(item, tmpIndex) in weekNameArr"
-							:key="tmpIndex">{{ item }}</text>
-					</view>
+			<view class="calendar-layer" :animation="animationData" :class="isShow_H5 ? 'show' : 'hide'">
+				<view class="layer-content" :class="{ choiceDate: choice === true || singleDate }">
 					<!--  -->
-					<scroll-view class="layer-list" scroll-y="true" :enable-flex="false">
-						<view v-for="(monthData, index) in date" :key="index" class="month">
-							<view class="month-title" :class="'m-' + monthData[0].year + '-' + monthData[0].month"
-								:style="'z-index:' + index">
-								{{ monthData[0].year + '年' + monthData[0].month + '月' }}
-							</view>
-							<view class="month-content">
-								<view v-for="(data, index2) in monthData" :key="index2" class="day" :data-index="index"
-									:data-indexs="index2" :class="
-									data.re < today
-										? 'disabled'
-										: data.selected
-										? 'active' + (data.date == choiceDate[0].date ? ' begin' : data.date == choiceDate[1].date ? ' end' : '')
-										: ''
-								" :style="index2 == 0 ? 'margin-left:' + weeks[index] * (100 / 7) + '%' : ''" @tap="dayClick">
-									<view class="day-content">
-										<!-- <text class="day-subject">{{ data.week }}</text> -->
-
-										<text class="day-subject holiday"
-											v-if="getDayType(data) === '假'">{{ getDayType(data) }}</text>
-										<text class="day-subject workday"
-											v-else-if="getDayType(data) === '班'">{{ getDayType(data) }}</text>
-										<text class="day-subject" v-else>{{ getDayType(data) }}</text>
-
-										<text class="day-txt">{{ getDayName(monthData[0].year, data) }}</text>
-										<text class="day-price"
-											v-if="pageSource">{{data.act.dingdan?"无房":"￥"+data.price}}</text>
-										<text class="day-price" v-else></text>
-										<text class="day-tip" v-if="!singleDate">{{ data.act.tip }}</text>
+					<view class="layer-body">
+						<view class="week-box">
+							<text class="week-box-item" v-for="(item, tmpIndex) in weekNameArr"
+								:key="tmpIndex">{{ item }}</text>
+						</view>
+						<!--  -->
+						<scroll-view class="layer-list" scroll-y="true" :enable-flex="false">
+							<view v-for="(monthData, index) in date" :key="index" class="month">
+								<view class="month-title" :class="'m-' + monthData[0].year + '-' + monthData[0].month"
+									:style="'z-index:' + index">
+									{{ monthData[0].year + '年' + monthData[0].month + '月' }}
+								</view>
+								<view class="month-content">
+									<view v-for="(data, index2) in monthData" :key="index2" class="day" :data-index="index"
+										:data-indexs="index2" :class="
+										data.re < today
+											? 'disabled'
+											: data.selected
+											? 'active' + (data.date == choiceDate[0].date ? ' begin' : data.date == choiceDate[1].date ? ' end' : '')
+											: ''
+									" :style="index2 == 0 ? 'margin-left:' + weeks[index] * (100 / 7) + '%' : ''" @tap="dayClick">
+										<view class="day-content">
+											<!-- <text class="day-subject">{{ data.week }}</text> -->
+			
+											<text class="day-subject holiday"
+												v-if="getDayType(data) === '假'">{{ getDayType(data) }}</text>
+											<text class="day-subject workday"
+												v-else-if="getDayType(data) === '班'">{{ getDayType(data) }}</text>
+											<text class="day-subject" v-else>{{ getDayType(data) }}</text>
+			
+											<text class="day-txt">{{ getDayName(monthData[0].year, data) }}</text>
+											<text class="day-price"
+												v-if="pageSource">{{data.act.dingdan && data.re > today?"无房":"￥"+data.price}}</text>
+											<text class="day-price" v-else></text>
+											<text class="day-tip" v-if="!singleDate">{{ data.act.tip }}</text>
+										</view>
+										<view class="beginTip" v-if="choice === false && !singleDate">请选择离店日期</view>
+										<view class="endTip" v-if="choice">{{ dayCount2 }}</view>
 									</view>
-									<view class="beginTip" v-if="choice === false && !singleDate">请选择离店日期</view>
-									<view class="endTip" v-if="choice">{{ dayCount2 }}</view>
 								</view>
 							</view>
-						</view>
-					</scroll-view>
-				</view>
-				<view class="layer-footer">
-					<view class="submitBtn" @tap="submitbtn" v-if="choice === true || singleDate">完成</view>
+						</scroll-view>
+					</view>
+					<view class="layer-footer">
+						<view class="submitBtn" @tap="submitbtn" v-if="choice === true || singleDate">完成</view>
+					</view>
 				</view>
 			</view>
 		</view>
-	</view>
-	</view>
 	</view>
 </template>
 
 <script>
+	import pageLoad from '@/components/pageLoad/pageLoad'
 	export default {
 		props: {
 			startDate: {
@@ -109,10 +111,10 @@
 			},
 
 		},
-		components: {},
-
+		components: {pageLoad},
 		data() {
 			return {
+				pageshow: true,
 				date: [],
 				weeks: [],
 				dayCount: 1,
@@ -231,7 +233,10 @@
 				tmpWeekArr: {}, //临时数组
 
 				newArrDate: [],
-				choiceDateArr222: []
+				choiceDateArr222: [],
+				new_weekendActivity:0,
+				new_weekdaysActivity:0,
+				new_pageSource:'',
 			};
 		},
 		created() {
@@ -255,7 +260,31 @@
 			endDate: function(newVal, oldVal) {
 				console.log('--endDate');
 				this.dateData();
-			}
+			},
+			pageSource: function(newVal, oldVal) {
+				this.new_pageSource = newVal
+				this.dateData();
+			},
+			weekendActivity: function(newVal, oldVal) {
+			
+				this.new_weekendActivity = newVal
+				this.dateData();
+			
+			},
+			weekdaysActivity: function(newVal, oldVal) {
+				
+				this.new_weekdaysActivity = newVal
+				this.dateData();
+				
+			},
+			orderDate: function(newVal, oldVal) {
+				
+				this.dateData();
+			},
+			assign: function(newVal, oldVal) {
+				
+				this.dateData();
+			},
 		},
 		methods: {
 			//补0
@@ -272,7 +301,6 @@
 					delay: 0 // 动画延迟参数
 				});
 				//#endif
-
 				this.dateData();
 				if (this.modal) {
 					//如果是弹窗模式，那么初始时就派发change事件
@@ -650,7 +678,11 @@
 				}
 
 				//选择日期 //nextTick()居然app和其他平台表现不一，换回setTimeout
+                let _this=this
 				setTimeout(() => {
+					if(this.pageSource != "listingsDetail"){
+						this.pageshow = false
+					}
 					this.selectday(startIndex1, startIndex2);
 					this.selectday(endIndex1, endIndex2);
 				});
@@ -712,6 +744,7 @@
 			selectday: function(index, indexs, isUserClick) {
 				// console.log("001", this.dateFlag, isUserClick)
 				//单个日期
+			
 				if (this.singleDate) {
 					if (!isUserClick && JSON.stringify(this.dateFlag) != '{}') {
 						return;
@@ -789,7 +822,7 @@
 						this.date.forEach(function(dataItems) {
 							dataItems.forEach(function(dataItem) {
 								that.newArrDate.forEach(item => {
-									if (item == dataItem.re) {
+									if (item == dataItem.re ) {
 										dataItem.act.dingdan = true
 									} else {}
 								})
@@ -804,13 +837,16 @@
 								dataItem.price = assign2.activityPrice
 							} else {
 								if (dataItem.week == "五" || dataItem.week == "六") {
-									dataItem.price = this.weekendActivity
+									dataItem.price = this.new_weekendActivity
 								} else {
-									dataItem.price = this.weekdaysActivity
+									dataItem.price = this.new_weekdaysActivity
 								}
 							}
 						})
 					})
+					if(this.date[0][0].price>0){
+						this.pageshow = false
+					}
 
 					this.date.forEach(function(dataItems) {
 						dataItems.forEach(function(dataItem) {
@@ -827,7 +863,6 @@
 						});
 					});
 					that.choiceDateArr.push(that.date[index][indexs]);
-
 
 					//设置开始和结果两个日期
 					this.choiceDate[0] = that.choiceDateArr[0];

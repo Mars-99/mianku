@@ -53,6 +53,7 @@
 
 			if (this.$mp.query.markers) {
 				this.markers = JSON.parse(this.$mp.query.markers)
+				this.city = this.markers[0].callout.content
 				// console.log("this.markers", this.markers)
 			}
 			// 把标记坐标转换成地址（逆解析）
@@ -62,7 +63,6 @@
 					this.markers[0].latitude + ',' + this.markers[0].longitude +
 					'&key=' + this.key + '&get_poi=1',
 				success: res => {
-					this.city = res.data.result.formatted_addresses.recommend
 					this.address = res.data.result.address_component.city+'/'+res.data.result.address_component.district+'/'+res.data.result.address_component.street
 					// console.log(res.data.result);
 				}

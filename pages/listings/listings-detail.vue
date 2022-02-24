@@ -467,18 +467,18 @@
 				this.assign = data.data.assign
 				this.couponList = data.data.beforeCoupon
 				//根据名称转换坐标，数据传得坐标值需要做转换，就直接获取新得坐标更方便
-				uni.request({
-					url:'https://apis.map.qq.com/ws/geocoder/v1/?address='+this.listingsDetail.hotel.address +'&key='+ this.key,
-					success: res=>{
-						console.log("res",res)
-						this.latitude = res.data.result.location.lat;
-						this.longitude = res.data.result.location.lng;
-						this.markers[0].latitude = this.latitude
-						this.markers[0].longitude = this.longitude;
+				// uni.request({
+				// 	url:'https://apis.map.qq.com/ws/geocoder/v1/?address='+this.listingsDetail.hotel.address +'&key='+ this.key,
+				// 	success: res=>{
+				// 		console.log("res",res)
+				// 		this.latitude = res.data.result.location.lat;
+				// 		this.longitude = res.data.result.location.lng;
+				// 		this.markers[0].latitude = this.latitude
+				// 		this.markers[0].longitude = this.longitude;
 						
-					}
-				})
-				this.markers[0].callout.content = data.data.hotel.address
+				// 	}
+				// })
+				// this.markers[0].callout.content = data.data.hotel.address
 				// console.log("orderDate", this.orderDate)
 				this.getCollectionList(0)
 				this.dealPrice()
@@ -494,17 +494,17 @@
 				this.service = data.data.hotel.service.split(',')
 				this.tag = data.data.hotel.tag.split(',')
 				this.infrastructure = data.data.hotel.infrastructure.split(',')
-				//百度坐标转高德坐标
-				// let result = gcoord.transform(
-				// 	[data.data.hotel.mapLng, data.data.hotel.mapLat], // 经纬度坐标
-				// 	gcoord.BD09, // 当前坐标系
-				// 	gcoord.GCJ02 // 目标坐标系
-				// );
-				// this.latitude = result[1];
-				// this.longitude = result[0];
-				// this.markers[0].latitude = result[1]
-				// this.markers[0].longitude = result[0];
-				// this.markers[0].callout.content = data.data.hotel.address
+				// 百度坐标转高德坐标
+				let result = gcoord.transform(
+					[data.data.hotel.mapLng, data.data.hotel.mapLat], // 经纬度坐标
+					gcoord.BD09, // 当前坐标系
+					gcoord.GCJ02 // 目标坐标系
+				);
+				this.latitude = result[1];
+				this.longitude = result[0];
+				this.markers[0].latitude = result[1]
+				this.markers[0].longitude = result[0];
+				this.markers[0].callout.content = data.data.hotel.address
 
 				this.pageshow = false
 				//历史浏览记录
@@ -559,7 +559,6 @@
 			openOrderConfirm() {
 				let loginAuth = uni.getStorageSync('loginAuth')
 				if (!loginAuth) {
-					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
 				}
