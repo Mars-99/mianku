@@ -174,8 +174,6 @@
 						if((userdata.rewards+1)===i){
 							prize_obj.can_recevie = true
 							my_obj = data.data['prize'+i][0]
-							console.log('aaaa:',data.data.share["target"+(userdata.rewards+1)])
-							console.log('bbb:',userdata.shareNum)
 							if(data.data.share["target"+(userdata.rewards+1)]<=userdata.shareNum){								
 								my_obj.botton_text = '去领取'
 							}else {
