@@ -1,17 +1,69 @@
 <template>
 	<view class="content">
-		<view class="JRMD-box" :style="{'min-height': swiperheight + 'px'}" v-if="isPage">
-			<view class="banner">
-				<image class="img" mode="widthFix"
-					src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner.jpg">
-				</image>
+		<page-load v-if="pageshow"></page-load>
+		<view v-else>
+			<view class="JRMD-box" :style="{'min-height': swiperheight + 'px'}" v-if="isPage">
+				<view class="banner">
+					<image class="img" mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner.jpg">
+					</image>
+					<view class="rule-link">
+						<text class="txt" @tap="openSiteContent()">活动规则</text>
+						<view class="icon">
+							<uni-icons type="right" size="12" color="#666666"></uni-icons>
+						</view>
+					</view>
+				</view>
+				<view class="mian-box">
+					<view class="coupon-list">
+						<view class="coupon-item" v-for="item in prizelist" :key="item.id">
+							<view class="l-part">
+								<image class="img" mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png"></image>
+								<view class="cont" v-if="item.type == 2">
+									<view class="t-txt">{{item.discount}}</view>
+									<view class="b-txt">全场通用</view>
+								</view>
+								<view class="cont" v-else>
+									<view class="t-txt"><text class="txt">￥</text>{{item.deduct}}</view>
+									<view class="b-txt">满{{item.restrict}}-{{item.deduct}}</view>
+								</view>
+							</view>
+							<view class="r-part">
+								<view class="title">{{item.title}}</view>
+								<view class="b-cont">
+									<view class="l-txt" v-if="item.type == 2">
+										<text class="txt">享所有房源</text>
+										{{item.discount}}折
+									</view>
+									<view class="l-txt" v-else>
+										<text class="txt">价值</text>
+										￥{{item.deduct}}
+									</view>
+									<view class="r-btn">
+										<button class="btn" type="primary" size="default"
+											@tap="openZeroYuanDetailPage(item.id)" v-if="item.can_recevie">免费拿</button>
+										<button class="btn" type="primary" size="default" v-if="!item.can_recevie">未开始</button>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="bottom-zw">
+					<image class="img" mode="widthFix"
+						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
+					</image>
+				</view>
+			
 			</view>
-			<view class="mian-box">
+			<view class="WDMD-box" v-else>
 				<view class="coupon-list">
-					<view class="coupon-item" v-for="item in prizelist" :key="item.id">
+					<view class="coupon-item" v-for="item in myPrizeList" :key="item.id">
 						<view class="l-part">
 							<image class="img" mode="widthFix"
-								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png"></image>
+								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+							</image>
 							<view class="cont" v-if="item.type == 2">
 								<view class="t-txt">{{item.discount}}</view>
 								<view class="b-txt">全场通用</view>
@@ -34,79 +86,36 @@
 								</view>
 								<view class="r-btn">
 									<button class="btn" type="primary" size="default"
-										@tap="openZeroYuanDetailPage(item.id)" v-if="item.can_recevie">免费拿</button>
-									<button class="btn" type="primary" size="default" v-if="!item.can_recevie">未开始</button>
+										@tap="openZeroYuanDetailPage(item.id)">{{item.botton_text}}</button>
 								</view>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
-			<view class="bottom-zw">
-				<image class="img" mode="widthFix"
-					src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
-				</image>
-			</view>
-
-		</view>
-		<view class="WDMD-box" v-else>
-			<view class="coupon-list">
-				<view class="coupon-item" v-for="item in myPrizeList" :key="item.id">
-					<view class="l-part">
-						<image class="img" mode="widthFix"
-							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+			<view class="botton-nav">
+				<view class="nav-item" @tap="openJRMD()">
+					<view class="icon">
+						<image class="img" v-if="isPage" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon-act.png">
 						</image>
-						<view class="cont" v-if="item.type == 2">
-							<view class="t-txt">{{item.discount}}</view>
-							<view class="b-txt">全场通用</view>
-						</view>
-						<view class="cont" v-else>
-							<view class="t-txt"><text class="txt">￥</text>{{item.deduct}}</view>
-							<view class="b-txt">满{{item.restrict}}-{{item.deduct}}</view>
-						</view>
+						<image class="img" v-else mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon.png">
+						</image>
 					</view>
-					<view class="r-part">
-						<view class="title">{{item.title}}</view>
-						<view class="b-cont">
-							<view class="l-txt" v-if="item.type == 2">
-								<text class="txt">享所有房源</text>
-								{{item.discount}}折
-							</view>
-							<view class="l-txt" v-else>
-								<text class="txt">价值</text>
-								￥{{item.deduct}}
-							</view>
-							<view class="r-btn">
-								<button class="btn" type="primary" size="default"
-									@tap="openZeroYuanDetailPage(item.id)">{{item.botton_text}}</button>
-							</view>
-						</view>
+					今日优惠券
+				</view>
+				<view class="nav-item" @tap="openWDMD()">
+					<view class="icon">
+						<image class="img" v-if="isPage" mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon.png">
+						</image>
+						<image class="img" v-else mode="widthFix"
+							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon-act.png">
+						</image>
 					</view>
+					我的优惠券
 				</view>
-			</view>
-		</view>
-		<view class="botton-nav">
-			<view class="nav-item" @tap="openJRMD()">
-				<view class="icon">
-					<image class="img" v-if="isPage" mode="widthFix"
-						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon-act.png">
-					</image>
-					<image class="img" v-else mode="widthFix"
-						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/jrmd-icon.png">
-					</image>
-				</view>
-				今日优惠券
-			</view>
-			<view class="nav-item" @tap="openWDMD()">
-				<view class="icon">
-					<image class="img" v-if="isPage" mode="widthFix"
-						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon.png">
-					</image>
-					<image class="img" v-else mode="widthFix"
-						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wdmd-icon-act.png">
-					</image>
-				</view>
-				我的优惠券
 			</view>
 		</view>
 
@@ -123,17 +132,22 @@
 		getUserShare,
 		getUserSharePrice
 	} from '@/utils/request/manage.js'
+		import pageLoad from '@/components/pageLoad/pageLoad'
 	export default {
 		data() {
 			return {
 				swiperheight: 0,
 				isPage: true,
 				prizelist: [], //今日优惠券
-				myPrizeList:[] //我的优惠券
+				myPrizeList:[] ,//我的优惠券
+				pageshow: true,
+				
 			}
 		},
+		components: {
+			pageLoad
+		},
 		mounted() {
-			// 注意，这里要用个变量存this，不然进到getSystemInfo后this指向会变化，找不到data变量
 			var _this = this
 			uni.getSystemInfo({
 				success: function(res) {
@@ -157,7 +171,6 @@
 			async initData() {
 				let loginAuth = uni.getStorageSync('loginAuth')
 				if (!loginAuth) {
-					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
 				}
@@ -186,12 +199,18 @@
 						this.prizelist.push(prize_obj)
 					}
 				}
+				this.pageshow = false
 				console.log('myPrizeList:',this.myPrizeList)
 			},
 			openZeroYuanDetailPage(id) {
 				
 				uni.navigateTo({
 					url: '../zero-yuan/zero-yuan-detail?id=' + id
+				})
+			},
+			openSiteContent() {
+				uni.navigateTo({
+					url: '../site-content/site-content?id=9' 
 				})
 			},
 		}
@@ -207,6 +226,30 @@
 				.img {
 					width: 100%;
 					display: block;
+				}
+				.rule-link {
+					position: absolute;
+					top: 30rpx;
+					right: 30rpx;
+					background-color: rgba($color: #333333, $alpha: 0.6);
+					padding: 10rpx 20rpx;
+					display: flex;
+					align-items: center;
+					color: #ffffff;
+					border-radius: 30rpx;
+					line-height: 40rpx;
+					font-size: 24rpx;
+				
+					.icon {
+						width: 30rpx;
+						height: 30rpx;
+						border-radius: 30rpx;
+						background-color: #ffffff;
+						margin-left: 10rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
 				}
 			}
 
