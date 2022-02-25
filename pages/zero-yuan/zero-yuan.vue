@@ -42,8 +42,9 @@
 									</view>
 									<view class="r-btn">
 										<button class="btn" type="primary" size="default"
-											@tap="openZeroYuanDetailPage(item.id)" v-if="item.can_recevie">免费拿</button>
-										<button class="btn" type="primary" size="default" v-if="!item.can_recevie">未开始</button>
+											@tap="openZeroYuanDetailPage(item.id)" v-if="item.recevie_status==1">免费拿</button>
+										<button class="btn" type="primary" size="default" v-if="item.recevie_status==0">未开始</button>
+										<button class="btn" type="primary" size="default" v-if="item.recevie_status==2">已领取</button>
 									</view>
 								</view>
 							</view>
@@ -182,19 +183,30 @@
 				for (let i = 1; i <= 10; i++) {
 					let prize_obj = null //今日
 					let my_obj = null //我的
-					if (data.data.share['target'+i] > 0 && data.data.share['reward'+i] > 0) {
+					if (data.data.share['target'+i] > 0 && data.data.share['reward'+i] > 0) {							
 						prize_obj = data.data['prize'+i][0]
-						if((userdata.rewards+1)===i){
-							prize_obj.can_recevie = true
+						prize_obj.recevie_status=0	//未开始		
+						if(data.data.share["target"+i]<=userdata.shareNum){
+							prize_obj.recevie_status=2 //已领取
 							my_obj = data.data['prize'+i][0]
-							if(data.data.share["target"+(userdata.rewards+1)]<=userdata.shareNum){								
-								my_obj.botton_text = '去领取'
-							}else {
-								my_obj.botton_text = '助力进行中'
-							}
-							this.myPrizeList.push(my_obj)
+							my_obj.botton_text = '已领取'
 						}else{
-							prize_obj.can_recevie=false
+							if(i>1){
+								if(data.data.share["target"+(i-1)]<=userdata.shareNum && userdata.shareNum<data.data.share["target"+(i+1)]){
+									prize_obj.recevie_status = 1 //免费拿
+									my_obj = data.data['prize'+i][0]
+									my_obj.botton_text = '助力进行中'
+								}
+							}else{
+								if(data.data.share["target"+i]>userdata.shareNum){
+									prize_obj.recevie_status = 1 //免费拿
+									my_obj = data.data['prize'+i][0]
+									my_obj.botton_text = '助力进行中'
+								}
+							}
+						}			
+						if(my_obj){
+							this.myPrizeList.push(my_obj)	
 						}
 						this.prizelist.push(prize_obj)
 					}
