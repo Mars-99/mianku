@@ -32,7 +32,7 @@
 			<view class="column-box">
 				<view class="resident">
 					<view class="item">
-						<view class="left">入住人（{{checkedLodgerList.length}}/{{listingsDetail.hotel.bedNum}}）</view>
+						<view class="left">入住人（{{checkedLodgerList.length}}/{{listingsDetail.hotel.occupancy}}）</view>
 						<view class="right">
 							<button class="btn-edit" type="default" size="mini" @tap="openLodgerPage()">添加/编辑</button>
 						</view>

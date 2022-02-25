@@ -253,7 +253,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/zero-yuan/help-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "眠库民宿",

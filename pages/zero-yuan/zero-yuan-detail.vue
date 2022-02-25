@@ -39,12 +39,12 @@
 									<text class="txt">享所有房源</text>
 									{{detail_info.prize.discount}}折
 								</view>
-								<view class="l-txtK" v-else>
+								<view class="l-txt" v-else>
 									<text class="txt">价值</text>
 									￥{{detail_info.prize.deduct}}
 								</view>
 								<view class="r-btn" v-if="can_receive">
-									<button class="btn" type="primary" size="default" @tap="share_price()">领取</button>
+									<button class="btn" type="primary" size="default" @tap="share_price()">{{isReceive?"已领取":"领取"}}</button>
 								</view>
 							</view>
 						</view>
@@ -128,6 +128,7 @@
 				target:0,//目标数
 				remain:0 ,//剩余助力人数
 				pageshow: true,
+				isReceive:false,
 			}
 		},
 		components: {
@@ -182,7 +183,7 @@
 				}else{
 					this.remain = this.target - userdata.shareNum
 				}
-				this.share.path = '/pages/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id + '&recommend=' + this
+				this.share.path = '/pages/zero-yuan/help-detail?id=' + this.detail_info.share.id + '&recommend=' + this
 					.userinfo.id
 				this.pageshow = false
 			},
@@ -205,6 +206,16 @@
 				const {
 					data
 				} = await getUserSharePrice()
+				if(data.code == 1){
+					this.$api.msg(data.code.msg)
+				}else{
+					wx.showToast({
+						title: '领取成功!',
+						icon: 'none',
+					}),
+					this.isReceive = true
+					
+				}
 				console.log('领取助力奖励返回结果：', data)
 			}
 		}
@@ -356,6 +367,14 @@
 									color: #999999;
 									font-size: 24rpx;
 								}
+							}
+							.btn {
+								border-radius: 40rpx;
+								border: none;
+								background-color: #ed5454;
+								color: #fffff;
+								line-height: 50rpx;
+								font-size: 24rpx;
 							}
 						}
 					}

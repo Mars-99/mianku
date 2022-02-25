@@ -64,6 +64,8 @@ let urlManage = {
 	getUserSharePrice: 'api/user/share_price', //领取助力奖励
 	userHelp:'api/user/help', //0元助力
 	getHelpUserList:'api/user/help_user',//助力用户列表
+	getShareActivityUrl:'api/home/share_activity',//助力页详情
+	
 	
 	getSiteContentUrl:'api/home/site_content', //平台信息
 	getCouponUrl:'api/user/get_coupon', //领取优惠券
@@ -411,6 +413,11 @@ const getUserSharePrice = function() {
 const userHelp = function(userid){
 	return $http.post(urlManage.userHelp,{id:userid})
 }
+// 助力页详情
+const shareActivity = function(uid){
+	return $http.post(urlManage.getShareActivityUrl,{uid:uid})
+}
+
 
 // 平台信息
 const siteContent = function(){
@@ -487,6 +494,7 @@ export {
 	getUserShare,
 	getUserSharePrice,
 	userHelp,
+	shareActivity,
 	siteContent,
 	getCoupon,
 	getCouponList,

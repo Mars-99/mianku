@@ -46,7 +46,7 @@
 			
 											<text class="day-txt">{{ getDayName(monthData[0].year, data) }}</text>
 											<text class="day-price"
-												v-if="pageSource">{{data.act.dingdan && data.re > today?"无房":"￥"+data.price}}</text>
+												v-if="pageSource">{{data.act.dingdan && data.re >= today?"无房":"￥"+data.price}}</text>
 											<text class="day-price" v-else></text>
 											<text class="day-tip" v-if="!singleDate">{{ data.act.tip }}</text>
 										</view>
