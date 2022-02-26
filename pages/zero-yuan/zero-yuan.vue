@@ -19,7 +19,8 @@
 						<view class="coupon-item" v-for="item in prizelist" :key="item.id">
 							<view class="l-part">
 								<image class="img" mode="widthFix"
-									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png"></image>
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+								</image>
 								<view class="cont" v-if="item.type == 2">
 									<view class="t-txt">{{item.discount}}</view>
 									<view class="b-txt">全场通用</view>
@@ -42,9 +43,12 @@
 									</view>
 									<view class="r-btn">
 										<button class="btn" type="primary" size="default"
-											@tap="openZeroYuanDetailPage(item.id)" v-if="item.recevie_status==1">免费拿</button>
-										<button class="btn" type="primary" size="default" v-if="item.recevie_status==0">未开始</button>
-										<button class="btn" type="primary" size="default" v-if="item.recevie_status==2">已领取</button>
+											@tap="openZeroYuanDetailPage(item.id)"
+											v-if="item.recevie_status==1">免费拿</button>
+										<button class="btn" type="primary" size="default"
+											v-if="item.recevie_status==0">未开始</button>
+										<button class="btn" type="primary" size="default"
+											v-if="item.recevie_status==2">已领取</button>
 									</view>
 								</view>
 							</view>
@@ -56,7 +60,7 @@
 						src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
 					</image>
 				</view>
-			
+
 			</view>
 			<view class="WDMD-box" v-else>
 				<view class="coupon-list">
@@ -133,16 +137,16 @@
 		getUserShare,
 		getUserSharePrice
 	} from '@/utils/request/manage.js'
-		import pageLoad from '@/components/pageLoad/pageLoad'
+	import pageLoad from '@/components/pageLoad/pageLoad'
 	export default {
 		data() {
 			return {
 				swiperheight: 0,
 				isPage: true,
 				prizelist: [], //今日优惠券
-				myPrizeList:[] ,//我的优惠券
+				myPrizeList: [], //我的优惠券
 				pageshow: true,
-				
+
 			}
 		},
 		components: {
@@ -183,46 +187,68 @@
 				for (let i = 1; i <= 10; i++) {
 					let prize_obj = null //今日
 					let my_obj = null //我的
-					if (data.data.share['target'+i] > 0 && data.data.share['reward'+i] > 0) {							
-						prize_obj = data.data['prize'+i][0]
-						prize_obj.recevie_status=0	//未开始		
-						if(data.data.share["target"+i]<=userdata.shareNum){
-							prize_obj.recevie_status=2 //已领取
-							my_obj = data.data['prize'+i][0]
-							my_obj.botton_text = '已领取'
-						}else{
-							if(i>1){
-								if(data.data.share["target"+(i-1)]<=userdata.shareNum && userdata.shareNum<data.data.share["target"+(i+1)]){
-									prize_obj.recevie_status = 1 //免费拿
-									my_obj = data.data['prize'+i][0]
-									my_obj.botton_text = '助力进行中'
-								}
-							}else{
-								if(data.data.share["target"+i]>userdata.shareNum){
-									prize_obj.recevie_status = 1 //免费拿
-									my_obj = data.data['prize'+i][0]
-									my_obj.botton_text = '助力进行中'
-								}
+					if (data.data.share['target' + i] > 0 && data.data.share['reward' + i] > 0) {
+						prize_obj = data.data['prize' + i][0]
+						prize_obj.recevie_status = 0 //未开始		
+						if (userdata.rewards === (i - 1)) {
+							//正在助力的活动
+							if (data.data.share["target" + i] <= userdata.shareNum) {
+								//助力人数大于等于目标数，则可领取优惠券
+								prize_obj.recevie_status = 2
+								my_obj = data.data['prize' + i][0]
+								my_obj.botton_text = '已领取'
+							} else {
+								prize_obj.recevie_status = 1
 							}
-						}			
-						if(my_obj){
-							this.myPrizeList.push(my_obj)	
+						} else {
+							if (userdata.rewards > i - 1) {
+								//已完成的助力
+								prize_obj.recevie_status = 2
+								my_obj = data.data['prize' + i][0]
+								my_obj.botton_text = '已领取'
+							} else {
+								//未开始的助力
+								prize_obj.recevie_status = 0
+							}
+						}
+						// if (data.data.share["target" + i] <= userdata.shareNum) {
+						// 	prize_obj.recevie_status = 2 //已领取
+						// 	my_obj = data.data['prize' + i][0]
+						// 	my_obj.botton_text = '已领取'
+						// } else {
+						// 	if (i > 1) {
+						// 		if (data.data.share["target" + (i - 1)] <= userdata.shareNum && userdata.shareNum <
+						// 			data.data.share["target" + (i + 1)]) {
+						// 			prize_obj.recevie_status = 1 //免费拿
+						// 			my_obj = data.data['prize' + i][0]
+						// 			my_obj.botton_text = '助力进行中'
+						// 		}
+						// 	} else {
+						// 		if (data.data.share["target" + i] > userdata.shareNum) {
+						// 			prize_obj.recevie_status = 1 //免费拿
+						// 			my_obj = data.data['prize' + i][0]
+						// 			my_obj.botton_text = '助力进行中'
+						// 		}
+						// 	}
+						// }
+						if (my_obj) {
+							this.myPrizeList.push(my_obj)
 						}
 						this.prizelist.push(prize_obj)
 					}
 				}
 				this.pageshow = false
-				console.log('myPrizeList:',this.myPrizeList)
+				console.log('myPrizeList:', this.myPrizeList)
 			},
 			openZeroYuanDetailPage(id) {
-				
+
 				uni.navigateTo({
 					url: '../zero-yuan/zero-yuan-detail?id=' + id
 				})
 			},
 			openSiteContent() {
 				uni.navigateTo({
-					url: '../site-content/site-content?id=9' 
+					url: '../site-content/site-content?id=9'
 				})
 			},
 		}
@@ -239,6 +265,7 @@
 					width: 100%;
 					display: block;
 				}
+
 				.rule-link {
 					position: absolute;
 					top: 30rpx;
@@ -251,7 +278,7 @@
 					border-radius: 30rpx;
 					line-height: 40rpx;
 					font-size: 24rpx;
-				
+
 					.icon {
 						width: 30rpx;
 						height: 30rpx;

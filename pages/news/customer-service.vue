@@ -3,6 +3,33 @@
 	<view class="page">
 		<!-- 聊天信息框 start -->
 		<view class="chat-wrapper" v-if="chatList.length" :style="{'height': contentViewHeight + 'px'}">
+			<view class="WeChat">
+				<view class="l-part">
+					<image src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/logo-jxw.png" mode="widthFix"
+						class="user-img"></image>
+				</view>
+				<view class="c-part">
+					<view class="t-part">眠库客服</view>
+					<view class="b-part">
+						<button class="btn" type="primary" size="default" @tap="openErweima1">
+							<uni-icons style="position: absolute;" type="weixin" size="18" color="#19c4a8"></uni-icons>
+							<text style="margin-left: 35rpx;">夏天</text>
+						</button>
+						<button class="btn" type="primary" size="default" @tap="openErweima2">
+							<uni-icons style="position: absolute;" type="weixin" size="18" color="#19c4a8"></uni-icons>
+							<text style="margin-left: 35rpx;">文静</text>
+						</button>
+						<button class="btn" type="primary" size="default" @tap="openErweima3">
+							<uni-icons style="position: absolute;" type="weixin" size="18" color="#19c4a8"></uni-icons>
+							<text style="margin-left: 35rpx;">嘎嘎</text>
+						</button>
+					</view>
+				</view>
+				<uni-popup ref="popup" type="bottom">
+					<image :show-menu-by-longpress="true" @tap="previewImage" style="margin-top: -100px;" :src="erweima"
+						mode="widthFix"></image>
+				</uni-popup>
+			</view>
 			<scroll-view scroll-y="true" :scroll-with-animation="true" :scroll-top="scrollTop" class="chat-scroll"
 				:style="{'height': contentViewHeight + 'px'}" @scrolltoupper="scrollToTop">
 				<image src="@/static/image/loading.png" class="load-icon-wrapper" v-if="showLoad"></image>
@@ -74,6 +101,7 @@
 				contentViewHeight: 0,
 				showLoad: false,
 				delay_timer: {}, // 定时器
+				erweima: '',
 			}
 		},
 		computed: {
@@ -137,9 +165,9 @@
 			this.initData(0, 0)
 			this.getUserDetail()
 			this.delay_timer = setInterval(() => {
-				this.askNewMsg(this.chatList[this.chatList.length-1].id)
+				this.askNewMsg(this.chatList[this.chatList.length - 1].id)
 				// this.initData(0,0)
-			},15000)
+			}, 15000)
 		},
 		methods: {
 			async getUserDetail() {
@@ -247,21 +275,22 @@
 				query.select('.chat-scroll').boundingClientRect();
 				query.exec((res) => {
 					_self.mitemHeight = 0
-					console.log("res",res)
-					res[0].forEach((rect) => _self.mitemHeight = _self.mitemHeight + rect.height +60) //获取所有内部子元素的高度
+					console.log("res", res)
+					res[0].forEach((rect) => _self.mitemHeight = _self.mitemHeight + rect.height +
+						60) //获取所有内部子元素的高度
 					console.log('inputBottom', _self.inputBottom)
 					// _self.mitemHeight = _self.mitemHeight + _self.inputBottom
 					console.log('mitemHeight', _self.mitemHeight)
 					console.log('contentViewHeight', _self.contentViewHeight)
 					// 因为vue的虚拟DOM 每次生成的新消息都是之前的，所以采用异步setTimeout
 					setTimeout(() => {
-				    if (_self.mitemHeight > _self.contentViewHeight) { //判断子元素高度是否大于显示高度
-					console.log("_self.scrollTop1",_self.scrollTop)
+						if (_self.mitemHeight > _self.contentViewHeight) { //判断子元素高度是否大于显示高度
+							console.log("_self.scrollTop1", _self.scrollTop)
 							_self.scrollTop = _self.mitemHeight - _self
 								.contentViewHeight //用子元素的高度减去显示的高度就获益获得序言滚动的高度
-						console.log("_self.scrollTop2",_self.scrollTop)
-						}else{
-							console.log("_self.scrollTop3",_self.scrollTop)
+							console.log("_self.scrollTop2", _self.scrollTop)
+						} else {
+							console.log("_self.scrollTop3", _self.scrollTop)
 						}
 					}, 100)
 				})
@@ -273,7 +302,54 @@
 				console.log('滑到顶部了')
 				this.showLoad = true
 				this.initData(this.chatList[0].id, 1)
+			},
+			openErweima1() {
+				this.erweima = "https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/erweima-xiatian.png"
+				this.$refs.popup.open('center')
+			},
+			openErweima2() {
+				this.erweima = "https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/erweima-wenjing.png"
+				this.$refs.popup.open('center')
+			},
+			openErweima3() {
+				this.erweima = "https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/erweima-gaga.png"
+				this.$refs.popup.open('center')
+			},
+			// shibie(){
+			// 	uni.scanCode({
+			// 	onlyFromCamera: true,
+			// 		success: function (res) {
+			// 			console.log('条码类型：' + res.scanType);
+			// 			console.log('条码内容：' + res.result);
+			// 			// 跳转提示页面==>请求数据(成功)==>显示数据;(失败)=>返回工作页面
+			// 			plus.runtime.openURL(res.result);
+			// 		}
+			// 	});
+			// }
+			previewImage(e) {
+				console.log('e', e);
+				uni.previewImage({
+					// 需要预览的图片链接列表
+					urls: [],
+					// 为当前显示图片的链接/索引值
+					current: this.erweima,
+					// 图片指示器样式	
+					indicator: 'default',
+					// 是否可循环预览
+					loop: false,
+					// 长按图片显示操作菜单，如不填默认为保存相册
+					// longPressActions:{
+					// 	itemList:[this.l('发送给朋友'),this.l]
+					// },
+					success: res => {
+						console.log('res', res);
+					},
+					fail: err => {
+						onsole.log('err', err);
+					}
+				});
 			}
+
 		}
 	}
 </script>
@@ -296,7 +372,8 @@
 		background-color: #F6F7FB;
 
 		.chat-scroll {
-			height: 100vh;
+			margin-top: 160rpx;
+			height: calc(100vh - 150rpx);
 			padding: 0 0 env(safe-area-inset-bottom);
 		}
 
@@ -435,11 +512,68 @@
 			text-align: center;
 			line-height: 40px;
 			border-radius: 20px;
-			background-color: #0F6EFF;
+			background-color: #ff941d;
 			font-size: 32rpx;
 			font-weight: 700;
 			color: #FFF;
 		}
+	}
+
+	.WeChat {
+		position: fixed;
+		top: 0;
+		height: 110rpx;
+		background-color: #ffffff;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		z-index: 9999;
+		padding: 20rpx;
+
+		.l-part {
+			width: 100rpx;
+			height: 100rpx;
+			border-radius: 100rpx;
+			overflow: hidden;
+
+			.user-img {
+				border-radius: 42rpx;
+				width: 100%;
+			}
+		}
+
+		.c-part {
+			width: 75%;
+			margin-left: 20rpx;
+			display: flex;
+			justify-content: space-between;
+
+			.t-part {
+				font-size: 30rpx;
+				display: flex;
+				align-items: center;
+				color: #ff941d;
+			}
+
+			.b-part {
+				display: flex;
+				align-items: center;
+
+				.btn {
+					font-size: 24rpx;
+					background-color: #d1f3ee;
+					color: #19c4a8;
+					line-height: 70rpx;
+					border-radius: 70rpx;
+					padding: 0 15rpx;
+					margin: 0 10rpx;
+				}
+			}
+		}
+	}
+
+	/deep/ button::after {
+		border: none;
 	}
 
 	// 发布消息框 end

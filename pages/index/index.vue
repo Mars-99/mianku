@@ -420,7 +420,7 @@
 			},
 			clickDevelopCity() {
 				wx.showToast({
-					title: '房源还在开发中，请敬请期待！',
+					title: '房源还在开发中，敬请期待！',
 					icon: 'none'
 				})
 			}

@@ -9,7 +9,7 @@
 			<page-load v-if="pageshow"></page-load>
 			<view v-else class="uni-padding-wrap uni-common-mt">
 				<view style="background-color: #ffffff;">
-					<uni-segmented-control :activeIndex="activeIndex" :values="items" style-type="text"
+					<uni-segmented-control :current="current" :values="items" style-type="text"
 						active-color="#ff941d" @clickItem="onClickItem" />
 				</view>
 				<view class="content">
@@ -110,7 +110,7 @@
 		data() {
 			return {
 				items: ['全部', '待付款', '待入住', '已完成'],
-				activeIndex: 0,
+				current: 0,
 				state: '',
 				btnnum: 0,
 				orderListData: [],
@@ -150,7 +150,7 @@
 			},
 		},
 		watch: {
-			activeIndex(value) {
+			current(value) {
 				switch (value) {
 					case 1:
 						this.state = 0;
@@ -167,7 +167,7 @@
 						break;
 				}
 				this.page = 1
-				this.getOrderList(this.state)
+				this.getOrderList()
 
 			},
 		},
@@ -175,14 +175,26 @@
 
 			onClickItem(e) {
 				this.btnnum = e
-				if (this.activeIndex !== e.currentIndex) {
-					this.activeIndex = e.currentIndex
+				console.log(e.currentIndex)
+				if (this.current !== e.currentIndex) {
+					this.current = e.currentIndex
 				}
 			},
-			async getOrderList(id) {
+			async getOrderList() {
+				if(uni.getStorageSync('current') || uni.getStorageSync('state')){
+					if(uni.getStorageSync('state') == -1){
+						this.current = uni.getStorageSync('current')
+						this.state = ""
+					}else{
+						this.current = uni.getStorageSync('current')
+						this.state = uni.getStorageSync('state')
+					}
+					uni.removeStorageSync('current')
+					uni.removeStorageSync('state')
+				}
 				const {
 					data: res
-				} = await orderList(id,this.page,10)
+				} = await orderList(this.state,this.page,10)
 				if (res.code == 1) {
 					return this.$api.msg(res.msg)
 				} else {
@@ -287,23 +299,18 @@
 			handleOrder() {
 				let today = moment().format("YYYY-MM-DD")
 				let aaa = []
+				if(this.state == 0 || this.state == null){
+					this.handleOrderList=this.orderListData
+				}
 				if(this.state == 9){
-					// this.handleOrderList= []
+					this.handleOrderList= []
 					this.orderListData.find(item => {
 						if (item.checkOut < today && item.state == 1) {
-							item.state = 9
 							this.handleOrderList.push(item)
+							// item.state = 9
 							return
 						}
 					})
-					console.log("handleOrderList9", this.handleOrderList)
-				}else{
-					this.orderListData.find(item => {
-						if (item.checkOut < today && item.state == 1) {
-							item.state = 9
-						}
-					})
-					this.handleOrderList=this.orderListData
 				}
 				if (this.state == 1) {
 					this.handleOrderList= []
@@ -313,14 +320,16 @@
 							return
 						}
 					})
-					console.log("handleOrderList9", this.handleOrderList)
-				}else{
+					
+				}
+				if (this.state == 1) {
+					this.handleOrderList= []
 					this.orderListData.find(item => {
-						if (item.checkOut < today && item.state == 1) {
-							item.state = 9
+						if (item.checkOut >= today && item.state == 1 && item.state != 5) {
+							this.handleOrderList.push(item)
+							return
 						}
 					})
-					this.handleOrderList=this.orderListData
 				}
 			},
 			onReachBottom() {

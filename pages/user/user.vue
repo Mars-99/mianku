@@ -28,40 +28,15 @@
 			<view class="order">
 				<uni-card title="我的订单" :border="false">
 					<view class="order-list">
-						<view class="order-item">
+						<view class="order-item" v-for="(item ,index) in orderList" :key="index" @tap="openOrder(item)">
 							<view class="icon">
 								<image class="img" mode="widthFix"
-									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_all.png">
+									:src="item.icon">
 								</image>
 							</view>
-							<view class="txt">全部</view>
+							<view class="txt">{{item.value}}</view>
 						</view>
-						<view class="order-item">
-							<view class="icon">
-								<image class="img" mode="widthFix"
-									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_pending-payment.png">
-								</image>
-							</view>
-							<view class="txt">待付款</view>
 						</view>
-						<view class="order-item">
-							<view class="icon">
-								<image class="img" mode="widthFix"
-									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_waiting_checkin.png">
-								</image>
-							</view>
-							<view class="txt">待入住</view>
-						</view>
-						<view class="order-item">
-							<view class="icon">
-								<image class="img" mode="widthFix"
-									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_finish.png">
-								</image>
-							</view>
-							<view class="txt">已完成</view>
-						</view>
-
-					</view>
 				</uni-card>
 			</view>
 			<view class="column-box">
@@ -115,6 +90,32 @@
 				avatarUser: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/avatar-user.jpg',
 				userinfo: {},
 				loginAuth:null,
+				orderList:[
+					{
+						value:"全部",
+						current:0,
+						state:-1,
+						icon:"https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_all.png"
+					},
+					{
+						value:"待付款",
+						current:1,
+						state:0,
+						icon:"https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_pending-payment.png"
+					},
+					{
+						value:"待入住",
+						current:2,
+						state:1,
+						icon:"https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_waiting_checkin.png"
+					},
+					{
+						value:"已完成",
+						current:3,
+						state:9,
+						icon:"https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/order_finish.png"
+					},
+				]
 			}
 		},
 		onLoad() {
@@ -183,6 +184,13 @@
 			openCoupon(){
 				uni.navigateTo({
 					url: '../user/my-coupon'
+				})
+			},
+			openOrder(item){
+				uni.setStorageSync('current', item.current)
+				uni.setStorageSync('state',item.state)
+				uni.switchTab({
+					url: '../order/order'
 				})
 			}
 		}
