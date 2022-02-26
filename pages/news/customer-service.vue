@@ -142,7 +142,7 @@
 						uid: 1,
 						face: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/logo-jxw.png',
 						userName: '眠库客服',
-						msg: '你可以通过联系客服电话15364037300、15580819506与我们联系。添加客服微信获取专属服务 VX：123456789',
+						msg: '您好，欢迎光临眠库城市民宿，专属客服马上为您服务！',
 						createdAt: createdAt
 					})
 					let array = [{
@@ -150,7 +150,7 @@
 						uid: 1,
 						face: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/logo-jxw.png',
 						userName: '眠库客服',
-						msg: '你可以通过联系客服电话15364037300、15580819506与我们联系。添加客服微信获取专属服务 VX：123456789',
+						msg: '您好，欢迎光临眠库城市民宿，专属客服马上为您服务！',
 						createdAt: createdAt
 					}]
 					uni.setStorage({
