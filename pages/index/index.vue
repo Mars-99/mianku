@@ -137,7 +137,7 @@
 				<uni-title type="h1" title="热门城市 "></uni-title>
 			</view>
 			<uni-row class="demo-uni-row" :gutter="10">
-				<uni-col :span="6" v-for="(item ,index) in hotCityData" :key="index">
+				<uni-col :span="6" v-for="(item ,index) in hotCityData" :key="index" @tap="clickHotCity(item)">
 					<view class="demo-uni-col city-item">
 						<view class="city-item-img">
 							<image mode="widthFix" :src="item.thum">
@@ -146,6 +146,16 @@
 						<view class="city-item-name">{{item.cityName}}</view>
 					</view>
 				</uni-col>
+				<uni-col :span="6" v-for="(item ,index) in developCity" :key="index" @tap="clickDevelopCity()">
+					<view class="demo-uni-col city-item">
+						<view class="city-item-img">
+							<image mode="widthFix" :src="item.thum">
+							</image>
+						</view>
+						<view class="city-item-name">{{item.cityName}}</view>
+					</view>
+				</uni-col>
+
 			</uni-row>
 		</view>
 	</view>
@@ -183,24 +193,56 @@
 				choicData: [{
 						title: '必睡精品',
 						explanation: '最新榜单新鲜出炉',
-						image: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-01.jpg',
+						image: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/bishui.jpg',
 						url: '../must-sleep/must-sleep?curCityId='
 					},
 					{
 						title: '去逛逛',
 						explanation: '超多旅游住房攻略推荐',
-						image: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-03.jpg',
+						image: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/faxian.png',
 						url: '../find/find-list?curCityId='
 					},
 					{
 						title: '安心民宿',
 						explanation: '安心房源，品质优选',
-						image: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/fangyuan-05.jpg',
+						image: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/anxin.jpg',
 						url: '../listings/listings-list?cityId='
 					}
 				],
 				choicURL: "bbb",
 				hotCityData: [],
+				staticCity: [{
+						cityName: '西安',
+						thum: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/xian.jpg',
+					}, {
+						cityName: '厦门',
+						thum: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/xiamen.jpg',
+					},
+					{
+						cityName: '青岛',
+						thum: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/qingdao.jpg',
+					},
+					{
+						cityName: '大理',
+						thum: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/dali.jpg',
+					}, {
+						cityName: '丽江',
+						thum: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/lijiang.jpg',
+					},
+					{
+						cityName: '杭州',
+						thum: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/hangzhou.jpg',
+					},
+					{
+						cityName: '三亚',
+						thum: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/sanya.jpg',
+					},
+					{
+						cityName: '武汉',
+						thum: 'https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/wuhan.jpg',
+					}
+				],
+				developCity: [],
 				check: [],
 				brand: [],
 				choiceDateArr: [],
@@ -264,12 +306,6 @@
 		methods: {
 			// 初始化数据
 			init() {
-				// let current_user = uni.getStorageSync('userinfo')
-				// if (!current_user) {
-				// 	this.$api.msg('请先登录')
-				// 	this.$api.href('../login/login')
-				// 	return
-				// }
 				this.curCityId = 1,
 					this.curCityName = '长沙'
 				this.getHomeList(this.curCityId)
@@ -282,6 +318,10 @@
 				} = await homeList(id)
 				this.listingsBanner = data.data.slide
 				this.hotCityData = data.data.hotCity
+				let newArr = this.staticCity.filter((x) => !this.hotCityData.some((item) => x.cityName === item
+					.cityName));
+				this.developCity = newArr
+
 			},
 			// 当点击后 当前索引等于点击的index
 			clickTba(index) {
@@ -368,6 +408,22 @@
 						flag
 				})
 			},
+			clickHotCity(item) {
+				this.curCityId = item.id
+				this.curCityName = item.cityName
+				this.getHomeList(item.id)
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 200,
+				});
+
+			},
+			clickDevelopCity() {
+				wx.showToast({
+					title: '房源还在开发中，请敬请期待！',
+					icon: 'none'
+				})
+			}
 		}
 	}
 </script>

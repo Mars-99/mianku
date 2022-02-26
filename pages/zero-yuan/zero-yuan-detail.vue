@@ -68,7 +68,8 @@
 							已助力完成
 						</view>
 						<view class="txt" v-else>
-							{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位
+							<uni-icons v-if="helpuserlist.length == 0" type="plus" size="40" color="#ffe0cb"></uni-icons>
+							<text v-else>{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位</text>
 						</view>					
 						<view class="help-btn" v-if="type===0">
 							<button class="btn" type="primary" size="default" data-name="shareBtn" open-type="share" >分享领助力包</button>
@@ -153,7 +154,6 @@
 				console.log('被助力用户id:', this.$mp.query.recommend)
 				this.loginAuth = uni.getStorageSync('loginAuth')
 				if (!this.loginAuth) {
-					this.$api.msg('请先登录')
 					this.$api.href('../login/login')
 					return
 				}
@@ -164,6 +164,7 @@
 				} = await getShareDetail() //助力活动详情		
 				let user_share_list = await getUserShare() // 助力活动用户数据
 				let userdata = user_share_list.data.data;
+				console.log("userdata",userdata)
 				
 				this.detail_info.share = sharedetail.data.share		
 				this.detail_info.prize = sharedetail.data['prize'+(userdata.rewards+1)][0]
@@ -397,7 +398,7 @@
 				}
 
 				.help-mian {
-					margin: 30rpx 0;
+					margin: 0 0 30rpx 0;
 					.help-list{
 						display: flex;
 						justify-content: center;

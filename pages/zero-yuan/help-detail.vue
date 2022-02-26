@@ -62,7 +62,8 @@
 						已助力完成
 					</view>
 					<view class="txt" v-else>
-						{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位
+						<uni-icons v-if="helpuserlist.length == 0" type="plus" size="40" color="#ffe0cb"></uni-icons>
+						<text v-else>{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位</text>
 					</view>					
 					<view class="help-btn">
 						<button class="btn" type="primary" size="default" @tap="getCoupon()" v-if="isHelp">我也要拿券</button>
@@ -359,7 +360,7 @@
 				}
 		
 				.help-mian {
-					margin: 30rpx 0;
+					margin: 0 0 30rpx 0;
 					.help-list{
 						display: flex;
 						justify-content: center;
