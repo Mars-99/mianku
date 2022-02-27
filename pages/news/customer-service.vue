@@ -121,17 +121,16 @@
 			})
 		},
 		onUnload() {
-			console.log('清除定时器')
 			clearInterval(this.delay_timer)
 		},
 		mounted() {
 			const resSystem = uni.getSystemInfoSync()
-			console.log('resSystem: ', resSystem)
+			// console.log('resSystem: ', resSystem)
 			this.contentViewHeight = resSystem.windowHeight //像素   因为给出的是像素高度 然后我们用的是rpx  所以换算一下 
 			let createdAt = handTime()
 			// 第一次进入该页面，自动发一条消息
 			let isFirstInKefu = uni.getStorageSync('chatFlag')
-			console.log('isFirstInKefu: ', isFirstInKefu)
+			// console.log('isFirstInKefu: ', isFirstInKefu)
 			if (!isFirstInKefu) {
 				// setTimeout(() => {
 				// 					this.chatList.push({id:9999,uid:this.userId,face: this.face,userName: userName,msg: '您好，有些问题想要咨询你',createdAt: createdAt})
@@ -157,7 +156,6 @@
 						key: 'chatFlag',
 						data: array,
 						success(res) {
-							console.log('res: ', res)
 						}
 					})
 				}, 1000)
@@ -176,19 +174,19 @@
 				} = await userDetail()
 				this.userinfo = data.data
 				this.userId = this.userinfo.id
-				console.log("userinfo", data.data, this.userId)
+				// console.log("userinfo", data.data, this.userId)
 			},
 			async initData(tid, type) {
 
 				const {
 					data: res
 				} = await getUserImList(tid, type)
-				console.log('res: ', res)
+				// console.log('res: ', res)
 				if (res.code == -1) {
 					this.showLoad = false
 					return this.$api.msg('获取聊天信息列表失败!' + res.msg, 'none')
 				}
-				console.log("res.data.rs.length", res.data.rs.length)
+				// console.log("res.data.rs.length", res.data.rs.length)
 				if (res.data.rs.length) {
 					if (type == 1) {
 						// 历史消息
@@ -224,7 +222,7 @@
 				const {
 					data: res
 				} = await getUserImList(tid, 0)
-				console.log('最新的消息res: ', res)
+				// console.log('最新的消息res: ', res)
 				if (res.code == 1) {
 					return this.$api.msg('获取聊天信息列表失败!' + res.msg, 'none')
 				}
@@ -251,7 +249,7 @@
 				const {
 					data: res
 				} = await getUserImAdd(this.inputmsg)
-				console.log('res: ', res)
+				// console.log('res: ', res)
 				if (res.code == 1) {
 					return this.$api.msg('发送信息失败!' + res.msg, 'none')
 				}
@@ -275,22 +273,22 @@
 				query.select('.chat-scroll').boundingClientRect();
 				query.exec((res) => {
 					_self.mitemHeight = 0
-					console.log("res", res)
+					// console.log("res", res)
 					res[0].forEach((rect) => _self.mitemHeight = _self.mitemHeight + rect.height +
 						60) //获取所有内部子元素的高度
-					console.log('inputBottom', _self.inputBottom)
+					// console.log('inputBottom', _self.inputBottom)
 					// _self.mitemHeight = _self.mitemHeight + _self.inputBottom
-					console.log('mitemHeight', _self.mitemHeight)
-					console.log('contentViewHeight', _self.contentViewHeight)
+					// console.log('mitemHeight', _self.mitemHeight)
+					// console.log('contentViewHeight', _self.contentViewHeight)
 					// 因为vue的虚拟DOM 每次生成的新消息都是之前的，所以采用异步setTimeout
 					setTimeout(() => {
 						if (_self.mitemHeight > _self.contentViewHeight) { //判断子元素高度是否大于显示高度
-							console.log("_self.scrollTop1", _self.scrollTop)
+							// console.log("_self.scrollTop1", _self.scrollTop)
 							_self.scrollTop = _self.mitemHeight - _self
 								.contentViewHeight //用子元素的高度减去显示的高度就获益获得序言滚动的高度
-							console.log("_self.scrollTop2", _self.scrollTop)
+							// console.log("_self.scrollTop2", _self.scrollTop)
 						} else {
-							console.log("_self.scrollTop3", _self.scrollTop)
+							// console.log("_self.scrollTop3", _self.scrollTop)
 						}
 					}, 100)
 				})
@@ -299,7 +297,7 @@
 				if (this.chatList[0].id == 99998) {
 					return
 				}
-				console.log('滑到顶部了')
+				// console.log('滑到顶部了')
 				this.showLoad = true
 				this.initData(this.chatList[0].id, 1)
 			},
@@ -327,7 +325,7 @@
 			// 	});
 			// }
 			previewImage(e) {
-				console.log('e', e);
+				// console.log('e', e);
 				uni.previewImage({
 					// 需要预览的图片链接列表
 					urls: [],

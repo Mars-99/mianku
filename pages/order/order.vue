@@ -234,7 +234,6 @@
 					return this.$api.msg(res.msg)
 				} else {
 
-					console.log("res", res)
 
 				}
 				this.getOrderList()
@@ -260,14 +259,14 @@
 							uni.navigateTo({
 								url: '../order/order-result?state=success'
 							})
-							console.log('success:' + JSON.stringify(res));
+							
 
 						},
 						fail(err) {
 							uni.navigateTo({
 								url: '../order/order-result?state=fail'
 							})
-							console.log('fail:' + JSON.stringify(err));
+							
 						}
 					});
 				}
@@ -307,7 +306,7 @@
 					this.orderListData.find(item => {
 						if (item.checkOut < today && item.state == 1) {
 							this.handleOrderList.push(item)
-							// item.state = 9
+							item.state = 9
 							return
 						}
 					})

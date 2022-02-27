@@ -269,7 +269,6 @@
 			var prevPage = pages[pages.length - 1]
 			this.brand = prevPage.brand
 			if (this.brand) {
-				console.log("bbb", this.brand)
 				if (this.brand.name) {
 					this.curCityName = this.brand.name
 					this.curCityId = this.brand.id;
