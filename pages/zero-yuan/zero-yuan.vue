@@ -146,6 +146,13 @@
 				prizelist: [], //今日优惠券
 				myPrizeList: [], //我的优惠券
 				pageshow: true,
+				share: {
+					title: '0元领福利',
+					path: '../zero-yuan/zero-yuan',
+					imageUrl: '',
+					desc: '',
+					content: ''
+				},
 
 			}
 		},
@@ -211,26 +218,6 @@
 								prize_obj.recevie_status = 0
 							}
 						}
-						// if (data.data.share["target" + i] <= userdata.shareNum) {
-						// 	prize_obj.recevie_status = 2 //已领取
-						// 	my_obj = data.data['prize' + i][0]
-						// 	my_obj.botton_text = '已领取'
-						// } else {
-						// 	if (i > 1) {
-						// 		if (data.data.share["target" + (i - 1)] <= userdata.shareNum && userdata.shareNum <
-						// 			data.data.share["target" + (i + 1)]) {
-						// 			prize_obj.recevie_status = 1 //免费拿
-						// 			my_obj = data.data['prize' + i][0]
-						// 			my_obj.botton_text = '助力进行中'
-						// 		}
-						// 	} else {
-						// 		if (data.data.share["target" + i] > userdata.shareNum) {
-						// 			prize_obj.recevie_status = 1 //免费拿
-						// 			my_obj = data.data['prize' + i][0]
-						// 			my_obj.botton_text = '助力进行中'
-						// 		}
-						// 	}
-						// }
 						if (my_obj) {
 							this.myPrizeList.push(my_obj)
 						}
@@ -241,7 +228,6 @@
 				console.log('myPrizeList:', this.myPrizeList)
 			},
 			openZeroYuanDetailPage(id) {
-
 				uni.navigateTo({
 					url: '../zero-yuan/zero-yuan-detail?id=' + id
 				})

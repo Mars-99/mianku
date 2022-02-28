@@ -121,7 +121,7 @@
 				can_receive: false, //是否可领取
 				share: {
 					title: '0元领福利',
-					path: '/pages/index/index',
+					path: '',
 					imageUrl: '',
 					desc: '',
 					content: ''

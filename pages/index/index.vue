@@ -5,8 +5,8 @@
 			<uni-swiper-dot :info="listingsBanner" :current="current" field="content" :mode="mode">
 				<swiper class="swiper-box" :autoplay="true" :interval="3000">
 					<swiper-item v-for="(item ,index) in listingsBanner" :key="index">
-						<view class="swiper-item">
-							<image mode="widthFix" :v-if="item.thum" :src="item.thum">
+						<view class="swiper-item" @tap="linkOthers(item)">
+							<image class="img" mode="widthFix" :v-if="item.thum" :src="item.thum">
 							</image>
 						</view>
 					</swiper-item>
@@ -422,7 +422,23 @@
 					title: '房源还在开发中，敬请期待！',
 					icon: 'none'
 				})
-			}
+			},
+			linkOthers(item) {
+				// 此处填写你要跳转的绑定公众号文章的链接地址或者已经在小程序后台配置好业务域名的地址
+				var url = item.sUrl;
+				if(item.sUrl.slice(0, 5) =="https"){
+					uni.navigateTo({
+						// 此处的链接为小程序上面新建的webview页面路径，参数url为要跳转外链的地址
+						url: '../../components/webview/webview?url=' + encodeURIComponent(url)
+					});
+				}else{
+					let newUrl=url.slice(5)
+					uni.navigateTo({
+						url: '..' + newUrl
+					});
+				}
+			},
+
 		}
 	}
 </script>
@@ -442,11 +458,15 @@
 		height: 500rpx;
 		overflow: hidden;
 		border-radius: 0 0 80rpx 80rpx;
+
+		.img {
+			width: 100%;
+		}
 	}
 
-	.swiper-item>image {
-		width: 100%;
-	}
+	// .swiper-item>image {
+	// 	width: 100%;
+	// }
 
 	.king-kong {
 		margin: 32rpx 32rpx 0 32rpx;
