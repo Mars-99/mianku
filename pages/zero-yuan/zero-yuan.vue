@@ -199,13 +199,15 @@
 						prize_obj.recevie_status = 0 //未开始		
 						if (userdata.rewards === (i - 1)) {
 							//正在助力的活动
+							my_obj = data.data['prize' + i][0]
+							//正在助力的活动
 							if (data.data.share["target" + i] <= userdata.shareNum) {
 								//助力人数大于等于目标数，则可领取优惠券
 								prize_obj.recevie_status = 2
-								my_obj = data.data['prize' + i][0]
 								my_obj.botton_text = '已领取'
 							} else {
 								prize_obj.recevie_status = 1
+								my_obj.botton_text = '助力进行中'
 							}
 						} else {
 							if (userdata.rewards > i - 1) {

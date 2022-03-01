@@ -57,24 +57,24 @@ let urlManage = {
 	getUniversityUrl: 'api/home/university', //获取学校
 	getAuthenticationUpdateUrl: 'api/user/authentication_update', //学生认证
 	getPrivilegeCouponUrl: 'api/user/getPrivilegeCoupon', //学生特权优惠券
-	
+
 
 	getShareDetail: 'api/activity/share_detail', //分享助力活动详情
 	getUserShare: 'api/user/share', //助力活动用户数据
 	getUserSharePrice: 'api/user/share_price', //领取助力奖励
-	userHelp:'api/user/help', //0元助力
-	getHelpUserList:'api/user/help_user',//助力用户列表
-	getShareActivityUrl:'api/home/share_activity',//助力页详情
-	
-	
-	getSiteContentUrl:'api/home/site_content', //平台信息
-	getCouponUrl:'api/user/get_coupon', //领取优惠券
-	couponListUrl:'api/user/coupon_list', //我的优惠券列表
-	
-	
-	
-	
-	
+	userHelp: 'api/user/help', //0元助力
+	getHelpUserList: 'api/user/help_user', //助力用户列表
+	getShareActivityUrl: 'api/home/share_activity', //助力页详情
+
+
+	getSiteContentUrl: 'api/home/site_content', //平台信息
+	getCouponUrl: 'api/user/get_coupon', //领取优惠券
+	couponListUrl: 'api/user/coupon_list', //我的优惠券列表
+
+
+
+
+
 
 
 
@@ -85,7 +85,7 @@ let urlManage = {
 
 // 微信登录(1-1)
 const wxLogin = function(code, recommend) {
-	console.log('wxLogin recommend:',recommend)
+	console.log('wxLogin recommend:', recommend)
 	return $http.post(urlManage.wxLoginUrl, {
 		code: code,
 		recommend: recommend,
@@ -236,7 +236,7 @@ const activityEnroll = function(hid, contacts, phone) {
 // 用户试睡列表
 const getEnrollList = function() {
 	return $http.post(urlManage.enrollListUrl, {
-		
+
 	})
 }
 
@@ -393,9 +393,8 @@ const authenticationUpdateUrl = function(idCard, frontView, realName, school, ed
 }
 // 学生优惠券
 const privilegeCoupon = function() {
-	return $http.get(urlManage.getPrivilegeCouponUrl, {
-	})
-	}
+	return $http.get(urlManage.getPrivilegeCouponUrl, {})
+}
 
 //分享助力活动详情
 const getShareDetail = function() {
@@ -410,37 +409,42 @@ const getUserSharePrice = function() {
 	return $http.get(urlManage.getUserSharePrice, {})
 }
 // 0元助力
-const userHelp = function(userid){
-	return $http.post(urlManage.userHelp,{id:userid})
+const userHelp = function(userid, type) {
+	return $http.post(urlManage.userHelp, {
+		id: userid,
+		type: type
+	}, )
 }
 // 助力页详情
-const shareActivity = function(uid){
-	return $http.post(urlManage.getShareActivityUrl,{uid:uid})
+const shareActivity = function(uid) {
+	return $http.post(urlManage.getShareActivityUrl, {
+		uid: uid
+	})
 }
 
 
 // 平台信息
-const siteContent = function(){
-	return $http.get(urlManage.getSiteContentUrl,{})
+const siteContent = function() {
+	return $http.get(urlManage.getSiteContentUrl, {})
 }
 // 领取优惠券
-const getCoupon = function(id){
-	return $http.post(urlManage.getCouponUrl,{
-		id:id
+const getCoupon = function(id) {
+	return $http.post(urlManage.getCouponUrl, {
+		id: id
 	})
 }
 // 我的优惠券列表
-const getCouponList= function(state){
-	return $http.post(urlManage.couponListUrl,{
-		state:state
+const getCouponList = function(state) {
+	return $http.post(urlManage.couponListUrl, {
+		state: state
 	})
 }
 
 //助力用户信息列表
-const getHelpUserList = function(page,limit){
-	return $http.post(urlManage.getHelpUserList,{
-		page:page,
-		limit:limit
+const getHelpUserList = function(page, limit) {
+	return $http.post(urlManage.getHelpUserList, {
+		page: page,
+		limit: limit
 	})
 }
 

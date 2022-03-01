@@ -1,86 +1,89 @@
 <template>
 	<view class="content">
-		<view class="banner">
-			<image class="img" mode="widthFix"
-				src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner-detail.jpg">
-			</image>
-			<view class="user-cont">
-				<view class="avatar">
-					<image class="img" mode="widthFix" :src="initUserinfo.face">
-					</image>
-				</view>
-				<view class="name">{{initUserinfo.userName}}</view>
-				<view class="slogan">“朋友们,求点击助力！”</view>
-			</view>
-		</view>
-		<view class="main-box">
-			<view class="coupon-list">
-				<view class="coupon-item">
-					<view class="l-part">
-						<image class="img" mode="widthFix"
-							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+		<page-load v-if="pageshow"></page-load>
+		<view v-else>
+			<view class="banner">
+				<image class="img" mode="widthFix"
+					src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-banner-detail.jpg">
+				</image>
+				<view class="user-cont">
+					<view class="avatar">
+						<image class="img" mode="widthFix" :src="initUserinfo.face">
 						</image>
-						<view class="cont" v-if="detail_info.prize.type == 2">
-							<view class="t-txt">{{detail_info.prize.discount}}</view>
-							<view class="b-txt">全场通用</view>
-						</view>
-						<view class="cont" v-else>
-							<view class="t-txt"><text class="txt">￥</text>{{detail_info.prize.deduct}}</view>
-							<view class="b-txt">满{{detail_info.prize.restrict}}-{{detail_info.prize.deduct}}</view>
-						</view>
 					</view>
-					<view class="r-part">
-						<view class="title">{{detail_info.prize.title}}</view>
-						<view class="b-cont">
-							<view class="l-txt" v-if="detail_info.prize.type == 2">
-								<text class="txt">享所有房源</text>
-								{{detail_info.prize.discount}}折
-							</view>
-							<view class="l-txtK" v-else>
-								<text class="txt">价值</text>
-								￥{{detail_info.prize.deduct}}
-							</view>
-						</view>
-					</view>
+					<view class="name">{{initUserinfo.userName}}</view>
+					<view class="slogan">“朋友们,求点击助力！”</view>
 				</view>
 			</view>
-			<view class="help-box">
-				<view class="title">
-					{{target}}人完成助力可领优惠券
-				</view>
-				<view class="help-mian">
-					<view class="help-list">
-						<view class="help-item" v-for="item in helpuserlist" :key="item.userName">
-							<view class="avatar">
-								<image class="img" mode="widthFix" :src="item.face">
-								</image>
+			<view class="main-box">
+				<view class="coupon-list">
+					<view class="coupon-item">
+						<view class="l-part">
+							<image class="img" mode="widthFix"
+								src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/coupon-bg.png">
+							</image>
+							<view class="cont" v-if="detail_info.prize.type == 2">
+								<view class="t-txt">{{detail_info.prize.discount}}</view>
+								<view class="b-txt">全场通用</view>
 							</view>
-							<view class="name">{{item.userName}}</view>
+							<view class="cont" v-else>
+								<view class="t-txt"><text class="txt">￥</text>{{detail_info.prize.deduct}}</view>
+								<view class="b-txt">满{{detail_info.prize.restrict}}-{{detail_info.prize.deduct}}</view>
+							</view>
+						</view>
+						<view class="r-part">
+							<view class="title">{{detail_info.prize.title}}</view>
+							<view class="b-cont">
+								<view class="l-txt" v-if="detail_info.prize.type == 2">
+									<text class="txt">享所有房源</text>
+									{{detail_info.prize.discount}}折
+								</view>
+								<view class="l-txtK" v-else>
+									<text class="txt">价值</text>
+									￥{{detail_info.prize.deduct}}
+								</view>
+							</view>
 						</view>
 					</view>
-					<view class="txt" v-if="remain===0">
-						已助力完成
+				</view>
+				<view class="help-box">
+					<view class="title">
+						{{target}}人完成助力可领优惠券
 					</view>
-					<view class="txt" v-else>
-						<uni-icons v-if="helpuserlist.length == 0" type="plus" size="40" color="#ffe0cb"></uni-icons>
-						<text v-else>{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位</text>
-					</view>					
-					<view class="help-btn">
-						<button class="btn" type="primary" size="default" @tap="getCoupon()" v-if="isHelp">我也要拿券</button>
-						<button class="btn" type="primary" size="default" @tap="Help()" v-else>帮ta助力</button>
+					<view class="help-mian">
+						<view class="help-list">
+							<view class="help-item" v-for="item in helpuserlist" :key="item.userName">
+								<view class="avatar">
+									<image class="img" mode="widthFix" :src="item.face">
+									</image>
+								</view>
+								<view class="name">{{item.userName}}</view>
+							</view>
+						</view>
+						<view class="txt" v-if="remain===0">
+							已助力完成
+						</view>
+						<view class="txt" v-else>
+							<uni-icons v-if="helpuserlist.length == 0" type="plus" size="40" color="#ffe0cb"></uni-icons>
+							<text v-else>{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位</text>
+						</view>					
+						<view class="help-btn">
+							<button class="btn" type="primary" size="default" @tap="getCoupon()" v-if="isHelp">我也要拿券</button>
+							<button class="btn" type="primary" size="default" @tap="Help()" v-else>帮ta助力</button>
+						</view>
 					</view>
 				</view>
+			
 			</view>
-		
-		</view>
-		<view class="bottom-zw">
-			<image class="img" mode="widthFix"
-				src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
-			</image>
-		</view>
-		<view class="help-rule">
-			<view class="title">活动规则</view>
-			<view class="cont" v-html="detail_info.share.remark"></view>
+			<view class="bottom-zw">
+				<image class="img" mode="widthFix"
+					src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/0yuan-b-bg.jpg">
+				</image>
+			</view>
+			<view class="help-rule">
+				<view class="title">活动规则</view>
+				<view class="cont" v-html="detail_info.share.remark"></view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -94,6 +97,7 @@
 		userHelp,
 		userDetail,
 	} from '@/utils/request/manage.js'
+		import pageLoad from '@/components/pageLoad/pageLoad'
 	export default {
 		data() {
 			return {
@@ -109,17 +113,23 @@
 			can_receive: false, //是否可领取
 			shareUserList:[],//助力用户列表
 			isHelp:false, //是否助力成功
+			pageshow: true,
 			}
+		},
+		components: {
+			pageLoad
 		},
 		onLoad() {
 			this.init()
 		},
+		// onShow() {
+		// 	this.init()
+		// },
 		methods: {
 			async init() {
-				this.loginAuth = uni.getStorageSync('loginAuth')
-				if (!this.loginAuth) {
+				let loginAuth = uni.getStorageSync('loginAuth')
+				if (!loginAuth) {
 					this.$api.href('../login/login')
-					return
 				}
 				const{data:user_data} = await userDetail()//当前用户
 				this.curUserinfo = user_data.data
@@ -161,24 +171,25 @@
 				// }else{
 				// 	this.remain = this.target - userdata.shareNum
 				// }
+				this.pageshow = false
 			},
 			async Help() {
+				
 				if (this.$mp.query.recommend && this.curUserinfo.id!=this.$mp.query.recommend) {
 					const {
 						data
 					} = await userHelp(Number(this.$mp.query.recommend), 2)
 					if(data.code == 1){
-						this.$api.msg(data.code.msg)
+						this.$api.msg(data.msg)
 					}else{
-						wx.showToast({
-							title: '助力成功!',
-							icon: 'none',
-						}),
+						this.$api.msg(data.msg)
 						this.isHelp = true
+						this.init()
 						
 					}
 					console.log('助力活动返回结果：', data)
-				}else{
+				}
+				else{
 					wx.showToast({
 						title: '不能给自己助力!',
 						icon: 'none',
