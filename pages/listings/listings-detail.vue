@@ -771,7 +771,7 @@
 			},
 			Share() {
 				this.share.title = this.listingsDetail.hotel.hotelName
-				this.share.path = '@/listings/listings-detail?id=' + this.listingsDetail.hotel.id
+				this.share.path = '/pages/listings/listings-detail?id=' + this.listingsDetail.hotel.id
 				this.share.imageUrl = this.listingsDetail.hotel.thum
 			},
 			getdiffdate(stime, etime) {
