@@ -114,17 +114,36 @@
 			shareUserList:[],//助力用户列表
 			isHelp:false, //是否助力成功
 			pageshow: true,
+			recommend:0,
 			}
 		},
 		components: {
 			pageLoad
 		},
 		onLoad() {
-			this.init()
+			// if(this.$mp.query.recommend){
+			// 	this.recommend = this.$mp.query.recommend
+			// 	uni.setStorageSync('recommend', this.$mp.query.recommend)
+			// 	console.log("aa")
+			// 	console.log("recommend11",this.recommend)
+			// 	this.init()
+			// }else{
+			// 	this.recommend = uni.getStorageSync('recommend')
+			// 	this.init()
+			// 	console.log("bb")
+			// 	console.log("recommend22",this.recommend)
+			// }
 		},
-		// onShow() {
-		// 	this.init()
-		// },
+		onShow() {
+			if(this.$mp.query.recommend){
+				this.recommend = this.$mp.query.recommend
+				uni.setStorageSync('recommend', this.$mp.query.recommend)
+				this.init()
+			}else{
+				this.recommend = uni.getStorageSync('recommend')
+				this.init()
+			}
+		},
 		methods: {
 			async init() {
 				let loginAuth = uni.getStorageSync('loginAuth')
@@ -134,10 +153,10 @@
 				const{data:user_data} = await userDetail()//当前用户
 				this.curUserinfo = user_data.data
 				
-				let recommend = this.$mp.query.recommend //发起人id
+				// let recommend = this.$mp.query.recommend //发起人id
 				const {
 					data: res
-				} = await shareActivity(recommend)
+				} = await shareActivity(this.recommend)
 				this.initUserinfo = res.data.user
 				this.shareUserList = res.data.shareUser
 				// this.detail_info.prize = res.data.prize[0]	
@@ -175,10 +194,10 @@
 			},
 			async Help() {
 				
-				if (this.$mp.query.recommend && this.curUserinfo.id!=this.$mp.query.recommend) {
+				if (this.recommend && this.curUserinfo.id!=this.recommend) {
 					const {
 						data
-					} = await userHelp(Number(this.$mp.query.recommend), 2)
+					} = await userHelp(Number(this.recommend), 2)
 					if(data.code == 1){
 						this.$api.msg(data.msg)
 					}else{

@@ -228,7 +228,7 @@
 					})
 					uni.navigateBack({
 						success: function() {
-							beforePage.onShow(); // 执行上一页的onLoad方法
+							beforePage.onLoad(); // 执行上一页的onLoad方法
 						}
 					})
 				}

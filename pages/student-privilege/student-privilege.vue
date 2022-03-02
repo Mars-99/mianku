@@ -22,7 +22,7 @@
 					<view class="youhui-name">学生折上折</view>
 					<view class="youhui-info">专享9.5折</view>
 				</view>
-				<view class="youhui-item">
+				<view class="youhui-item" @tap="openListingsDiscountPage()">
 					<view class="icon">
 						<image class="img" mode="widthFix"
 							src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/tq-xkyh-icon.png">
@@ -42,12 +42,22 @@
 				</view>
 			</view>
 			<view class="bulletin">
-				<uni-notice-bar scrollable="true" single="true"
-					text="用户小小眠 认证了学生特权卡 下单了【眠库·克莱因蓝bearbrick】五一广场·国金中心IFS·超级文和友·茶颜悦色·免费寄存·一居两床 房源"></uni-notice-bar>
+				<!-- <uni-notice-bar scrollable="true" single="true"
+					text="用户小小眠 认证了学生特权卡 下单了【眠库·克莱因蓝bearbrick】五一广场·国金中心IFS·超级文和友·茶颜悦色·免费寄存·一居两床 房源"></uni-notice-bar> -->
+					<maoScroll v-if="ordermsg.length>0" :data="data" :showNum="showNum" :lineHeight="lineHeight"
+						:animationScroll="animationScroll" :animation="animation">
+						<template v-slot="{line}">
+							<view class="line">
+								{{line.msg}}
+							</view>
+						</template>
+					</maoScroll>
 			</view>
 			<view class="approve">
 				<button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">认证已通过</button>
 				<button class="btn" type="primary" size="default" @tap="openAuthenticate()" v-else>立即认证</button>
+				<view class="prompt" v-if="userDetail.examine == 3">你的认证信息已提交，我们将在1-3个工作日完成审核。</view>
+				<view class="prompt" v-if="userDetail.examine == 2">很抱歉，因信息不符合要求，您的学生认证暂不通过。</view>
 			</view>
 		</view>
 		<view class="discount-list">
@@ -79,15 +89,38 @@
 	import {
 		userDetail,
 		privilegeCoupon,
+		orderMsg,
 	} from '@/utils/request/manage.js'
+	import maoScroll from '@/components/mao-scroll/mao-scroll.vue';
 	export default {
+		components: {
+			maoScroll
+		},
 		data() {
 			return {
 				userDetail:{},
-				couponList:[]
+				couponList:[],
+				checkIn: '选择入住日期',
+				checkOut: '选择离店日期',
+				check:[],
+				ordermsg:[],
+				data: [],
+				showNum: 1,
+				lineHeight: 40,
+				animationScroll: 800,
+				animation: 2000,
+				
 			}
 		},
 		onLoad() {
+			this.getTimeandWeek()
+			this.getOrderMsg()
+			let self = this;
+			setTimeout(function() {
+				self.createData();
+			}, 1000);
+		},
+		onShow() {
 			this.getUserDetail()
 			this.getPrivilegeCoupon()
 		},
@@ -130,10 +163,69 @@
 				}
 			
 			},
+			async getOrderMsg() {
+				const {
+					data: res
+				} = await orderMsg(1,5)
+				if (res.code == 1) {
+					return this.$api.msg(res.msg)
+				} else {
+					this.ordermsg= res.data.rs
+				}
+				const {
+					data: res2
+				} = await orderMsg(0,5)
+				if (res2.code == 1) {
+					return this.$api.msg(res2.msg)
+				} else {
+					this.ordermsg= this.ordermsg.concat(res2.data.rs)
+					console.log("orderMsg",this.ordermsg)
+				}
+			
+			
+			},
 			openSiteContent() {
 				uni.navigateTo({
 					url: '../site-content/site-content?id=5' 
 				})
+			},
+			getTimeandWeek() {
+				//获取当前时间
+				var now = new Date();
+				//往后几天就循环几次
+				for (let i = 0; i < 7; i++) {
+					//24 * 3600 * 1000 就是计算一天的时间  
+					var date = new Date(now.getTime() + i * 24 * 3600 * 1000);
+					var year = date.getFullYear();
+					var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+					var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+					var dt2 = new Date(now.getTime() + i * 24 * 3600 * 1000);
+					var weekDay = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+					//把七天的时间和星期添加到数组中
+					this.check.push({
+						date: year + '-' + month + '-' + day,
+						week: weekDay[dt2.getDay()],
+						checked: false
+			
+					});
+				}
+				this.checkIn = this.check[0].date
+				this.checkOut = this.check[1].date
+			},
+			openListingsDiscountPage() {
+				uni.navigateTo({
+					url: '../listings/listings-list?cityId=1&curCityName=长沙&flag=h&checkIn=' + this.checkIn +
+						'&checkOut=' + this.checkOut
+				})
+			},
+			createData() {
+				for (let i = 0; i <= this.ordermsg.length + 1; i++) {
+					if (this.ordermsg[i]) {
+						this.data.push({
+							msg: this.ordermsg[i].msg,
+						})
+					}
+				}
 			},
 		},
 	}
@@ -221,6 +313,17 @@
 			.bulletin {
 				border-radius: 20rpx;
 				margin: 40rpx 0;
+				padding: 20rpx;
+				background-color: #fcf3e6;
+				color: #fb8e39;
+				.line {
+					height: 40rpx;
+					line-height: 40rpx;
+					width: 100%;
+					white-space:nowrap;
+					overflow:hidden;
+					text-overflow:ellipsis;
+					}
 			}
 
 			.approve {
@@ -232,6 +335,11 @@
 					background-color: #333333;
 					color: #fffff;
 					line-height: 80rpx;
+				}
+				.prompt{
+					padding: 20rpx;
+					font-size: 24rpx;
+					color: #fb8e39;
 				}
 			}
 		}

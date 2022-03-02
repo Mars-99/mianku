@@ -57,6 +57,8 @@ let urlManage = {
 	getUniversityUrl: 'api/home/university', //获取学校
 	getAuthenticationUpdateUrl: 'api/user/authentication_update', //学生认证
 	getPrivilegeCouponUrl: 'api/user/getPrivilegeCoupon', //学生特权优惠券
+	orderMsgUrl: 'api/home/order_msg', //认证用户订房滚动消息
+	
 
 
 	getShareDetail: 'api/activity/share_detail', //分享助力活动详情
@@ -395,7 +397,13 @@ const authenticationUpdateUrl = function(idCard, frontView, realName, school, ed
 const privilegeCoupon = function() {
 	return $http.get(urlManage.getPrivilegeCouponUrl, {})
 }
-
+// 认证用户订房滚动消息
+const orderMsg = function(type,limit) {
+	return $http.post(urlManage.orderMsgUrl, {
+		type:type,
+		limit:limit,
+	})
+}
 //分享助力活动详情
 const getShareDetail = function() {
 	return $http.get(urlManage.getShareDetail, {})
@@ -494,6 +502,7 @@ export {
 	getUniversit,
 	authenticationUpdateUrl,
 	privilegeCoupon,
+	orderMsg,
 	getShareDetail,
 	getUserShare,
 	getUserSharePrice,

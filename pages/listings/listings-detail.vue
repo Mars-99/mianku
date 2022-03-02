@@ -374,7 +374,7 @@
 				couponList:[],
 
 				share: {
-					title: '眠库小程序',
+					title: '眠库城市民宿',
 					path: '/pages/index/index',
 					imageUrl: '',
 					desc: '',
