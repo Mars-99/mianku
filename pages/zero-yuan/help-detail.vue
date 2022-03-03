@@ -123,34 +123,18 @@
 			pageLoad
 		},
 		onLoad() {
-			// if(this.$mp.query.recommend){
-			// 	this.recommend = this.$mp.query.recommend
-			// 	uni.setStorageSync('recommend', this.$mp.query.recommend)
-			// 	console.log("aa")
-			// 	console.log("recommend11",this.recommend)
-			// 	this.init()
-			// }else{
-			// 	this.recommend = uni.getStorageSync('recommend')
-			// 	this.init()
-			// 	console.log("bb")
-			// 	console.log("recommend22",this.recommend)
-			// }
+			this.init()
 		},
 		onShow() {
-			if (this.$mp.query.recommend) {
-				this.recommend = this.$mp.query.recommend
-				uni.setStorageSync('recommend', this.$mp.query.recommend)
-				this.init()
-			} else {
-				this.recommend = uni.getStorageSync('recommend')
-				this.init()
-			}
+	
 		},
 		methods: {
 			async init() {
+				this.recommend = this.$mp.query.recommend
+				console.log("init",this.recommend)
 				let loginAuth = uni.getStorageSync('loginAuth')
 				if (!loginAuth) {
-					this.$api.href('../login/login')
+					this.$api.href('../login/login?recommend='+this.recommend )
 				}
 				const {
 					data: user_data
@@ -162,12 +146,10 @@
 				} = await shareActivity(this.recommend)
 				this.initUserinfo = res.data.user
 				this.shareUserList = res.data.shareUser
-				// this.detail_info.prize = res.data.prize[0]	
+				let userdata = {rewards:res.data.rewards,shareNum:res.data.shareNum}				
 				const {
 					data: sharedetail
-				} = await getShareDetail() //助力活动详情		
-				let user_share_list = await getUserShare() // 助力活动用户数据
-				let userdata = user_share_list.data.data;
+				} = await getShareDetail() //助力活动详情						
 
 				console.log('助力数据：', userdata)
 				this.detail_info.share = sharedetail.data.share
@@ -186,21 +168,9 @@
 				if (this.detail_info.share["target" + (userdata.rewards + 1)] <= userdata.shareNum) {
 					this.isHelp = true
 				} else {
-					// this.remain = this.target - userdata.shareNum
-					this.remain = this.target - (userdata.shareNum-this.prev_target)
+					this.remain = this.target - (userdata.shareNum - this.prev_target)
 				}
-				//获取助力用户信息列表
-				// const { data:userlist } = await getHelpUserList(1, 999)
-				// console.log('bbb:',userlist)
-				// let start = userdata.rewards === 0 ? 0 : this.detail_info.share['target'+userdata.rewards]
-				// let end =  this.detail_info.share['target'+(userdata.rewards+1)]
-				// this.helpuserlist = userlist.data.rs.slice(start,end) //获取显示的用户列表
-
-				// if(this.detail_info.share["target"+(userdata.rewards+1)]<=userdata.shareNum){
-				// 	this.can_receive=true
-				// }else{
-				// 	this.remain = this.target - userdata.shareNum
-				// }
+				
 				this.pageshow = false
 			},
 			async Help() {
@@ -210,9 +180,17 @@
 						data
 					} = await userHelp(Number(this.recommend), 2)
 					if (data.code == 1) {
-						this.$api.msg(data.msg)
+						// this.$api.msg(data.msg)
+						wx.showToast({
+							title: data.msg,
+							icon: 'none',
+						})
 					} else {
-						this.$api.msg(data.msg)
+						// this.$api.msg(data.msg)
+						wx.showToast({
+							title: data.msg,
+							icon: 'none',
+						})
 						this.isHelp = true
 						this.init()
 

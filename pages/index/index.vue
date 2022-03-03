@@ -113,7 +113,7 @@
 								</image>
 								<view class="main-text">
 									<h3>今日特价</h3>
-									<p>性价比超过房源</p>
+									<p>性价比超髙房源</p>
 								</view>
 							</view>
 							<view class="item" @tap="openListingsDiscountPage('j')">

@@ -93,7 +93,6 @@
 			this.isLogin()	
 		},
 		onShow() {
-			
 			this.initData(0)
 		},
 		computed:{

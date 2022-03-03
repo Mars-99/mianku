@@ -135,11 +135,17 @@
 					uni.setStorageSync('loginAuth', true)
 					let pages = getCurrentPages(); // 当前页面
 					let beforePage = pages[pages.length - 2]; // 上一页
-					uni.navigateBack({
-						success: function() {
-							beforePage.onLoad(); // 执行上一页的onLoad方法
-						}
-					});
+					if(this.$mp.query.recommend){
+							uni.navigateTo({
+								url: '../zero-yuan/help-detail?recommend=' + this.$mp.query.recommend
+							})
+					}else{
+						uni.navigateBack({
+							success: function() {
+								beforePage.onLoad(); // 执行上一页的onLoad方法
+							}
+						});
+					}
 				}
 
 			}

@@ -195,7 +195,7 @@
 				} else {
 					this.remain = this.target - (userdata.shareNum-this.prev_target)
 				}
-				this.share.path = '/pages/zero-yuan/help-detail?id=' + this.detail_info.share.id + '&recommend=' + this
+				this.share.path = '/pages/zero-yuan/help-detail?recommend=' + this
 					.userinfo.id
 				this.pageshow = false
 			},
