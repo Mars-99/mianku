@@ -430,6 +430,9 @@
 					this.checkInYH = this.checkIn.slice(5)
 					this.checkOutYH = this.checkOut.slice(5)
 					this.choiceDateArr = this.brand.choiceDateArr
+					if(this.choiceDateArr.length>0){
+						this.wufang = false
+					}
 					this.getTotalPice()
 					this.listingStatus()
 				} else {
