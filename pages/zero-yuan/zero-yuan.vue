@@ -49,6 +49,8 @@
 											v-if="item.recevie_status==0">未开始</button>
 										<button class="btn" type="primary" size="default"
 											v-if="item.recevie_status==2">已领取</button>
+										<button class="btn" type="primary" size="default"
+											@tap="openZeroYuanDetailPage(item.id)" v-if="item.recevie_status==3">领取</button>
 									</view>
 								</view>
 							</view>
@@ -86,12 +88,12 @@
 									{{item.discount}}折
 								</view>
 								<view class="l-txt" v-else>
-									<text class="txt">价值</text>
+									<text class="txt">价值</text>g  
 									￥{{item.deduct}}
 								</view>
 								<view class="r-btn">
-									<button class="btn" type="primary" size="default"
-										@tap="openZeroYuanDetailPage(item.id)">{{item.botton_text}}</button>
+									<button class="btn" type="primary" size="default" v-if="item.botton_text === '已领取'">{{item.botton_text}}</button>
+									<button class="btn" type="primary" size="default" @tap="openZeroYuanDetailPage(item.id)" v-else>{{item.botton_text}}</button>
 								</view>
 							</view>
 						</view>
@@ -198,13 +200,13 @@
 						prize_obj = data.data['prize' + i][0]
 						prize_obj.recevie_status = 0 //未开始		
 						if (userdata.rewards === (i - 1)) {
-							//正在助力的活动
 							my_obj = data.data['prize' + i][0]
 							//正在助力的活动
 							if (data.data.share["target" + i] <= userdata.shareNum) {
 								//助力人数大于等于目标数，则可领取优惠券
-								prize_obj.recevie_status = 2
-								my_obj.botton_text = '已领取'
+								// prize_obj.recevie_status = 2
+								prize_obj.recevie_status = 3 //达到目标，未领取
+								my_obj.botton_text = '领取'
 							} else {
 								prize_obj.recevie_status = 1
 								my_obj.botton_text = '助力进行中'

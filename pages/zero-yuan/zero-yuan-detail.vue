@@ -43,9 +43,9 @@
 									<text class="txt">价值</text>
 									￥{{detail_info.prize.deduct}}
 								</view>
-								<view class="r-btn" v-if="can_receive">
+								<!-- <view class="r-btn" v-if="can_receive">
 									<button class="btn" type="primary" size="default" @tap="share_price()">{{isReceive?"已领取":"领取"}}</button>
-								</view>
+								</view> -->
 							</view>
 						</view>
 					</view>
@@ -65,21 +65,26 @@
 							</view>
 						</view>
 						<view class="txt" v-if="remain===0">
-							已助力完成
+							已完成助力,可领取优惠券
 						</view>
 						<view class="txt" v-else>
-							<uni-icons v-if="helpuserlist.length == 0" type="plus" size="40" color="#ffe0cb"></uni-icons>
-							<text v-else>{{helpuserlist.length}}位好友已完成助力,还差{{target - helpuserlist.length}}位</text>
-						</view>					
+							<uni-icons v-if="helpuserlist.length == 0" type="plus" size="40" color="#ffe0cb">
+							</uni-icons>
+							<text v-else>{{helpuserlist.length}}位好友已完成助力,还差{{remain}}位</text>
+						</view>
 						<view class="help-btn" v-if="type===0">
-							<button class="btn" type="primary" size="default" data-name="shareBtn" open-type="share" >分享领助力包</button>
+							<button class="btn" type="primary" size="default" data-name="shareBtn"
+								open-type="share">分享领助力包</button>
 						</view>
-						<view class="help-btn" v-else>
-							<button class="btn" type="primary" size="default" @tap="Help()">帮ta助力</button>
+						<view class="help-btn" v-if="type===2">
+							<button class="btn" type="primary" size="default" data-name="shareBtn" v-if="!isReceive"
+								@tap="share_price()">领取优惠券</button>
+							<button class="btn" type="primary" size="default" data-name="shareBtn" v-if="isReceive">已领取</button>
 						</view>
+						
 					</view>
 				</view>
-			
+
 			</view>
 			<view class="bottom-zw">
 				<image class="img" mode="widthFix"
@@ -117,8 +122,7 @@
 				},
 				userinfo: {},
 				helpuserlist: [],
-				type: 0, //0为分享1为助力
-				can_receive: false, //是否可领取
+				type: 0, //0为分享1为助力2为领取
 				share: {
 					title: '0元领福利',
 					path: '',
@@ -126,10 +130,11 @@
 					desc: '',
 					content: ''
 				},
-				target:0,//目标数
-				remain:0 ,//剩余助力人数
+				target: 0, //本次券目标数
+				prev_target:0,//上张券目标数
+				remain: 0, //剩余助力人数
 				pageshow: true,
-				isReceive:false,
+				isReceive: false,
 			}
 		},
 		components: {
@@ -144,7 +149,7 @@
 				title: this.share.title,
 				path: this.share.path,
 				imageUrl: this.share.imageUrl,
-				}
+			}
 		},
 		computed: {
 			...mapGetters(['getUserinfo', 'getNeedAuth', 'getIsLogin'])
@@ -157,45 +162,45 @@
 					this.$api.href('../login/login')
 					return
 				}
-			   const{data:user_data} = await userDetail()
-			   this.userinfo = user_data.data
 				const {
-					data:sharedetail
+					data: user_data
+				} = await userDetail()
+				this.userinfo = user_data.data
+				const {
+					data: sharedetail
 				} = await getShareDetail() //助力活动详情		
 				let user_share_list = await getUserShare() // 助力活动用户数据
-				let userdata = user_share_list.data.data;
-				console.log("userdata",userdata)
-				
-				this.detail_info.share = sharedetail.data.share		
-				this.detail_info.prize = sharedetail.data['prize'+(userdata.rewards+1)][0]
-				this.target = this.detail_info.share['target'+(userdata.rewards+1)]
-				if (this.$mp.query.recommend && this.userinfo.id!=this.$mp.query.recommend) {
-					this.type = 1
+				let userdata = user_share_list.data.data
+				this.detail_info.share = sharedetail.data.share
+				this.detail_info.prize = sharedetail.data['prize' + (userdata.rewards + 1)][0]
+				this.target = this.detail_info.share['target' + (userdata.rewards + 1)]
+				if(userdata.rewards>0){
+					this.target = this.target-this.detail_info.share['target' + (userdata.rewards)]
+					this.prev_target = this.detail_info.share['target' + (userdata.rewards)]
 				}
+				console.log('target:', this.target)
+				console.log('prev_target:', this.prev_target)
+
 				//获取助力用户信息列表
-				const { data:userlist } = await getHelpUserList(1, 999)
-				console.log('bbb:',userlist)
-				let start = userdata.rewards === 0 ? 0 : this.detail_info.share['target'+userdata.rewards]
-				let end =  this.detail_info.share['target'+(userdata.rewards+1)]
-				this.helpuserlist = userlist.data.rs.slice(start,end) //获取显示的用户列表
-				
-				if(this.detail_info.share["target"+(userdata.rewards+1)]<=userdata.shareNum){
-					this.can_receive=true
-				}else{
-					this.remain = this.target - userdata.shareNum
+				const {
+					data: userlist
+				} = await getHelpUserList(1, 999)
+
+				let start = userdata.rewards === 0 ? 0 : this.detail_info.share['target' + userdata.rewards]
+				let end = this.detail_info.share['target' + (userdata.rewards + 1)]
+				this.helpuserlist = userlist.data.rs.slice(start, end) //获取显示的用户列表
+
+				if (this.detail_info.share["target" + (userdata.rewards + 1)] <= userdata.shareNum) {
+					this.type = 2
+				} else {
+					this.remain = this.target - (userdata.shareNum-this.prev_target)
 				}
 				this.share.path = '/pages/zero-yuan/help-detail?id=' + this.detail_info.share.id + '&recommend=' + this
 					.userinfo.id
 				this.pageshow = false
 			},
-			// Share() {
-			// 	this.share.title = '0元领福利'
-			// 	this.share.path = '@/zero-yuan/zero-yuan-detail?id=' + this.detail_info.share.id + '&recommend=' + this
-			// 		.userinfo.id
-			// 	this.share.imageUrl = ''
-			// },
 			async Help() {
-				if (this.$mp.query.recommend && this.userinfo.id!=this.$mp.query.recommend) {
+				if (this.$mp.query.recommend && this.userinfo.id != this.$mp.query.recommend) {
 					const {
 						data
 					} = await userHelp(Number(this.$mp.query.recommend), 2)
@@ -207,18 +212,20 @@
 				const {
 					data
 				} = await getUserSharePrice()
-				if(data.code == 1){
+				if (data.code == 1) {
 					this.$api.msg(data.code.msg)
-				}else{
+				} else {
 					wx.showToast({
-						title: '领取成功!',
-						icon: 'none',
-					}),
-					this.isReceive = true
-					
+							title: '领取成功!',
+							icon: 'none',
+						}),
+						this.isReceive = true
+					uni.navigateTo({
+						url: '../zero-yuan/zero-yuan'
+					})
 				}
 				console.log('领取助力奖励返回结果：', data)
-			}
+			},
 		}
 	}
 </script>
@@ -369,6 +376,7 @@
 									font-size: 24rpx;
 								}
 							}
+
 							.btn {
 								border-radius: 40rpx;
 								border: none;
@@ -399,37 +407,40 @@
 
 				.help-mian {
 					margin: 0 0 30rpx 0;
-					.help-list{
+
+					.help-list {
 						display: flex;
 						justify-content: center;
-						
-						.help-item{
+
+						.help-item {
 							width: 20%;
 							display: flex;
 							justify-content: center;
 							align-items: center;
 							flex-direction: column;
+
 							.avatar {
 								width: 80rpx;
 								height: 80rpx;
 								margin: 0 10rpx;
 								overflow: hidden;
 								border-radius: 80rpx;
-							
+
 								.img {
 									width: 100%;
 								}
 							}
-							
+
 							.name {
 								font-size: 24rpx;
 								color: #E09014;
 							}
 						}
 					}
-					.txt{
+
+					.txt {
 						font-size: 24rpx;
-						color:#e13c3c;
+						color: #e13c3c;
 						margin: 20rpx 0;
 					}
 				}
@@ -475,6 +486,7 @@
 			}
 		}
 	}
+
 	/deep/ button::after {
 		border: none;
 	}
