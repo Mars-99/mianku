@@ -735,6 +735,8 @@
 					// 	data: res
 					// } = await getEnrollList()
 					let state = this.$mp.query.state
+					// let startAt = this.$mp.query.startAt
+					
 					if (state == 1) {
 						this.isApply = true
 					}

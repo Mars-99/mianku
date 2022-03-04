@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="banner-area">
 			<image class="img" mode="widthFix"
-				src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/free-trial-banner.jpg">
+				:src="sleepDetail.thum">
 			</image>
 			<view class="rule-link">
 				<text class="txt" @tap="openSiteContent()">试住规则</text>
@@ -80,7 +80,7 @@
 								<view class="CP">￥{{listingsItem.weekdaysOriginal}}</view>
 								<view class="wan">/晚</view>
 							</view>
-							<button class="btn-solid" type="default" size="mini"
+							<button :class="[isStart?'btn-solid':'btn-gray']" type="default" size="mini"
 								@tap="openListingsDetail(listingsItem)">免费住</button>
 						</view>
 					</view>
@@ -147,9 +147,11 @@
 	import {
 		activityHotelList,
 		activityPrizeList,
-		reportList
+		reportList,
+		sleepDetail
 	} from '@/utils/request/manage.js'
 	import maoScroll from '@/components/mao-scroll/mao-scroll.vue';
+	import moment from 'moment'
 	export default {
 		components: {
 			maoScroll
@@ -197,13 +199,15 @@
 				count: 1,
 				limit: 5,
 
-				reportList: []
+				reportList: [],
+				sleepDetail:{},
+				isStart:false,
 
 
 
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.init()
 			// this.loadMore()
 			let self = this;
@@ -213,10 +217,15 @@
 		},
 		methods: {
 			init() {
+				let loginAuth = uni.getStorageSync('loginAuth')
+				if (!loginAuth) {
+					this.$api.href('../login/login')
+				}
 				this.cityId = Number(this.$mp.query.cityId)
 				this.getActivityHotelList()
 				this.getActivityPrizeList()
 				this.getReportList()
+				this.getSleepDetail()
 			},
 			createData() {
 				for (let i = 0; i <= this.prizeList.length + 1; i++) {
@@ -239,7 +248,6 @@
 						this.pageIndex = 1, //当前页码
 							this.pageSize = 5, //每页条数
 							this.getActivityHotelList()
-						console.log("1234566")
 						break
 					case 4:
 						//这里是值对应的处理
@@ -280,6 +288,25 @@
 				this.reportList = data.data.news.slice(0,3);
 				console.log(data.data)
 			},
+			async getSleepDetail() {
+				const {
+					data:res
+				} = await sleepDetail()
+				this.sleepDetail = res.data
+				
+				let today = moment().format('YYYY-MM-DD')
+				let start = this.sleepDetail.startAt
+				
+				console.log("today",today)
+				console.log("start",start)
+				const diff1 = moment(start).diff(moment(today))
+				console.log("diff1",diff1)
+				
+				if(diff1 <= 0 ){
+					this.isStart =true
+				}
+				console.log("isStart",this.isStart)
+			},
 			async loadMore(e) {
 				// let _this = this;
 				// let _page = this;
@@ -315,9 +342,16 @@
 				})
 			},
 			openListingsDetail(item) {
-				uni.navigateTo({
-					url: '../listings/listings-detail?id=' + item.id + '&pageRoot=试睡'+'&state='+this.ApplyState
-				})
+				if(this.isStart == true){
+					uni.navigateTo({
+						url: '../listings/listings-detail?id=' + item.id + '&pageRoot=试睡'+'&state='+this.ApplyState+'&startAt'+this.sleepDetail.startAt
+					})
+				}else{
+					wx.showToast({
+						title: '活动将于'+this.sleepDetail.startAt+'开始，敬请期待。',
+						icon: 'none',
+					})
+				}
 			},
 			openSiteContent() {
 				uni.navigateTo({
@@ -578,6 +612,16 @@
 							border-radius: 50rpx;
 							border: none;
 							background-color: #333333;
+							color: #ffffff;
+							margin: 0 10rpx;
+							line-height: 50rpx;
+							font-size: 26rpx;
+							border: none;
+						}
+						.btn-gray {
+							border-radius: 50rpx;
+							border: none;
+							background-color: #cccccc;
 							color: #ffffff;
 							margin: 0 10rpx;
 							line-height: 50rpx;

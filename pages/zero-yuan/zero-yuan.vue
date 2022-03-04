@@ -88,7 +88,7 @@
 									{{item.discount}}折
 								</view>
 								<view class="l-txt" v-else>
-									<text class="txt">价值</text>g  
+									<text class="txt">价值</text>
 									￥{{item.deduct}}
 								</view>
 								<view class="r-btn">

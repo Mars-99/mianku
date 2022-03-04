@@ -10,7 +10,7 @@
 				</view>
 			</view>
 			<view class="intro">
-				必睡榜单首期覆盖长沙、西安、武汉等多座旅游热门城市,每座城市首选10家,共计200套民宿入榜,让更多用户轻松享受到一站式品质服.
+				首期推荐网红城市长沙的必睡民宿，本次入选的有10间民宿，让更多消费者轻松享受一站式品质服务。
 			</view>
 		</view>
 		<view class="listings-area">
@@ -39,7 +39,7 @@
 		},
 		data() {
 			return {
-				items: ['全国', '长沙','重庆','成都','西安'],
+				items: ['全国', '长沙'],
 				current: 0,
 				listingsList: [],
 				bsOrigin:true,

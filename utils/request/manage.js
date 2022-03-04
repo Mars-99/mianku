@@ -28,6 +28,8 @@ let urlManage = {
 	reportDetailUrl: 'api/news/report', // 获取试睡报告详情
 	activityEnrollUrl: 'api/user/activity_enroll', // 试睡活动报名
 	enrollListUrl: 'api/user/enroll_list', // 用户试睡列表
+	sleepDetailUrl: 'api/activity/sleep_detail', // 试睡活动详情
+	
 
 
 	userMsgList: 'api/user/msg_list', // 消息列表(33)
@@ -241,6 +243,13 @@ const getEnrollList = function() {
 
 	})
 }
+// 试睡活动详情
+const sleepDetail = function() {
+	return $http.get(urlManage.sleepDetailUrl, {
+
+	})
+}
+
 
 // 收藏/取消收藏接口(30)
 const getUserCollection = function(id, type) {
@@ -476,6 +485,7 @@ export {
 	reportDetail,
 	activityEnroll,
 	getEnrollList,
+	sleepDetail,
 
 	getUserMsgList,
 	getUserNewMsg,

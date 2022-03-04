@@ -6,7 +6,7 @@
 				</image>
 			</view>
 			<view class="title">报名成功</view>
-			<view class="explan">恭喜你，报名已经成功，本期活动截止日期为2.28，结果将在活动结束的第二个工作日公布，您可以在“我报名的民宿”查看是否中奖。</view>
+			<view class="explan">恭喜你！报名成功！结果将在5-7个工作日内公布，您可以在“我报名的民宿”查看是否中奖。（PS：本期试睡活动截止日期是{{sleepDetail.endAt}}）。</view>
 		</view>
 		<view class="homestay">
 			<view class="title">我报名的民宿</view>
@@ -45,6 +45,7 @@
 <script>
 	import {
 		getEnrollList,
+		sleepDetail,
 	} from '@/utils/request/manage.js'
 	import moment from 'moment'
 	export default {
@@ -52,6 +53,7 @@
 			return {
 				applyList:[],
 				week:0,
+				sleepDetail:{},
 			}
 		},
 		onLoad() {
@@ -65,11 +67,19 @@
 				} = await getEnrollList()
 				this.applyList = res.data.rs
 				console.log("this.applyList",this.applyList)
+				this.getSleepDetail()
 			},
 			getWeek(){
 				this.week = moment().format("d")
 				console.log(this.week)
-			}
+			},
+			async getSleepDetail() {
+				const {
+					data:res
+				} = await sleepDetail()
+				this.sleepDetail = res.data
+				console.log(res)
+			},
 		}
 	}
 </script>
