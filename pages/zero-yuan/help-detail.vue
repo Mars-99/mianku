@@ -163,7 +163,7 @@
 				console.log('prev_target:', this.prev_target)
 				let start = userdata.rewards === 0 ? 0 : this.detail_info.share['target' + userdata.rewards]
 				let end = this.detail_info.share['target' + (userdata.rewards + 1)]
-				this.helpuserlist = this.shareUserList.slice(start, end) //获取显示的用户列表
+				this.helpuserlist = this.shareUserList.reverse().slice(start, end) //获取显示的用户列表
 
 				if (this.detail_info.share["target" + (userdata.rewards + 1)] <= userdata.shareNum) {
 					this.isHelp = true
@@ -191,6 +191,7 @@
 							title: data.msg,
 							icon: 'none',
 						})
+						this.remain=this.remain-1
 						this.isHelp = true
 						this.init()
 

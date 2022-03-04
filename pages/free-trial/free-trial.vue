@@ -270,14 +270,14 @@
 				} = await activityPrizeList(this.count, this.limit)
 				this.prizeList = data.data.rs;
 				this.prizeTotal = data.data.count
-				console.log("prizeList", this.prizeList)
+				// console.log("prizeList", this.prizeList)
 
 			},
 			async getReportList() {
 				const {
 					data
 				} = await reportList(0, 3)
-				this.reportList = data.data.news;
+				this.reportList = data.data.news.slice(0,3);
 				console.log(data.data)
 			},
 			async loadMore(e) {

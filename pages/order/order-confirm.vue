@@ -85,7 +85,7 @@
 					<view class="item">
 						<view class="left">优惠券</view>
 						<view class="right">
-							<text class="act-txt" v-if="canUseCoupon.length>0" @tap="openCoupon()">选择优惠券</text>
+							<text class="act-txt" v-if="canUseCoupon.length>0" @tap="openCoupon()">{{discountAmount}}</text>
 							<text class="grey-txt" v-else>无可用优惠</text>
 						</view>
 					</view>
@@ -175,6 +175,7 @@
 				canUseCoupon: [],
 				isCoupon: -1,
 				couponPice: null,
+				discountAmount:'选择优惠券',
 			}
 		},
 		onLoad() {
@@ -318,9 +319,11 @@
 				this.isCoupon = index
 				this.couponId = item.id
 				if (item.type == 2) {
+					this.discountAmount = item.discount+'折'
 					this.couponPice = item.discount / 10
 					console.log("this.couponPice1", this.couponPice)
 				} else {
+					this.discountAmount = '￥'+ item.deduct
 					this.couponPice = item.deduct
 					console.log("this.couponPice2", this.couponPice)
 				}

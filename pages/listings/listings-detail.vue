@@ -271,14 +271,14 @@
 					</image>
 				</view>
 				<view class='c-part'>
-					<view class='t-txt'>试睡活动正在进行中，2月28日截止。</view>
+					<view class='t-txt'>试睡活动正在火热报名中...</view>
 					<view class='b-txt'>品质民宿免费住</view>
 				</view>
 				<view class="r-part">
 					<button class="btn" type="primary" size="default"
 						@tap="freeTrialApply(listingsDetail.hotel.id)">{{isApply?"查看报名":"去报名"}}</button>
 					<view class="icon" @tap="freeTrialClose()">
-						<uni-icons type="closeempty" size="14" color="#cccccc"></uni-icons>
+						<uni-icons type="closeempty" size="14" color="#ffffff"></uni-icons>
 					</view>
 				</view>
 
@@ -1428,7 +1428,7 @@
 	.shishui {
 		position: fixed;
 		bottom: 120rpx;
-		background-color: #ffffff;
+		background-image: linear-gradient(to left,#ffc312,#ff941d);
 		border-radius: 8rpx;
 		padding: 20rpx 2%;
 		width: 90%;
@@ -1460,12 +1460,13 @@
 
 			.t-txt {
 				font-size: 24rpx;
-				color: #666666;
+				color: #ffffff;
+				margin-bottom: 10rpx;
 			}
 
 			.b-txt {
 				font-size: 22rpx;
-				color: #999999;
+				color: #f5f5f5;
 				font-weight: bold;
 			}
 		}
@@ -1477,10 +1478,11 @@
 			.btn {
 				border-radius: 50rpx;
 				border: none;
-				background-color: #ff941d;
+				background-color: #333333;
 				color: #ffffff;
 				line-height: 50rpx;
 				font-size: 22rpx;
+				padding: 10rpx 0;
 			}
 
 			.icon {

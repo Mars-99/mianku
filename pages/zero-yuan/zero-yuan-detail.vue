@@ -188,7 +188,7 @@
 
 				let start = userdata.rewards === 0 ? 0 : this.detail_info.share['target' + userdata.rewards]
 				let end = this.detail_info.share['target' + (userdata.rewards + 1)]
-				this.helpuserlist = userlist.data.rs.slice(start, end) //获取显示的用户列表
+				this.helpuserlist = userlist.data.rs.reverse().slice(start, end) //获取显示的用户列表
 
 				if (this.detail_info.share["target" + (userdata.rewards + 1)] <= userdata.shareNum) {
 					this.type = 2
