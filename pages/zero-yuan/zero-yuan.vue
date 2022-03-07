@@ -50,7 +50,8 @@
 										<button class="btn" type="primary" size="default"
 											v-if="item.recevie_status==2">已领取</button>
 										<button class="btn" type="primary" size="default"
-											@tap="openZeroYuanDetailPage(item.id)" v-if="item.recevie_status==3">领取</button>
+											@tap="openZeroYuanDetailPage(item.id)"
+											v-if="item.recevie_status==3">领取</button>
 									</view>
 								</view>
 							</view>
@@ -92,8 +93,10 @@
 									￥{{item.deduct}}
 								</view>
 								<view class="r-btn">
-									<button class="btn" type="primary" size="default" v-if="item.botton_text === '已领取'">{{item.botton_text}}</button>
-									<button class="btn" type="primary" size="default" @tap="openZeroYuanDetailPage(item.id)" v-else>{{item.botton_text}}</button>
+									<button class="btn" type="primary" size="default"
+										v-if="item.botton_text === '已领取'">{{item.botton_text}}</button>
+									<button class="btn" type="primary" size="default"
+										@tap="openZeroYuanDetailPage(item.id)" v-else>{{item.botton_text}}</button>
 								</view>
 							</view>
 						</view>
@@ -187,49 +190,50 @@
 				if (!loginAuth) {
 					this.$api.href('../login/login')
 					return
-				}
-				const {
-					data
-				} = await getShareDetail() //助力活动详情
-				let user_share_list = await getUserShare() // 助力活动用户数据
-				let userdata = user_share_list.data.data;
-				for (let i = 1; i <= 10; i++) {
-					let prize_obj = null //今日
-					let my_obj = null //我的
-					if (data.data.share['target' + i] > 0 && data.data.share['reward' + i] > 0) {
-						prize_obj = data.data['prize' + i][0]
-						prize_obj.recevie_status = 0 //未开始		
-						if (userdata.rewards === (i - 1)) {
-							my_obj = data.data['prize' + i][0]
-							//正在助力的活动
-							if (data.data.share["target" + i] <= userdata.shareNum) {
-								//助力人数大于等于目标数，则可领取优惠券
-								// prize_obj.recevie_status = 2
-								prize_obj.recevie_status = 3 //达到目标，未领取
-								my_obj.botton_text = '领取'
-							} else {
-								prize_obj.recevie_status = 1
-								my_obj.botton_text = '助力进行中'
-							}
-						} else {
-							if (userdata.rewards > i - 1) {
-								//已完成的助力
-								prize_obj.recevie_status = 2
+				} else {
+					const {
+						data
+					} = await getShareDetail() //助力活动详情
+					let user_share_list = await getUserShare() // 助力活动用户数据
+					let userdata = user_share_list.data.data;
+					for (let i = 1; i <= 10; i++) {
+						let prize_obj = null //今日
+						let my_obj = null //我的
+						if (data.data.share['target' + i] > 0 && data.data.share['reward' + i] > 0) {
+							prize_obj = data.data['prize' + i][0]
+							prize_obj.recevie_status = 0 //未开始		
+							if (userdata.rewards === (i - 1)) {
 								my_obj = data.data['prize' + i][0]
-								my_obj.botton_text = '已领取'
+								//正在助力的活动
+								if (data.data.share["target" + i] <= userdata.shareNum) {
+									//助力人数大于等于目标数，则可领取优惠券
+									// prize_obj.recevie_status = 2
+									prize_obj.recevie_status = 3 //达到目标，未领取
+									my_obj.botton_text = '领取'
+								} else {
+									prize_obj.recevie_status = 1
+									my_obj.botton_text = '助力进行中'
+								}
 							} else {
-								//未开始的助力
-								prize_obj.recevie_status = 0
+								if (userdata.rewards > i - 1) {
+									//已完成的助力
+									prize_obj.recevie_status = 2
+									my_obj = data.data['prize' + i][0]
+									my_obj.botton_text = '已领取'
+								} else {
+									//未开始的助力
+									prize_obj.recevie_status = 0
+								}
 							}
+							if (my_obj) {
+								this.myPrizeList.push(my_obj)
+							}
+							this.prizelist.push(prize_obj)
 						}
-						if (my_obj) {
-							this.myPrizeList.push(my_obj)
-						}
-						this.prizelist.push(prize_obj)
 					}
+					this.pageshow = false
+					console.log('myPrizeList:', this.myPrizeList)
 				}
-				this.pageshow = false
-				console.log('myPrizeList:', this.myPrizeList)
 			},
 			openZeroYuanDetailPage(id) {
 				uni.navigateTo({
