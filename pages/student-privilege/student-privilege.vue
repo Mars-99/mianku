@@ -64,17 +64,32 @@
 			<view class="title-h1">
 				眠库优惠包
 			</view>
-			<view class="aui-flex" v-for="(item ,key) in couponList" :key="key">
+			<view class="aui-flex">
 				<view class="aui-price-nub">
 					<view class="aui-digit">
-						<view class="h2">{{item.discount}}</view>
+						<view class="h2">8.5</view>
 						<view class="txt">折</view>
 					</view>
 				</view>
 				<view class="aui-flex-box">
-					<view class="h2">{{item.title}}</view>
-					<view class="txt" v-if="item.title.indexOf('生日') != -1">生日专享券,可在生当月享用。</view>
-					<view class="txt" v-else>全场通用,首单最高立减60</view>
+					<view class="h2">生日专享折扣</view>
+					<view class="txt">生日专享券,可在生当月享用。</view>
+				</view>
+				<view class="rzbtn">
+				    <button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">已享有</button>
+					<button class="btn" type="primary" size="default" @tap="openAuthenticate()" v-else>认证领取</button>
+				</view>
+			</view>
+			<view class="aui-flex">
+				<view class="aui-price-nub">
+					<view class="aui-digit">
+						<view class="h2">9.5</view>
+						<view class="txt">折</view>
+					</view>
+				</view>
+				<view class="aui-flex-box">
+					<view class="h2">学生专享9.5折</view>
+					<view class="txt">全场通用,首单最高立减60</view>
 				</view>
 				<view class="rzbtn">
 				    <button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">已享有</button>
@@ -109,6 +124,7 @@
 				lineHeight: 40,
 				animationScroll: 800,
 				animation: 2000,
+				loginAuth:null,
 				
 			}
 		},
@@ -126,17 +142,24 @@
 		},
 		methods: {
 			openAuthenticate() {
-				if(this.userDetail.examine == 3){
-					uni.showToast({
-					    icon: "none",
-					    title:'认证已提交，1-3个工作日完成认证审核',
-					        duration: 3000,
-					        position: 'top'
-					})
+				this.loginAuth = uni.getStorageSync('loginAuth')
+				if (!this.loginAuth) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
 				}else{
-					uni.navigateTo({
-						url: "../student-privilege/authenticate"
-					})
+					if(this.userDetail.examine == 3){
+						uni.showToast({
+						    icon: "none",
+						    title:'认证已提交，1-3个工作日完成认证审核',
+						        duration: 3000,
+						        position: 'top'
+						})
+					}else{
+						uni.navigateTo({
+							url: "../student-privilege/authenticate"
+						})
+					}
 				}
 			},
 			async getUserDetail() {

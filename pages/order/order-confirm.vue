@@ -148,8 +148,10 @@
 		payWX,
 		userDetail,
 		getCouponList,
+		userAuthentication,
 	} from '@/utils/request/manage.js'
 	import pageLoad from '@/components/pageLoad/pageLoad'
+	import moment from 'moment'
 	export default {
 		components: {
 			pageLoad
@@ -176,6 +178,7 @@
 				isCoupon: -1,
 				couponPice: null,
 				discountAmount:'选择优惠券',
+				userAut:{},
 			}
 		},
 		onLoad() {
@@ -230,7 +233,10 @@
 					data: res
 				} = await userDetail()
 				this.userDetail = res.data
-				console.log("this.userDetail", this.userDetail)
+				const {
+					data: userAut
+				} = await userAuthentication()
+				this.userAut = userAut.data
 				this.countPice()
 				this.getCoupon()
 
@@ -306,10 +312,16 @@
 										can_use.push(item)
 									}
 								}
+								
 							}
 						}
 					})
-					this.canUseCoupon = can_use
+					if(this.userAut.idCard.slice(10,12) === moment().format("MM")){
+						this.canUseCoupon = can_use
+					}else{
+						this.canUseCoupon  =  can_use.filter ( item => item.cid != 9)
+					}
+					
 				}
 			},
 			openCoupon() {

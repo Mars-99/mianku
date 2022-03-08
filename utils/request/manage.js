@@ -60,6 +60,7 @@ let urlManage = {
 	getAuthenticationUpdateUrl: 'api/user/authentication_update', //学生认证
 	getPrivilegeCouponUrl: 'api/user/getPrivilegeCoupon', //学生特权优惠券
 	orderMsgUrl: 'api/home/order_msg', //认证用户订房滚动消息
+	userAuthenticationUrl: 'api/user/authentication', //用户认证信息
 	
 
 
@@ -402,6 +403,11 @@ const authenticationUpdateUrl = function(idCard, frontView, realName, school, ed
 
 	})
 }
+// 用户认证信息
+const userAuthentication = function() {
+	return $http.get(urlManage.userAuthenticationUrl, {
+	})
+}
 // 学生优惠券
 const privilegeCoupon = function() {
 	return $http.get(urlManage.getPrivilegeCouponUrl, {})
@@ -511,6 +517,7 @@ export {
 	getUserCollection,
 	getUniversit,
 	authenticationUpdateUrl,
+	userAuthentication,
 	privilegeCoupon,
 	orderMsg,
 	getShareDetail,

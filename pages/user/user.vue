@@ -119,11 +119,11 @@
 			}
 		},
 		onLoad() {
-			this.getUserDetail()
-			console.log("cc")
+			// this.getUserDetail()
+			// console.log("onLoad")
 		},
 		onShow() {
-			console.log("aa")
+			
 			this.getUserDetail()
 		},
 		mounted() {
@@ -137,16 +137,13 @@
 		},
 		methods: {
 			async getUserDetail() {
-				// this.token = uni.getStorageSync('token')
-				// console.log(this.token)
-				console.log("bb")
 				this.loginAuth = uni.getStorageSync('loginAuth')
 				if (this.loginAuth) {
 					const {
 						data
 					} = await userDetail()
 					this.userinfo = data.data
-					console.log("userinfo",this.userinfo)
+					
 				}
 			},
 			openLogin() {

@@ -56,6 +56,7 @@
 				current: 0,
 				state: 0,
 				couponList: [],
+				loginAuth: null,
 			}
 		},
 		watch: {
@@ -80,9 +81,18 @@
 			},
 		},
 		onLoad() {
+			this.isLogin()
 			this.getCouponList(0)
 		},
 		methods: {
+			isLogin() {
+				this.loginAuth = uni.getStorageSync('loginAuth')
+				if (!this.loginAuth) {
+					this.$api.msg('请先登录')
+					this.$api.href('../login/login')
+					return
+				}
+			},
 			onClickItem(e) {
 				// console.log(e.currentIndex)
 				if (this.activeIndex !== e.currentIndex) {
