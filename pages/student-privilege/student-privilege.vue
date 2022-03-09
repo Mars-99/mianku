@@ -142,24 +142,17 @@
 		},
 		methods: {
 			openAuthenticate() {
-				this.loginAuth = uni.getStorageSync('loginAuth')
-				if (!this.loginAuth) {
-					this.$api.msg('请先登录')
-					this.$api.href('../login/login')
-					return
+				if(this.userDetail.examine == 3){
+					uni.showToast({
+					    icon: "none",
+					    title:'认证已提交，1-3个工作日完成认证审核',
+					        duration: 3000,
+					        position: 'top'
+					})
 				}else{
-					if(this.userDetail.examine == 3){
-						uni.showToast({
-						    icon: "none",
-						    title:'认证已提交，1-3个工作日完成认证审核',
-						        duration: 3000,
-						        position: 'top'
-						})
-					}else{
-						uni.navigateTo({
-							url: "../student-privilege/authenticate"
-						})
-					}
+					uni.navigateTo({
+						url: "../student-privilege/authenticate"
+					})
 				}
 			},
 			async getUserDetail() {

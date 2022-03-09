@@ -217,11 +217,11 @@
 		},
 		methods: {
 			init() {
-				let loginAuth = uni.getStorageSync('loginAuth')
-				let token = uni.getStorageSync('token')
-				if (!loginAuth || !token) {
-					this.$api.href('../login/login')
-				}
+				// let loginAuth = uni.getStorageSync('loginAuth')
+				// let token = uni.getStorageSync('token')
+				// if (!loginAuth || !token) {
+				// 	this.$api.href('../login/login')
+				// }
 				this.cityId = Number(this.$mp.query.cityId)
 				this.getActivityHotelList()
 				this.getActivityPrizeList()

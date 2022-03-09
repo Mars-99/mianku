@@ -157,11 +157,11 @@
 		methods: {
 			async initData() {
 				console.log('被助力用户id:', this.$mp.query.recommend)
-				this.loginAuth = uni.getStorageSync('loginAuth')
-				if (!this.loginAuth) {
-					this.$api.href('../login/login')
-					return
-				}
+				// this.loginAuth = uni.getStorageSync('loginAuth')
+				// if (!this.loginAuth) {
+				// 	this.$api.href('../login/login')
+				// 	return
+				// }
 				const {
 					data: user_data
 				} = await userDetail()

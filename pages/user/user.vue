@@ -135,14 +135,6 @@
 		},
 		methods: {
 			async getUserDetail() {
-				this.loginAuth = uni.getStorageSync('loginAuth')
-				// if (this.loginAuth) {
-				// 	const {
-				// 		data
-				// 	} = await userDetail()
-				// 	this.userinfo = data.data
-					
-				// }
 				const {
 					data
 				} = await userDetail()

@@ -218,12 +218,12 @@
 			},
 			async getUserCollection() {
 				this.isCollect
-				let loginAuth = uni.getStorageSync('loginAuth')
-				let token = uni.getStorageSync('token')
-				if (!loginAuth||!token) {
-					this.$api.href('../login/login')
-					return
-				}
+				// let loginAuth = uni.getStorageSync('loginAuth')
+				// let token = uni.getStorageSync('token')
+				// if (!loginAuth||!token) {
+				// 	this.$api.href('../login/login')
+				// 	return
+				// }
 				const {
 					data
 				} = await getUserCollection(this.aboutHotelID, 0)

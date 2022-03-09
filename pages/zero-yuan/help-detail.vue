@@ -132,11 +132,11 @@
 		methods: {
 			async init() {
 				this.recommend = this.$mp.query.recommend
-				this.loginAuth = uni.getStorageSync('loginAuth')
-				let token = uni.getStorageSync('token')
-				if (!this.loginAuth || !token) {
-					this.$api.href('../login/login?recommend='+this.recommend )
-				}
+				// this.loginAuth = uni.getStorageSync('loginAuth')
+				// let token = uni.getStorageSync('token')
+				// if (!this.loginAuth || !token) {
+				// 	this.$api.href('../login/login?recommend='+this.recommend )
+				// }
 				const {
 					data: user_data
 				} = await userDetail() //当前用户

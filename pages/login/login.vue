@@ -26,6 +26,7 @@
 		wxLogin,
 		wxInfo,
 		wxPhone,
+		userDetail,
 	} from '@/utils/request/manage.js'
 	export default {
 		data() {
@@ -58,11 +59,17 @@
 							data: res
 						} = await wxLogin(loginAuth.code)
 						console.log("res", res)
-						if (res.code == 1 || res.code == -1||res.code == -2) {
+						if (res.code == 1 || res.code == -1 || res.code == -2) {
 							this.$api.msg('登录失败!' + res.msg)
 						} else {
 							this.loginData = res.data
 							uni.setStorageSync('token', res.data.token)
+							if (uni.getStorageSync('token')) {
+								const {
+									data: res2
+								} = await userDetail()
+								uni.setStorageSync('phone', res2.data.phone)
+							}
 						}
 
 					},
@@ -74,41 +81,61 @@
 			async getPhoneNumber(e) {
 				var that = this
 				if (e.detail.errMsg == 'getPhoneNumber:ok') {
-					const {
-						data: userPhone
-					} = await wxPhone(uni.getStorageSync('token'), that.loginData.wxOpenid, that.loginData.sessionKey, e
-						.detail.encryptedData, e.detail.iv)
-					console.log("userPhone", userPhone)
-					if (userPhone.code == 1 || userPhone.code == -1 || userPhone.code == -2) {
-						that.$api.msg('登录失败!' + userPhone.msg)
+
+					if (uni.getStorageSync('phone') != 0) {
+						let pages = getCurrentPages(); // 当前页面
+						let beforePage = pages[pages.length - 2]; // 上一页
+						if (that.$mp.query.recommend) {
+							uni.navigateTo({
+								url: '../zero-yuan/help-detail?recommend=' +
+									that.$mp.query
+									.recommend
+							})
+						} else {
+							uni.navigateBack({
+								success: function() {
+									beforePage.onLoad(); // 执行上一页的onLoad方法
+								}
+							});
+						}
 					} else {
-						uni.setStorageSync('loginAuth', userPhone.data.phoneNumber)
-						that.getUserInfo()
+						const {
+							data: userPhone
+						} = await wxPhone(uni.getStorageSync('token'), that.loginData.wxOpenid, that.loginData
+							.sessionKey, e
+							.detail.encryptedData, e.detail.iv)
+						console.log("userPhone", userPhone)
+						if (userPhone.code == 1 || userPhone.code == -1 || userPhone.code == -2) {
+							that.$api.msg('登录失败!' + userPhone.msg)
+						} else {
+							uni.setStorageSync('phone', userPhone.data.phoneNumber)
+							that.getUserInfo()
+						}
 					}
-					} else if (e.detail.errMsg === 'getPhoneNumber:fail user deny') {
-						wx.showToast({
-							title: '您拒绝了授权',
-							icon: 'none',
-							duration: 500
+				} else if (e.detail.errMsg === 'getPhoneNumber:fail user deny') {
+					wx.showToast({
+						title: '您拒绝了授权',
+						icon: 'none',
+						duration: 500
+					})
+					setTimeout(() => {
+						uni.switchTab({
+							url: '../index/index'
 						})
-						setTimeout(() => {
-							uni.switchTab({
-								url: '../index/index'
-							})
-						}, 500)
-				
-					} else if (e.detail.errMsg === 'getPhoneNumber:fail 用户未绑定手机，请先在微信客户端进行绑定后重试') {
-						wx.showToast({
-							title: '您的微信未绑定手机号',
-							icon: 'none',
-							duration: 500
+					}, 500)
+								
+				} else if (e.detail.errMsg === 'getPhoneNumber:fail 用户未绑定手机，请先在微信客户端进行绑定后重试') {
+					wx.showToast({
+						title: '您的微信未绑定手机号',
+						icon: 'none',
+						duration: 500
+					})
+					setTimeout(() => {
+						uni.switchTab({
+							url: '../index/index'
 						})
-						setTimeout(() => {
-							uni.switchTab({
-								url: '../index/index'
-							})
-						}, 500)
-					}
+					}, 500)
+				}
 			},
 			getUserInfo() {
 				var that = this
@@ -125,7 +152,8 @@
 										data: userInfo
 									} = await wxInfo(that.loginData.sessionKey, userRes.encryptedData,
 										userRes.iv)
-									if (userInfo.code == 1 || userInfo.code == -1||userInfo.code == -2) {
+									if (userInfo.code == 1 || userInfo.code == -1 || userInfo.code == -
+										2) {
 										that.$api.msg('登录失败!' + userInfo.msg)
 									} else {
 										let pages = getCurrentPages(); // 当前页面

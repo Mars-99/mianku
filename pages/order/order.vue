@@ -1,11 +1,11 @@
 <template>
 	<view>
-		<view class="login" v-if="!loginAuth">
+	<!-- 	<view class="login" v-if="!loginAuth">
 			<uni-icons type="contact" size="100" color="#dddddd"></uni-icons>
 			<view class="txt">您尚未登录，请登录后查看</view>
 			<button class="btn" type="primary" size="default" @tap="isLogin">登录/注册</button>
-		</view>
-		<view v-else>
+		</view> -->
+		<view >
 			<page-load v-if="pageshow"></page-load>
 			<view v-else class="uni-padding-wrap uni-common-mt">
 				<view style="background-color: #ffffff;">
@@ -130,7 +130,7 @@
 
 		},
 		onLoad() {
-			this.isLogin()
+			// this.isLogin()
 		},
 		onShow() {
 			this.getOrderList()
@@ -287,14 +287,14 @@
 					url: '../listings/listings-detail?id=' + item.hid
 				})
 			},
-			isLogin() {
-				this.loginAuth = uni.getStorageSync('loginAuth')
-				let token = uni.getStorageSync('token')
-				if (!this.loginAuth || !token) {
-					this.$api.href('../login/login')
-					return
-				}
-			},
+			// isLogin() {
+			// 	this.loginAuth = uni.getStorageSync('loginAuth')
+			// 	let token = uni.getStorageSync('token')
+			// 	if (!this.loginAuth || !token) {
+			// 		this.$api.href('../login/login')
+			// 		return
+			// 	}
+			// },
 			handleOrder() {
 				let today = moment().format("YYYY-MM-DD")
 				let aaa = []

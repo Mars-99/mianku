@@ -19,12 +19,13 @@ let $http = new request({
 	isFactory: false,
 	// 列表接口是否有加载判断
 	loadMore: true
-	
+
 })
 // 当前接口请求数
 let requestNum = 0
+let num = 0
 // 请求开始拦截器
-$http.requestStart = function (options) {
+$http.requestStart = function(options) {
 	if (requestNum <= 0) {
 		if (options.load) {
 			// 打开加载动画
@@ -40,18 +41,21 @@ $http.requestStart = function (options) {
 	return options
 }
 // 请求结束
-$http.requestEnd = function (options, resolve) {
+$http.requestEnd = function(options, resolve) {
 	// 判断当前接口是否需要加载动画
 	requestNum = requestNum - 1
 	if (requestNum <= 0) {
 		// uni.hideLoading()
 	}
-	// console.log('resolve: ',resolve)
-	// if (resolve.errMsg && (resolve.errMsg != 'request:ok' && resolve.errMsg != 'uploadFile:ok' || resolve.statusCode && resolve.statusCode !== 200)) {
-	// 	uni.showToast({
-	// 		title: '网络错误，请检查一下网络',
-	// 		icon: 'none'
-	// 	})
-	// }
+	if (resolve.data.code == -1 || resolve.data.code == -2) {
+		num += 1
+		console.log("num",num)
+		if(num<10){
+			uni.navigateTo({
+				url: '/pages/login/login'
+			
+			})
+		}
+	}
 }
 export default $http

@@ -560,8 +560,8 @@
 				})
 			},
 			openOrderConfirm() {
-				let loginAuth = uni.getStorageSync('loginAuth')
-				if (!loginAuth) {
+				let token = uni.getStorageSync('token')
+				if (!token) {
 					this.$api.href('../login/login')
 					return
 				}
@@ -682,9 +682,8 @@
 			// 收藏点击事件 刘慧
 			async getUserCollection() {
 				this.isCollect
-				let loginAuth = uni.getStorageSync('loginAuth')
-				if (!loginAuth) {
-					this.$api.msg('请先登录')
+				let token = uni.getStorageSync('token')
+				if (!token) {
 					this.$api.href('../login/login')
 					return
 				}
@@ -704,8 +703,8 @@
 				//根据data的返回值来判断收藏样式变更
 			},
 			async getCollectionList(type) {
-				let loginAuth = uni.getStorageSync('loginAuth')
-				if (loginAuth) {
+				let token = uni.getStorageSync('token')
+				if (token) {
 					const {
 						data: res
 					} = await getCollectionList(type)
