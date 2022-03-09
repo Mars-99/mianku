@@ -187,9 +187,9 @@
 			},
 			async initData() {
 				let loginAuth = uni.getStorageSync('loginAuth')
-				if (!loginAuth) {
-					this.$api.href('../login/login')
-					return
+				let token = uni.getStorageSync('token')
+				if (!loginAuth || !token) {
+				     this.$api.href('../login/login')
 				} else {
 					const {
 						data
@@ -201,30 +201,35 @@
 						let my_obj = null //我的
 						if (data.data.share['target' + i] > 0 && data.data.share['reward' + i] > 0) {
 							prize_obj = data.data['prize' + i][0]
-							prize_obj.recevie_status = 0 //未开始		
-							if (userdata.rewards === (i - 1)) {
-								my_obj = data.data['prize' + i][0]
-								//正在助力的活动
-								if (data.data.share["target" + i] <= userdata.shareNum) {
-									//助力人数大于等于目标数，则可领取优惠券
-									// prize_obj.recevie_status = 2
-									prize_obj.recevie_status = 3 //达到目标，未领取
-									my_obj.botton_text = '领取'
-								} else {
-									prize_obj.recevie_status = 1
-									my_obj.botton_text = '助力进行中'
-								}
-							} else {
-								if (userdata.rewards > i - 1) {
-									//已完成的助力
-									prize_obj.recevie_status = 2
-									my_obj = data.data['prize' + i][0]
-									my_obj.botton_text = '已领取'
-								} else {
+							prize_obj.recevie_status = 0 //未开始	
+								if(userdata){
+									if (userdata.rewards === (i - 1)) {
+										my_obj = data.data['prize' + i][0]
+										//正在助力的活动
+										if (data.data.share["target" + i] <= userdata.shareNum) {
+											//助力人数大于等于目标数，则可领取优惠券
+											// prize_obj.recevie_status = 2
+											prize_obj.recevie_status = 3 //达到目标，未领取
+											my_obj.botton_text = '领取'
+										} else {
+											prize_obj.recevie_status = 1
+											my_obj.botton_text = '助力进行中'
+										}
+									} else {
+										if (userdata.rewards > i - 1) {
+											//已完成的助力
+											prize_obj.recevie_status = 2
+											my_obj = data.data['prize' + i][0]
+											my_obj.botton_text = '已领取'
+										} else {
+											//未开始的助力
+											prize_obj.recevie_status = 0
+										}
+									}
+								}else{
 									//未开始的助力
 									prize_obj.recevie_status = 0
 								}
-							}
 							if (my_obj) {
 								this.myPrizeList.push(my_obj)
 							}

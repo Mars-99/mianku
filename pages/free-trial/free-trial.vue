@@ -218,7 +218,8 @@
 		methods: {
 			init() {
 				let loginAuth = uni.getStorageSync('loginAuth')
-				if (!loginAuth) {
+				let token = uni.getStorageSync('token')
+				if (!loginAuth || !token) {
 					this.$api.href('../login/login')
 				}
 				this.cityId = Number(this.$mp.query.cityId)

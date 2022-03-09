@@ -117,6 +117,7 @@
 				isHelp: false, //是否助力成功
 				pageshow: true,
 				recommend: 0,
+				loginAuth:null,
 			}
 		},
 		components: {
@@ -131,9 +132,9 @@
 		methods: {
 			async init() {
 				this.recommend = this.$mp.query.recommend
-				console.log("init",this.recommend)
-				let loginAuth = uni.getStorageSync('loginAuth')
-				if (!loginAuth) {
+				this.loginAuth = uni.getStorageSync('loginAuth')
+				let token = uni.getStorageSync('token')
+				if (!this.loginAuth || !token) {
 					this.$api.href('../login/login?recommend='+this.recommend )
 				}
 				const {

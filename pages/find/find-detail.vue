@@ -218,9 +218,9 @@
 			},
 			async getUserCollection() {
 				this.isCollect
-				let current_user = uni.getStorageSync('userinfo')
-				if (!current_user) {
-					this.$api.msg('请先登录')
+				let loginAuth = uni.getStorageSync('loginAuth')
+				let token = uni.getStorageSync('token')
+				if (!loginAuth||!token) {
 					this.$api.href('../login/login')
 					return
 				}

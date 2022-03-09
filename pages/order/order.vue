@@ -289,8 +289,8 @@
 			},
 			isLogin() {
 				this.loginAuth = uni.getStorageSync('loginAuth')
-				if (!this.loginAuth) {
-					this.$api.msg('请先登录')
+				let token = uni.getStorageSync('token')
+				if (!this.loginAuth || !token) {
 					this.$api.href('../login/login')
 					return
 				}

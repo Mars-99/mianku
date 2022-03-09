@@ -150,10 +150,10 @@
 				})
 			},
 			isLogin(){
-				this.loginAuth = uni.getStorageSync('loginAuth')
-				if (!this.loginAuth) {
-					this.$api.msg('请先登录')
-					this.$api.href('../login/login')
+				let loginAuth = uni.getStorageSync('loginAuth')
+				let token = uni.getStorageSync('token')
+				if (!loginAuth || !token) {
+				     this.$api.href('../login/login')
 					return
 				}
 			}
