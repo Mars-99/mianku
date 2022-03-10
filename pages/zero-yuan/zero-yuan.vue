@@ -194,6 +194,7 @@
 			},
 			async initData() {
 				this.prizelist = []
+				this.myPrizeList =[]
 				const {
 					data
 				} = await getShareDetail() //助力活动详情

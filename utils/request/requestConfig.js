@@ -50,7 +50,7 @@ $http.requestEnd = function(options, resolve) {
 	if (resolve.data.code == -1 || resolve.data.code == -2) {
 		num += 1
 		console.log("num",num)
-		if(num<3){
+		if(num<200){
 			uni.navigateTo({
 				url: '/pages/login/login'
 			
