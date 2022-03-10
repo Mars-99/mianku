@@ -117,42 +117,49 @@
 				isHelp: false, //是否助力成功
 				pageshow: true,
 				recommend: 0,
-				loginAuth:null,
+				loginAuth: null,
 			}
 		},
 		components: {
 			pageLoad
 		},
 		onLoad() {
-			this.init()
+
 		},
 		onShow() {
 	
+			if(!this.$mp.query){
+				this.recommend = uni.getStorageSync('recommend')
+				uni.removeStorageSync('recommend')
+				this.init()
+			}else{
+				uni.setStorageSync('recommend', this.$mp.query.recommend)
+				this.recommend = this.$mp.query.recommend
+				this.init()	
+			}
 		},
 		methods: {
 			async init() {
-				this.recommend = this.$mp.query.recommend
-				// this.loginAuth = uni.getStorageSync('loginAuth')
-				// let token = uni.getStorageSync('token')
-				// if (!this.loginAuth || !token) {
-				// 	this.$api.href('../login/login?recommend='+this.recommend )
-				// }
 				const {
 					data: user_data
 				} = await userDetail() //当前用户
 				this.curUserinfo = user_data.data
+				console.log("curUserinfo",this.curUserinfo)
 				// let recommend = this.$mp.query.recommend //发起人id
 				const {
 					data: res
 				} = await shareActivity(this.recommend)
 				this.initUserinfo = res.data.user
 				this.shareUserList = res.data.shareUser
-				let userdata = {rewards:res.data.rewards,shareNum:res.data.shareNum}				
+				let userdata = {
+					rewards: res.data.rewards,
+					shareNum: res.data.shareNum
+				}
 				const {
 					data: sharedetail
 				} = await getShareDetail() //助力活动详情						
 
-				console.log('助力数据：', userdata)
+				// console.log('助力数据：', userdata)
 				this.detail_info.share = sharedetail.data.share
 				this.detail_info.prize = sharedetail.data['prize' + (userdata.rewards + 1)][0]
 				this.target = this.detail_info.share['target' + (userdata.rewards + 1)]
@@ -160,8 +167,8 @@
 					this.target = this.target - this.detail_info.share['target' + (userdata.rewards)]
 					this.prev_target = this.detail_info.share['target' + (userdata.rewards)]
 				}
-				console.log('target:', this.target)
-				console.log('prev_target:', this.prev_target)
+				// console.log('target:', this.target)
+				// console.log('prev_target:', this.prev_target)
 				let start = userdata.rewards === 0 ? 0 : this.detail_info.share['target' + userdata.rewards]
 				let end = this.detail_info.share['target' + (userdata.rewards + 1)]
 				this.helpuserlist = this.shareUserList.reverse().slice(start, end) //获取显示的用户列表
@@ -171,11 +178,10 @@
 				} else {
 					this.remain = this.target - (userdata.shareNum - this.prev_target)
 				}
-				
+
 				this.pageshow = false
 			},
 			async Help() {
-
 				if (this.recommend && this.curUserinfo.id != this.recommend) {
 					const {
 						data
@@ -192,7 +198,7 @@
 							title: data.msg,
 							icon: 'none',
 						})
-						this.remain=this.remain-1
+						this.remain = this.remain - 1
 						this.isHelp = true
 						this.init()
 

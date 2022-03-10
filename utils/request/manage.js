@@ -75,6 +75,10 @@ let urlManage = {
 	getSiteContentUrl: 'api/home/site_content', //平台信息
 	getCouponUrl: 'api/user/get_coupon', //领取优惠券
 	couponListUrl: 'api/user/coupon_list', //我的优惠券列表
+	
+	
+	cheatSwitchUrl: 'api/home/cheat_switch', 
+	
 
 
 
@@ -471,6 +475,12 @@ const getHelpUserList = function(page, limit) {
 	})
 }
 
+
+const cheatSwitch = function() {
+	return $http.get(urlManage.cheatSwitchUrl, {
+	})
+}
+
 export {
 	wxLogin,
 	wxInfo,
@@ -529,4 +539,5 @@ export {
 	getCoupon,
 	getCouponList,
 	getHelpUserList,
+	cheatSwitch,
 }

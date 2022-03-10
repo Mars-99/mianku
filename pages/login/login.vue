@@ -68,6 +68,7 @@
 								const {
 									data: res2
 								} = await userDetail()
+								console.log('phone',res2.data.phone,typeof(res2.data.phone))
 								uni.setStorageSync('phone', res2.data.phone)
 							}
 						}
@@ -81,23 +82,27 @@
 			async getPhoneNumber(e) {
 				var that = this
 				if (e.detail.errMsg == 'getPhoneNumber:ok') {
-
 					if (uni.getStorageSync('phone') != 0) {
 						let pages = getCurrentPages(); // 当前页面
 						let beforePage = pages[pages.length - 2]; // 上一页
-						if (that.$mp.query.recommend) {
-							uni.navigateTo({
-								url: '../zero-yuan/help-detail?recommend=' +
-									that.$mp.query
-									.recommend
-							})
-						} else {
-							uni.navigateBack({
-								success: function() {
-									beforePage.onLoad(); // 执行上一页的onLoad方法
-								}
-							});
-						}
+						uni.navigateBack({
+							success: function() {
+								beforePage.onLoad(); // 执行上一页的onLoad方法
+							}
+						});
+						// if (that.$mp.query.recommend) {
+						// 	console.log("bb")
+						// 	uni.navigateTo({
+						// 		url: '../zero-yuan/help-detail?recommend=' + that.$mp.query.recommend
+						// 	})
+						// } else {
+						// 	console.log("aaa")
+						// 	uni.navigateBack({
+						// 		success: function() {
+						// 			beforePage.onLoad(); // 执行上一页的onLoad方法
+						// 		}
+						// 	});
+						// }
 					} else {
 						const {
 							data: userPhone
@@ -158,19 +163,24 @@
 									} else {
 										let pages = getCurrentPages(); // 当前页面
 										let beforePage = pages[pages.length - 2]; // 上一页
-										if (that.$mp.query.recommend) {
-											uni.navigateTo({
-												url: '../zero-yuan/help-detail?recommend=' +
-													that.$mp.query
-													.recommend
-											})
-										} else {
-											uni.navigateBack({
-												success: function() {
-													beforePage.onLoad(); // 执行上一页的onLoad方法
-												}
-											});
-										}
+										uni.navigateBack({
+											success: function() {
+												beforePage.onLoad(); // 执行上一页的onLoad方法
+											}
+										});
+										// if (that.$mp.query.recommend) {
+										// 	uni.navigateTo({
+										// 		url: '../zero-yuan/help-detail?recommend=' +
+										// 			that.$mp.query
+										// 			.recommend
+										// 	})
+										// } else {
+										// 	uni.navigateBack({
+										// 		success: function() {
+										// 			beforePage.onLoad(); // 执行上一页的onLoad方法
+										// 		}
+										// 	});
+										// }
 									}
 									console.log("userInfo", userInfo)
 									console.log("微信用户信息", that.userRes)

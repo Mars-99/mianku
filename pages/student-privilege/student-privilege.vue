@@ -41,19 +41,19 @@
 					<view class="youhui-info">生日专享折扣85折</view>
 				</view>
 			</view>
-			<view class="bulletin">
+			<view class="bulletin" v-if="ordermsg.length>0">
 				<!-- <uni-notice-bar scrollable="true" single="true"
 					text="用户小小眠 认证了学生特权卡 下单了【眠库·克莱因蓝bearbrick】五一广场·国金中心IFS·超级文和友·茶颜悦色·免费寄存·一居两床 房源"></uni-notice-bar> -->
-					<maoScroll v-if="ordermsg.length>0" :data="data" :showNum="showNum" :lineHeight="lineHeight"
-						:animationScroll="animationScroll" :animation="animation">
-						<template v-slot="{line}">
-							<view class="line">
-								{{line.msg}}
-							</view>
-						</template>
-					</maoScroll>
+				<maoScroll :data="data" :showNum="showNum" :lineHeight="lineHeight" :animationScroll="animationScroll"
+					:animation="animation">
+					<template v-slot="{line}">
+						<view class="line">
+							{{line.msg}}
+						</view>
+					</template>
+				</maoScroll>
 			</view>
-			<view class="approve">
+			<view class="approve" v-if="isSwitch == 1">
 				<button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">认证已通过</button>
 				<button class="btn" type="primary" size="default" @tap="openAuthenticate()" v-else>立即认证</button>
 				<view class="prompt" v-if="userDetail.examine == 3">你的认证信息已提交，我们将在1-3个工作日完成审核。</view>
@@ -75,8 +75,8 @@
 					<view class="h2">生日专享折扣</view>
 					<view class="txt">生日专享券,可在生当月享用。</view>
 				</view>
-				<view class="rzbtn">
-				    <button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">已享有</button>
+				<view class="rzbtn" v-if="isSwitch == 1">
+					<button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">已享有</button>
 					<button class="btn" type="primary" size="default" @tap="openAuthenticate()" v-else>认证领取</button>
 				</view>
 			</view>
@@ -91,8 +91,8 @@
 					<view class="h2">学生专享9.5折</view>
 					<view class="txt">全场通用,首单最高立减60</view>
 				</view>
-				<view class="rzbtn">
-				    <button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">已享有</button>
+				<view class="rzbtn" v-if="isSwitch == 1">
+					<button class="btn" type="primary" size="default" v-if="userDetail.examine == 1">已享有</button>
 					<button class="btn" type="primary" size="default" @tap="openAuthenticate()" v-else>认证领取</button>
 				</view>
 			</view>
@@ -105,6 +105,7 @@
 		userDetail,
 		privilegeCoupon,
 		orderMsg,
+		cheatSwitch,
 	} from '@/utils/request/manage.js'
 	import maoScroll from '@/components/mao-scroll/mao-scroll.vue';
 	export default {
@@ -113,19 +114,20 @@
 		},
 		data() {
 			return {
-				userDetail:{},
-				couponList:[],
+				userDetail: {},
+				couponList: [],
 				checkIn: '选择入住日期',
 				checkOut: '选择离店日期',
-				check:[],
-				ordermsg:[],
+				check: [],
+				ordermsg: [],
 				data: [],
 				showNum: 1,
 				lineHeight: 40,
 				animationScroll: 800,
 				animation: 2000,
-				loginAuth:null,
-				
+				loginAuth: null,
+				isSwitch:0,
+
 			}
 		},
 		onLoad() {
@@ -142,30 +144,36 @@
 		},
 		methods: {
 			openAuthenticate() {
-				if(this.userDetail.examine == 3){
-					uni.showToast({
-					    icon: "none",
-					    title:'认证已提交，1-3个工作日完成认证审核',
-					        duration: 3000,
-					        position: 'top'
-					})
-				}else{
-					uni.navigateTo({
-						url: "../student-privilege/authenticate"
-					})
+				if(this.isSwitch == 1){
+					if (this.userDetail.examine == 3) {
+						uni.showToast({
+						 icon: "none",
+							title: '认证已提交，1-3个工作日完成认证审核',
+							duration: 3000,
+							position: 'top'
+						})
+					} else {
+						uni.navigateTo({
+							url: "../student-privilege/authenticate"
+						})
+					}
 				}
 			},
 			async getUserDetail() {
 				const {
 					data: res
 				} = await userDetail()
+				const {
+					data: res2
+				} = await cheatSwitch()
+				console.log("Switch",res2)
+				this.isSwitch = res2.data.switch
 				if (res.code == 1) {
 					return this.$api.msg(res.msg)
 				} else {
 					this.userDetail = res.data
 					console.log(this.userDetail)
 				}
-			
 			},
 			async getPrivilegeCoupon() {
 				const {
@@ -175,34 +183,34 @@
 					return this.$api.msg(res.msg)
 				} else {
 					this.couponList = res.data
-					console.log("getPrivilegeCoupon",res)
+					console.log("getPrivilegeCoupon", res)
 				}
-			
+
 			},
 			async getOrderMsg() {
 				const {
 					data: res
-				} = await orderMsg(1,5)
+				} = await orderMsg(1, 5)
 				if (res.code == 1) {
 					return this.$api.msg(res.msg)
 				} else {
-					this.ordermsg= res.data.rs
+					this.ordermsg = res.data.rs
 				}
 				const {
 					data: res2
-				} = await orderMsg(0,5)
+				} = await orderMsg(0, 5)
 				if (res2.code == 1) {
 					return this.$api.msg(res2.msg)
 				} else {
-					this.ordermsg= this.ordermsg.concat(res2.data.rs)
-					console.log("orderMsg",this.ordermsg)
+					this.ordermsg = this.ordermsg.concat(res2.data.rs)
+					console.log("orderMsg", this.ordermsg)
 				}
-			
-			
+
+
 			},
 			openSiteContent() {
 				uni.navigateTo({
-					url: '../site-content/site-content?id=5' 
+					url: '../site-content/site-content?id=5'
 				})
 			},
 			getTimeandWeek() {
@@ -222,7 +230,7 @@
 						date: year + '-' + month + '-' + day,
 						week: weekDay[dt2.getDay()],
 						checked: false
-			
+
 					});
 				}
 				this.checkIn = this.check[0].date
@@ -297,6 +305,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
+				margin-bottom: 30rpx;
 
 				.youhui-item {
 					display: flex;
@@ -332,14 +341,15 @@
 				padding: 20rpx;
 				background-color: #fcf3e6;
 				color: #fb8e39;
+
 				.line {
 					height: 40rpx;
 					line-height: 40rpx;
 					width: 100%;
-					white-space:nowrap;
-					overflow:hidden;
-					text-overflow:ellipsis;
-					}
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
 			}
 
 			.approve {
@@ -352,7 +362,8 @@
 					color: #fffff;
 					line-height: 80rpx;
 				}
-				.prompt{
+
+				.prompt {
 					padding: 20rpx;
 					font-size: 24rpx;
 					color: #fb8e39;

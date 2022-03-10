@@ -9,9 +9,9 @@
 				<uni-icons type="plusempty" size="18" color="#ff951d"></uni-icons>
 				<text class="txt">添加入住人</text>
 			</view>
-			<view class="lodger-list">
+			<view class="lodger-list" v-if="lodgerList.length">
 				<checkbox-group @change="checkboxChange">
-					<view class="lodger-item" v-if="lodgerList.length" v-for="(item ,index) in lodgerList" :key="index">
+					<view class="lodger-item" v-for="(item ,index) in lodgerList" :key="index">
 						<view class="l-part">
 							<checkbox :value="item.contacts" :checked="item.checked" color="#ff951d" />
 						</view>

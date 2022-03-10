@@ -104,7 +104,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="feedback">
+		<view class="feedback" v-if="reportList.length>0">
 			<uni-title type="h2" title="往期试住报告"></uni-title>
 			<scroll-view class="scroll-view_H" scroll-x="true" scroll-left="0">
 				<view id="demo1" class="scroll-view-item_H" v-for="(reportItem,index) in reportList" :key="index"
