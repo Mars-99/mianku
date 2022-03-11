@@ -443,9 +443,11 @@ const userHelp = function(userid, type) {
 	}, )
 }
 // 助力页详情
-const shareActivity = function(uid) {
+const shareActivity = function(uid,page,limit) {
 	return $http.post(urlManage.getShareActivityUrl, {
-		uid: uid
+		uid: uid,
+		page:page,
+		limit:limit
 	})
 }
 

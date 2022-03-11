@@ -148,7 +148,7 @@
 				// let recommend = this.$mp.query.recommend //发起人id
 				const {
 					data: res
-				} = await shareActivity(this.recommend)
+				} = await shareActivity(this.recommend,1,99999)
 				this.initUserinfo = res.data.user
 				this.shareUserList = res.data.shareUser
 				let userdata = {
