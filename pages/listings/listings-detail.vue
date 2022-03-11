@@ -60,8 +60,17 @@
 							<uni-icons type="location-filled" size="34" color="#ff941d"></uni-icons>
 							<text>{{listingsDetail.hotel.address}}</text>
 						</view>
-						<view class="dh">
-							<uni-icons type="phone-filled" size="34" color="#ff941d" @tap="call_phone()"></uni-icons>
+						<view class="kf">
+							<view class="kf-icon" @tap="call_phone()">
+								<image class="img" mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/phone-icon.png">
+								</image>
+							</view>
+							<view class="kf-icon" @tap="goKefu()">
+								<image class="img" mode="widthFix"
+									src="https://mkhotel.oss-cn-shanghai.aliyuncs.com/static/image/kefu-icon.png">
+								</image>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -317,7 +326,7 @@
 				mode: 'round',
 				choicCurrentIndex: 0,
 				title: 'map',
-				key:'46ABZ-J7NCF-F4HJ4-N2TB6-T5636-7OBA3',
+				key: '46ABZ-J7NCF-F4HJ4-N2TB6-T5636-7OBA3',
 				latitude: 0,
 				longitude: 0,
 				markers: [{
@@ -371,7 +380,7 @@
 				newArrDate: [],
 				assign: [],
 				wufang: false,
-				couponList:[],
+				couponList: [],
 
 				share: {
 					title: '眠库城市民宿',
@@ -430,7 +439,7 @@
 					this.checkInYH = this.checkIn.slice(5)
 					this.checkOutYH = this.checkOut.slice(5)
 					this.choiceDateArr = this.brand.choiceDateArr
-					if(this.choiceDateArr.length>0){
+					if (this.choiceDateArr.length > 0) {
 						this.wufang = false
 					}
 					this.getTotalPice()
@@ -478,7 +487,7 @@
 				// 		this.longitude = res.data.result.location.lng;
 				// 		this.markers[0].latitude = this.latitude
 				// 		this.markers[0].longitude = this.longitude;
-						
+
 				// 	}
 				// })
 				// this.markers[0].callout.content = data.data.hotel.address
@@ -597,19 +606,24 @@
 			},
 			call_phone() {
 				uni.makePhoneCall({
-				 	
-				 // 手机号
-				    phoneNumber: '15364037300', 
-				// 成功回调
-				success: (res) => {
-				console.log('调用成功!')	
-				},
-				// 失败回调
-				fail: (res) => {
-				console.log('调用失败!')
-				}
-					
-				  });
+
+					// 手机号
+					phoneNumber: '15364037300',
+					// 成功回调
+					success: (res) => {
+						console.log('调用成功!')
+					},
+					// 失败回调
+					fail: (res) => {
+						console.log('调用失败!')
+					}
+
+				});
+			},
+			goKefu() {
+				uni.navigateTo({
+					url: '../news/customer-service'
+				})
 			},
 			moveStop() {
 				return
@@ -735,7 +749,7 @@
 					// } = await getEnrollList()
 					let state = this.$mp.query.state
 					// let startAt = this.$mp.query.startAt
-					
+
 					if (state == 1) {
 						this.isApply = true
 					}
@@ -840,7 +854,7 @@
 					}
 				}
 			},
-			async receiveCoupon(id){
+			async receiveCoupon(id) {
 				const {
 					data
 				} = await getCoupon(id)
@@ -852,7 +866,7 @@
 						duration: 2000,
 						position: 'top'
 					})
-				} else{
+				} else {
 					uni.showToast({
 						icon: "none",
 						title: "领取成功",
@@ -873,20 +887,24 @@
 			//         }
 			//       })
 			//     },
-				openLocation () {
-				      const { latitude, longitude, name } = this.markers
-				      // 打开地图并导航
-				      uni.openLocation({
-				        latitude,
-				        longitude,
-				        name,
-				        fail: () => {
-				          uni.showModal({
-				            content: '打开地图失败,请重'
-				          })
-				        }
-				      })
-				    }
+			openLocation() {
+				const {
+					latitude,
+					longitude,
+					name
+				} = this.markers
+				// 打开地图并导航
+				uni.openLocation({
+					latitude,
+					longitude,
+					name,
+					fail: () => {
+						uni.showModal({
+							content: '打开地图失败,请重'
+						})
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -1005,24 +1023,27 @@
 				background-color: #faf4f4;
 				padding: 10rpx 20rpx;
 				border-radius: 8rpx;
-				.coupon-item{
+
+				.coupon-item {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
 					margin: 10rpx 0;
-					.l-part{
-						.txt{
+
+					.l-part {
+						.txt {
 							border: 2rpx #ea7156 solid;
 							margin-right: 10rpx;
 							font-size: 20rpx;
 							padding: 2rpx 10rpx;
 							color: #ea7156;
 							border-radius: 6rpx;
-							
+
 						}
 					}
-					.r-part{
-						.btn{
+
+					.r-part {
+						.btn {
 							border-radius: 30rpx;
 							border: none;
 							background-color: #ea7156;
@@ -1064,19 +1085,29 @@
 				align-items: center;
 
 				.wz {
-					width: 80%;
+					width: 70%;
 					display: flex;
 					justify-content: flex-start;
 					align-items: center;
 				}
 
-				.dh {
-					width: 20%;
+				.kf {
+					width: 30%;
 					display: flex;
-					justify-content: space-between;
+					justify-content: flex-end;
 					align-items: center;
-					flex-direction: column;
+					flex-direction: row;
 					border-left: 2rpx #f5f5f5 solid;
+					
+					.kf-icon{
+						width: 50rpx;
+						height: 50rpx;
+						margin: 0 20rpx;
+						.img{
+							width: 100%;
+						}
+						
+					}
 				}
 			}
 		}
@@ -1429,7 +1460,7 @@
 	.shishui {
 		position: fixed;
 		bottom: 120rpx;
-		background-image: linear-gradient(to left,#ffc312,#ff941d);
+		background-image: linear-gradient(to left, #ffc312, #ff941d);
 		border-radius: 8rpx;
 		padding: 20rpx 2%;
 		width: 90%;
